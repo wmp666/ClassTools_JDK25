@@ -107,7 +107,7 @@ public class SwingRun {
             {
                 try {
                     Thread.sleep(2000);
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException _) {
 
                 }
                 Log.info.loading.updateDialog("修复", "修复出错!");
@@ -121,7 +121,7 @@ public class SwingRun {
             {
                 try {
                     Thread.sleep(3000);
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException _) {
 
                 }
                 Log.info.loading.updateDialog("骇客已入侵", "已修改修复程序");
@@ -134,7 +134,7 @@ public class SwingRun {
                     Log.info.loading.updateDialog("修复", i);
                     try {
                         Thread.sleep(5);
-                    } catch (InterruptedException ignored) {
+                    } catch (InterruptedException _) {
 
                     }
                 }

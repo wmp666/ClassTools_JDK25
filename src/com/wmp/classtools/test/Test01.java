@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Test01 {
     public static void main(String[] args) throws Exception {
         SslUtils.ignoreSsl();
-        String url = "https://api.github.com/repos/wmp666/ClassTools/releases/latest";
+        String url = "https://api.github.com/repos/wmp666/ClassTools_JDK25/releases/latest";
 
         try {
             // 1. 获取网页内容

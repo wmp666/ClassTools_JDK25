@@ -24,7 +24,7 @@ public class GetNewerVersion {
 
     private static final int NEW_VERSION = 1;
     private static final int TEST_VERSION = 2;
-    private static final String NewVerFileUrl = "https://api.github.com/repos/wmp666/ClassTools/releases/latest";
+    private static final String NewVerFileUrl = "https://api.github.com/repos/wmp666/ClassTools_JDK25/releases/latest";
     public static int newerVersion = 1;
     public static int importUpdate = 2;
     private static JPanel view;
@@ -32,7 +32,7 @@ public class GetNewerVersion {
     private static String versionContent = "";//更新说明
     private static String downloadUrl = "null";
     private static String sha256 = null;
-    //https://github.com/wmp666/ClassTools/releases/download/1.6.4/ClassTools.jar
+    //https://github.com/wmp666/ClassTools_JDK25/releases/download/1.6.4/ClassTools.jar
 
     private static String getLatestVersion(int updateMode) {
         try {
@@ -58,7 +58,7 @@ public class GetNewerVersion {
                 }
             } else {
                 // 获取原始JSON响应
-                String json = GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools/releases");
+                String json = GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools_JDK25/releases");
 
                 AtomicReference<String> newBate = new AtomicReference<>("0.0.0");
                 AtomicReference<JSONObject> newRelease = new AtomicReference<>();

@@ -878,7 +878,7 @@ public class CTOptionPane {
                 });
                 try {
                     dialog.setIconImage(((ImageIcon)iconLabel.getIcon()).getImage());
-                } catch (Exception ignored) {
+                } catch (Exception _) {
 
                 }
                 dialog.add(iconLabel, BorderLayout.WEST);
@@ -1032,7 +1032,7 @@ public class CTOptionPane {
                 }
                 // 确保最终位置准确
                 /*SwingUtilities.invokeLater(() -> */dialog.setLocation(targetX, startY);
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException _) {}
         }).start();
     }
 

@@ -50,7 +50,7 @@ public class Main {
 
         try {
             Log.info.loading.showDialog("程序加载", "正在启动数据...");
-        } catch (Exception ignored) {
+        } catch (Exception _) {
 
         }
         wait.setVisible(false);
