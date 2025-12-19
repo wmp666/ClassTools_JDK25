@@ -57,7 +57,13 @@ public class CountDownPanel extends CTViewPanel {
     }
 
     @Override
-    protected void Refresh() throws IOException {
+    public void strongRefresh() throws Exception {
+        initInfo();
+        super.strongRefresh();
+    }
+
+    @Override
+    protected void easyRefresh() throws IOException {
         initUI();
 
         String targetTime = info.targetTime();

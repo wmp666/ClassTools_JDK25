@@ -667,6 +667,13 @@ public class CTOptionPane {
 
         dialog.add(toolsPanel, BorderLayout.CENTER);
 
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                dialog.repaint();
+            }
+        });
+
         return new BasicDialog(dialog, toolsPanel);
     }
 

@@ -36,7 +36,7 @@ public class TimeViewPanel extends CTViewPanel {
     }
 
     @Override
-    protected void Refresh() throws Exception {
+    protected void easyRefresh() throws Exception {
         this.removeAll();
 
         //获取时间

@@ -105,7 +105,7 @@ public class ATPanel extends CTViewPanel {
 
 
     @Override
-    protected void Refresh() throws IOException {
+    protected void easyRefresh() throws IOException {
         // 清空旧数据
         studentList.clear();
         leaveList.clear();

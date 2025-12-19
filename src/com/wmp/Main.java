@@ -110,4 +110,20 @@ public class Main {
 
 
     }
+
+    /**
+     * 判断是否存在参数
+     * @param arg 参数 类型:
+     *                           <ul>
+     *                           <li><code>StartUpdate:false</code>
+     *                           <li><code>screenProduct:show</code>
+     *                           <li><code>screenProduct:view</code>
+     *                           <li><code>CTInfo:isError</code>
+     *                           </ul>
+     *
+     * @return 是否存在
+     */
+    public static boolean isHasTheArg(String arg){
+        return allArgs.get(arg).contains(argsList);
+    }
 }

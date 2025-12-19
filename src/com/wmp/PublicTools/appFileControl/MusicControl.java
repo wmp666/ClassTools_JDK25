@@ -26,8 +26,15 @@ public class MusicControl {
     private static final Map<String, Player> PLAYER_MAP = new HashMap<>();
 
     public static void init() {
+
+        PLAYER_MAP.forEach((key, player) -> {
+            if (player.isComplete()) {
+                player.close();
+            }
+        });
+        PLAYER_MAP.clear();
+
         try {
-            PLAYER_MAP.clear();
 
             //获取基础音频
             String resourceInfos = IOForInfo.getInfos(MusicControl.class.getResource("musicIndex.json"));

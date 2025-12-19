@@ -1,5 +1,6 @@
 package com.wmp.classTools.CTComponent;
 
+import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 
 import javax.swing.*;
@@ -20,8 +21,8 @@ public class CTSpinner extends JPanel {
         this.setOpaque(false);
 
 
-        CTTextButton last = new CTTextButton("<", false);
-        CTTextButton next = new CTTextButton(">", false);
+        CTRoundTextButton last = new CTRoundTextButton("<");
+        CTRoundTextButton next = new CTRoundTextButton(">");
 
         textField.setText(model.getValue().toString());
 

@@ -102,7 +102,7 @@ public class CTColor {
         switch (tempStyle) {
             case STYLE_DARK -> {
                 textColor = Color.WHITE;
-                backColor = Color.BLACK;
+                backColor = new Color(0x282C34);
                 FlatDarculaLaf.install();
             }
             case STYLE_LIGHT -> {

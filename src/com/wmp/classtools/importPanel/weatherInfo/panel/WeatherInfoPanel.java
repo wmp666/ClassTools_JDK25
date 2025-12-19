@@ -220,7 +220,7 @@ public class WeatherInfoPanel extends CTViewPanel {
     }
 
     @Override
-    protected void Refresh() throws Exception {
+    protected void easyRefresh() throws Exception {
         if (!this.isScreenProductViewPanel()) {
             resetPanel(CTFontSizeStyle.BIG);
         } else {

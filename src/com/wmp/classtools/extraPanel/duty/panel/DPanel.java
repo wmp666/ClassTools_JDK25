@@ -107,7 +107,7 @@ public class DPanel extends CTViewPanel {
 
                 try {
                     new IOForInfo(indexPath).setInfo(String.valueOf(index));
-                    Refresh();
+                    easyRefresh();
                 } catch (IOException ex) {
                     Log.err.print(getClass(), "切换失败", ex);
                 }
@@ -131,7 +131,7 @@ public class DPanel extends CTViewPanel {
 
                 try {
                     new IOForInfo(indexPath).setInfo(String.valueOf(index));
-                    Refresh();
+                    easyRefresh();
                 } catch (IOException ex) {
                     Log.err.print(getClass(), "切换失败", ex);
                 }
@@ -223,7 +223,7 @@ public class DPanel extends CTViewPanel {
 
     // 刷新方法
     @Override
-    protected void Refresh() throws IOException {
+    protected void easyRefresh() throws IOException {
 
         this.removeAll();
 

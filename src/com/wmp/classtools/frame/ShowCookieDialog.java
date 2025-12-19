@@ -1,5 +1,6 @@
 package com.wmp.classTools.frame;
 
+import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.OpenInExp;
 import com.wmp.PublicTools.UITools.CTColor;
@@ -39,6 +40,12 @@ public class ShowCookieDialog extends JDialog {
 
 
     public ShowCookieDialog() throws IOException {
+        if (Main.isHasTheArg("screenProduct:show")) {
+            Log.err.print(null, "系统", "屏保状态无法打开快速启动页");
+            return;
+        }
+
+
         Log.info.systemPrint("ShowCookieDialog", "正在初始化快速启动单元展示页...");
 
         Log.info.loading.showDialog("ShowCookieDialog", "正在初始化快速启动单元展示页...");
