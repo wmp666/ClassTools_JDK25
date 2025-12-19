@@ -65,7 +65,7 @@ public class OtherTimeThingPanel extends CTViewPanel {
 
 
     @Override
-    protected void Refresh() throws Exception {
+    protected void easyRefresh() throws Exception {
         if (!isScreenProductViewPanel()) {
             otherStrFormat = "<html>%s %s%s%s %s[%s]年<br>%s %s</html>";
             initPanel(CTFontSizeStyle.BIG);

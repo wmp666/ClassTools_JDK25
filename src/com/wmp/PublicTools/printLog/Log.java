@@ -39,7 +39,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Log {
-    public static final TrayIcon trayIcon = new TrayIcon(GetIcon.getImageIcon(Log.class.getResource("/image/icon/icon.png"), 16, 16, false).getImage(), "ClassTools");
+    public static final TrayIcon trayIcon = new TrayIcon(GetIcon.getImageIcon(Log.class.getResource("/image/icon/icon.png"), 48, 48, false).getImage(), "ClassTools");
     private static final LinkedList<String> logInfList = new LinkedList<>();
     private static final JTextArea textArea = new JTextArea();
 
@@ -84,11 +84,14 @@ public class Log {
     });
 
     static {
-        SystemTray systemTray = SystemTray.getSystemTray();
-        try {
-            systemTray.add(trayIcon);
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
+        if (SystemTray.isSupported()) {
+            trayIcon.setImageAutoSize(true);
+            SystemTray systemTray = SystemTray.getSystemTray();
+            try {
+                systemTray.add(trayIcon);
+            } catch (AWTException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         thread.setDaemon(true);
@@ -308,6 +311,11 @@ public class Log {
     }
 
     public static void showLogDialog(boolean happenSystemErr) {
+        if (Main.isHasTheArg("screenProduct:show")) {
+            Log.err.print(null, "系统", "屏保状态无法打开日志");
+            return;
+        }
+
         Log.info.loading.showDialog("log", "正在读取日志文件");
 
         textArea.setText("");

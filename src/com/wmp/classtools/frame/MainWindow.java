@@ -28,8 +28,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import static com.wmp.Main.allArgs;
-import static com.wmp.Main.argsList;
+import static com.wmp.Main.*;
 
 public class MainWindow extends CTWindow {
     //private final JPanel centerPane = new JPanel(); // 用于放置中间组件的面板
@@ -149,7 +148,7 @@ public class MainWindow extends CTWindow {
     }
 
     public static void refresh() {
-        if (allArgs.get("screenProduct:show").contains(argsList))
+        if (isHasTheArg("screenProduct:show"))
             ScreenProduct.refreshScreenProductPanel();
         else refreshPanel();
     }

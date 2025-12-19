@@ -179,7 +179,7 @@ public class FinalPanel extends CTViewPanel {
     }
 
     @Override
-    protected void Refresh() throws IOException {
+    protected void easyRefresh() throws IOException {
         this.removeAll();
 
         initPanel();

@@ -102,7 +102,7 @@ public class CTColor {
         switch (tempStyle) {
             case STYLE_DARK -> {
                 textColor = Color.WHITE;
-                backColor = Color.BLACK;
+                backColor = new Color(0x282C34);
                 FlatDarculaLaf.install();
             }
             case STYLE_LIGHT -> {
@@ -114,7 +114,7 @@ public class CTColor {
                 if (SystemColor.checkDarkMode()) {
                     style = STYLE_DARK;
                     textColor = Color.WHITE;
-                    backColor = Color.BLACK;
+                    backColor = new Color(0x282C34);
                     FlatDarculaLaf.install();
                 }else{
                     style = STYLE_LIGHT;
@@ -146,7 +146,7 @@ public class CTColor {
             case MAIN_COLOR_BLUE -> new Color(0x29A8E3);
             case MAIN_COLOR_GREEN -> new Color(0x00FF00);
             case MAIN_COLOR_RED -> new Color(0xFF0000);
-            case MAIN_COLOR_BLACK -> Color.BLACK;
+            case MAIN_COLOR_BLACK -> new Color(0x282C34);
             case STYLE_SYSTEM -> SystemColor.getAccentColor();
             default -> new Color(0x29A8E3);
         };

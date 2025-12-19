@@ -667,6 +667,13 @@ public class CTOptionPane {
 
         dialog.add(toolsPanel, BorderLayout.CENTER);
 
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                dialog.repaint();
+            }
+        });
+
         return new BasicDialog(dialog, toolsPanel);
     }
 
@@ -751,7 +758,7 @@ public class CTOptionPane {
         messageDialog.setSize((int) screenSize.getWidth(), (int) screenSize.getHeight());
         messageDialog.setLocationRelativeTo(null);
         messageDialog.setUndecorated(true);
-        messageDialog.getContentPane().setBackground(Color.BLACK);
+        messageDialog.getContentPane().setBackground(CTColor.getParticularColor(CTColor.MAIN_COLOR_BLACK));
         messageDialog.setLayout(new BorderLayout());
         messageDialog.setModal(true);
 
@@ -765,7 +772,7 @@ public class CTOptionPane {
 
 
         JTextArea textArea = new JTextArea(message);
-        textArea.setBackground(Color.BLACK);
+        textArea.setBackground(CTColor.getParticularColor(CTColor.MAIN_COLOR_BLACK));
         textArea.setForeground(Color.WHITE);
         textArea.setEditable(false);
         textArea.setLineWrap(true);// 激活自动换行功能

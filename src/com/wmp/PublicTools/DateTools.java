@@ -59,12 +59,24 @@ public class DateTools {
                 int targetDay = Integer.parseInt(split[1]);
                 //2.获取今年年份 - 农历
                 int lunarYear = Lunar.fromDate(new Date()).getYear();
-                //3.获取农历,并转成公历
-                Lunar lunar = Lunar.fromYmd(lunarYear, targetMonth, targetDay);
-                Solar targetSolar = lunar.getSolar();
-                //计算间隔时间
-                day = targetSolar.subtract(solar);
+                {
+                    //3.获取农历,并转成公历
+                    Lunar lunar = Lunar.fromYmd(lunarYear, targetMonth, targetDay);
+                    Solar targetSolar = lunar.getSolar();
+                    //计算间隔时间
+                    day = targetSolar.subtract(solar);
+                }
 
+                if (day < 0) {
+                    lunarYear = lunarYear + 1;
+                    {
+                        //3.获取农历,并转成公历
+                        Lunar lunar = Lunar.fromYmd(lunarYear, targetMonth, targetDay);
+                        Solar targetSolar = lunar.getSolar();
+                        //计算间隔时间
+                        day = targetSolar.subtract(solar);
+                    }
+                }
 
             } else {
 
@@ -81,6 +93,16 @@ public class DateTools {
 
                 //获取间隔天数
                 day = targetSolar.subtract(solar);
+
+                if (day < 0) {
+                    //获取今年年份 - 公历
+                    solar = Solar.fromDate(new Date());
+                    //获取目标时间 - 公历
+                    calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+                    targetSolar = Solar.fromCalendar(calendar);
+                    //计算间隔时间
+                    day = targetSolar.subtract(solar);
+                }
 
             }
         } catch (Exception e) {

@@ -197,7 +197,7 @@ public class ScreenProduct extends JDialog {
             //添加退出按钮 - 左侧
             CTIconButton exitButton = new CTIconButton(
                     "关闭", IconControl.COLOR_COLORFUL, ScreenProduct::exit);
-            exitButton.setBackground(Color.BLACK);
+            exitButton.setBackground(CTColor.getParticularColor(CTColor.MAIN_COLOR_BLACK));
             screenProduct.getContentPane().add(exitButton, BorderLayout.WEST);
         }
 

@@ -11,7 +11,7 @@ public abstract class CTViewPanel extends CTPanel {
 
     private final Timer refreshTimer = new Timer(2 * 1000, e -> {
         try {
-            Refresh();
+            easyRefresh();
         } catch (Exception ex) {
             Log.err.print(getClass(), "刷新失败", ex);
         }
@@ -79,23 +79,25 @@ public abstract class CTViewPanel extends CTPanel {
      * 用于集中管理刷新
      */
     @Override
-    public void refresh() throws Exception {
+    public final void refresh() throws Exception {
         if (isVisible() || isIgnoreState()) {
 
             Log.info.print(getID(), "开始刷新");
-            Refresh();
-            if (independentRefresh) {
-
+            strongRefresh();
+            if (independentRefresh)
                 refreshTimer.restart();
-            }
         } else {
             Log.info.print(getID(), "刷新被禁止");
             refreshTimer.stop();
         }
     }
 
+    public void strongRefresh() throws Exception {
+        easyRefresh();
+    }
+
     /**
      * 刷新时做什么
      */
-    protected abstract void Refresh() throws Exception;
+    protected abstract void easyRefresh() throws Exception;
 }

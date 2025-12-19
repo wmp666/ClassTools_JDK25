@@ -97,7 +97,7 @@ public class GetNewerVersion {
 
             return version;
         } catch (Exception e) {
-            Log.err.print(GetNewerVersion.class, "版本获取失败", e);
+            Log.err.systemPrint(GetNewerVersion.class, "版本获取失败", e);
         }
         return null;
     }
@@ -108,7 +108,7 @@ public class GetNewerVersion {
 
     public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage, boolean inquireUpdateWay) {
 
-        if (Main.allArgs.get("screenProduct:show").contains(Main.argsList)) {
+        if (Main.isHasTheArg("screenProduct:show")) {
             Log.err.print(null, GetNewerVersion.class, "屏保状态,无法更新");
             return;
         }
@@ -130,10 +130,7 @@ public class GetNewerVersion {
 
 
         if (panel != null) {
-            /*view = panel;
-            view.removeAll();*/
             panel.removeAll();
-
         }
 
         new SwingWorker<Void, Void>() {
@@ -235,13 +232,7 @@ public class GetNewerVersion {
             int remotePart = Integer.parseInt(remoteParts[i]);
             int localPart = Integer.parseInt(localParts[i]);
             if (remotePart > localPart) {//有最新版
-                if (i == 0 || i == 1) {
-                    return importUpdate;
-                } else {
-                    if (local.length() >= 5 && remote.length() < 5) return importUpdate;
-                    else return newerVersion;
-                }
-
+                return newerVersion;
             } else if (remotePart < localPart) {
                 return 0;
             }
