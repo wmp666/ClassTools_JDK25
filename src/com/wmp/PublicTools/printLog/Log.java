@@ -348,9 +348,9 @@ public class Log {
             dialog.dispose();
 
             if (happenSystemErr) {
-                saveLog(false);
+                int i = CTOptionPane.showConfirmDialog(dialog, "系统", "是否退出系统?", null, CTOptionPane.INFORMATION_MESSAGE, true);
 
-                System.exit(-1);
+                if (i == CTOptionPane.YES_OPTION) System.exit(-1);
             }
         });
 

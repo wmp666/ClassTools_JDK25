@@ -179,7 +179,10 @@ public class IconControl {
     }
 
     public static boolean downloadFile(AtomicReference<String> downloadURL, AtomicReference<String> version) throws InterruptedException {
-        String choose = Log.info.showChooseDialog(null, "IconControl", "图片文件不存在/存在新版,选择获取方式", "下载", "导入压缩包");
+        String choose = "";
+        if (downloadURL != null && !downloadURL.get().isEmpty()) {
+            choose = Log.info.showChooseDialog(null, "IconControl", "图片文件不存在/存在新版,选择获取方式", "下载", "导入压缩包");
+        }else choose = "导入压缩包";
         String zipPath = "";
 
 

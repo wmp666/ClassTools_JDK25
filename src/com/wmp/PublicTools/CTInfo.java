@@ -53,7 +53,7 @@ public class CTInfo {
         init();
     }
 
-    public static void init() {
+    public static void  init() {
 
         if (MainWindow.mainWindow != null){
             Taskbar taskbar = Taskbar.getTaskbar();

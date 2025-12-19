@@ -11,8 +11,10 @@ import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
+import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.frame.ShowHelpDoc;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -106,18 +108,29 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
         downloadButton.addActionListener(e -> {
             try {
-                JSONObject jsonObject = new JSONObject(
-                        GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools_Image/releases/latest", false));
                 AtomicReference<String> downloadURL = new AtomicReference<>("");
                 AtomicReference<String> version = new AtomicReference<>("");
-                //判断是否存在
-                version.set(jsonObject.getString("tag_name"));
-                jsonObject.getJSONArray("assets").forEach(object -> {
-                    JSONObject asset = (JSONObject) object;
-                    if (asset.getString("name").equals("image.zip")) {
-                        downloadURL.set(asset.getString("browser_download_url"));
+                try {
+                    JSONObject jsonObject = new JSONObject(
+                            GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools_Image/releases/latest", false));
+                    //判断是否存在
+                    version.set(jsonObject.getString("tag_name"));
+                    AtomicReference<String> finalDownloadURL = downloadURL;
+                    jsonObject.getJSONArray("assets").forEach(object -> {
+                        JSONObject asset = (JSONObject) object;
+                        if (asset.getString("name").equals("image.zip")) {
+                            finalDownloadURL.set(asset.getString("browser_download_url"));
+                        }
+                    });
+                } catch (Exception ex) {
+                    Log.warn.message(null, "获取版本号", "图片版本获取失败");
+                }
+                if (downloadURL.get().isEmpty()) {
+                    int i = Log.info.showChooseDialog(this, "询问", "目前无法获取最新版本号,是否需要使用压缩包更新?");
+                    if (i == CTOptionPane.YES_OPTION) {
+                        version.set(Log.info.showInputDialog(this, "输入图片版本", "请输入图片版本,如:1.0.0"));
                     }
-                });
+                }
 
                 IconControl.downloadFile(downloadURL, version);
             } catch (Exception ex) {
@@ -148,19 +161,30 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
         downloadButton.addActionListener(e -> {
             try {
-                JSONObject jsonObject = new JSONObject(
-                        GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools_Music/releases/latest", false));
                 AtomicReference<String> downloadURL = new AtomicReference<>("");
                 AtomicReference<String> version = new AtomicReference<>("");
-                //判断是否存在
-                version.set(jsonObject.getString("tag_name"));
-                jsonObject.getJSONArray("assets").forEach(object -> {
-                    JSONObject asset = (JSONObject) object;
-                    if (asset.getString("name").equals("music.zip")) {
-                        downloadURL.set(asset.getString("browser_download_url"));
-                    }
-                });
 
+                try {
+                    JSONObject jsonObject = new JSONObject(
+                            GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools_Music/releases/latest", false));
+
+                    //判断是否存在
+                    version.set(jsonObject.getString("tag_name"));
+                    jsonObject.getJSONArray("assets").forEach(object -> {
+                        JSONObject asset = (JSONObject) object;
+                        if (asset.getString("name").equals("music.zip")) {
+                            downloadURL.set(asset.getString("browser_download_url"));
+                        }
+                    });
+                } catch (Exception ex) {
+                    Log.warn.message(null, "获取版本号", "音频版本获取失败");
+                }
+                if (downloadURL.get().isEmpty()) {
+                    int i = Log.info.showChooseDialog(this, "询问", "目前无法获取最新版本号,是否需要使用压缩包更新?");
+                    if (i == CTOptionPane.YES_OPTION) {
+                        version.set(Log.info.showInputDialog(this, "输入音频版本", "请输入音频版本,如:1.0.0"));
+                    }
+                }
                 MusicControl.downloadFile(downloadURL, version);
             } catch (Exception ex) {
                 Log.err.print(getClass(), "音频下载失败", ex);

@@ -55,53 +55,55 @@ public class SwingRun {
 
             Log.info.loading.showDialog("修复", "正在启动修复程序...");
 
-            Log.info.loading.updateDialog("修复", "开始扫描程序文件...");
-            {
-                AtomicInteger count = new AtomicInteger(0);
-                Path appPath = Path.of(GetPath.getAppPath(GetPath.APPLICATION_PATH));
-                long fileCount = Files.walk(appPath)
-                        .sorted()
-                        .map(Path::toFile)
-                        .count();
-
-                if (fileCount > 0) {
-                    Files.walk(appPath)
+            try {
+                Log.info.loading.updateDialog("修复", "开始扫描程序文件...");
+                {
+                    AtomicInteger count = new AtomicInteger(0);
+                    Path appPath = Path.of(GetPath.getAppPath(GetPath.APPLICATION_PATH));
+                    long fileCount = Files.walk(appPath)
                             .sorted()
                             .map(Path::toFile)
-                            .forEach(file -> {
-                                int currentCount = count.incrementAndGet();
-                                double percentage = (currentCount * 100.0) / fileCount;
-                                int progress = (int) Math.round(percentage);
-                                Log.info.loading.updateDialog("修复",
-                                        String.format("开始扫描程序文件%.2f%%", percentage),
-                                        progress);
-                            });
+                            .count();
+
+                    if (fileCount > 0) {
+                        Files.walk(appPath)
+                                .sorted()
+                                .map(Path::toFile)
+                                .forEach(file -> {
+                                    int currentCount = count.incrementAndGet();
+                                    double percentage = (currentCount * 100.0) / fileCount;
+                                    int progress = (int) Math.round(percentage);
+                                    Log.info.loading.updateDialog("修复",
+                                            String.format("开始扫描程序文件%.2f%%", percentage),
+                                            progress);
+                                });
+                    }
                 }
-            }
 
-            Log.info.loading.updateDialog("修复", "正在扫描数据文件...");
-            {
-                AtomicInteger count = new AtomicInteger(0);
-                Path dataPath = Path.of(CTInfo.TEMP_PATH).getParent();
-                long fileCount = Files.walk(dataPath)
-                        .sorted()
-                        .map(Path::toFile)
-                        .count();
-
-                if (fileCount > 0) {
-                    Files.walk(dataPath)
+                Log.info.loading.updateDialog("修复", "正在扫描数据文件...");
+                {
+                    AtomicInteger count = new AtomicInteger(0);
+                    Path dataPath = Path.of(CTInfo.TEMP_PATH).getParent();
+                    long fileCount = Files.walk(dataPath)
                             .sorted()
                             .map(Path::toFile)
-                            .forEach(file -> {
-                                int currentCount = count.incrementAndGet();
-                                double percentage = (currentCount * 100.0) / fileCount;
-                                int progress = (int) Math.round(percentage);
-                                Log.info.loading.updateDialog("修复",
-                                        String.format("开始扫描数据文件%.2f%%", percentage),
-                                        progress);
-                            });
+                            .count();
+
+                    if (fileCount > 0) {
+                        Files.walk(dataPath)
+                                .sorted()
+                                .map(Path::toFile)
+                                .forEach(file -> {
+                                    int currentCount = count.incrementAndGet();
+                                    double percentage = (currentCount * 100.0) / fileCount;
+                                    int progress = (int) Math.round(percentage);
+                                    Log.info.loading.updateDialog("修复",
+                                            String.format("开始扫描数据文件%.2f%%", percentage),
+                                            progress);
+                                });
+                    }
                 }
-            }
+            } catch (Exception _) {}
 
             Log.info.loading.updateDialog("修复", "正在修复文件...", -1);
             {
