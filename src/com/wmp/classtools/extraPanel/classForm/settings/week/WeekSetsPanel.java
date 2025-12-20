@@ -88,10 +88,10 @@ public class WeekSetsPanel extends CTTableSetsPanel {
         Log.info.print("WeekSetsPanel", "保存课程表设置" + "周" + week);
         String[][] array = this.getArray();
         JSONArray jsonArray = new JSONArray();
-        for (int j = 0; j < array.length; j++) {
+        for (String[] strings : array) {
             jsonArray.put(new JSONObject()
-                    .put("class", array[j][0])
-                    .put("time", array[j][1]));
+                    .put("class", strings[0])
+                    .put("time", strings[1]));
         }
         new IOForInfo(new File(getBasicDataPath())).setInfo(jsonArray.toString(4));
     }

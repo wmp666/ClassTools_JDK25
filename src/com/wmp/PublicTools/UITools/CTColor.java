@@ -46,7 +46,7 @@ public class CTColor {
     public static Color backColor = Color.WHITE;
     private static boolean canRemove = true;
 
-    public static void setScreenProductColor() throws IOException {
+    public static void setScreenProductColor() {
         setAllColor(CTColor.MAIN_COLOR_WHITE, CTColor.STYLE_DARK);
 
         SetsScrInfo setsScrInfo = new SetsScrInfo();

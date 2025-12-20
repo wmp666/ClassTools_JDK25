@@ -84,13 +84,6 @@ public class SetStartUp {
      */
     public static String getFilePath() {
         String path = System.getProperty("user.dir");
-        /*String path = Test03.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation()
-                .getRunPath();
-          // 处理路径中的空格和特殊字符
-        return "\"" + path.replace("file:/", "").replace("/", "\\") + "\"";      */
         File appPath = new File(path);
         File[] files = appPath.listFiles();
         for (File file : files) {
@@ -104,13 +97,4 @@ public class SetStartUp {
         return null;
     }
 
-    /*public static void main(String[] args) {
-        String jarPath = getJarFilePath();
-        if (isAutoStartEnabled()) {
-            disableAutoStart();// 移除自启动
-        } else {
-            //enableAutoStart("javaw -jar " + jarPath); // 使用javaw避免黑窗口
-            enableAutoStart("\"" + jarPath + "\"");
-        }
-    }*/
 }

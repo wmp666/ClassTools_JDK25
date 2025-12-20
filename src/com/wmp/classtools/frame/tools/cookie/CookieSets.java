@@ -104,9 +104,7 @@ public class CookieSets {
         CTTextField runTextField = new CTTextField((String) cookiePriData.get("RunPath"));
 
         StringBuilder parameters = new StringBuilder();
-        ((ArrayList<String>) cookiePriData.get("parameters")).forEach(s -> {
-            parameters.append(s).append(";");
-        });
+        ((ArrayList<String>) cookiePriData.get("parameters")).forEach(s -> parameters.append(s).append(";"));
         CTTextField parametersTextField = new CTTextField(parameters.toString());
 
         //设置界面

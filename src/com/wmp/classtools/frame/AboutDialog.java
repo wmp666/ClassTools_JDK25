@@ -38,7 +38,7 @@ public class AboutDialog extends JDialog {
         GetNewerVersion.checkForUpdate(null, view, false, false);
     }
 
-    public AboutDialog() throws MalformedURLException {
+    public AboutDialog() {
 
         this.setTitle("关于");
         this.setSize((int) (300 * CTInfo.dpi), (int) (400 * CTInfo.dpi));
@@ -69,9 +69,7 @@ public class AboutDialog extends JDialog {
 
                     CTTextButton edit = new CTTextButton("编辑");
                     edit.setIcon(GetIcon.getIcon("编辑", IconControl.COLOR_DEFAULT, 20, 20));
-                    edit.addActionListener(event -> {
-                        EasterEgg.errorAction();
-                    });
+                    edit.addActionListener(event -> EasterEgg.errorAction());
 
                     ETPopupMenu.add(edit);
 
@@ -175,16 +173,11 @@ public class AboutDialog extends JDialog {
 
         CTMenuItem appPath = new CTMenuItem("程序路径");
         appPath.setIcon(GetIcon.getIcon("文件夹", 20, 20));
-        appPath.addActionListener(e -> {
-            OpenInExp.open(GetPath.getAppPath(GetPath.APPLICATION_PATH));
-
-        });
+        appPath.addActionListener(e -> OpenInExp.open(GetPath.getAppPath(GetPath.APPLICATION_PATH)));
 
         CTMenuItem dataPath = new CTMenuItem("数据路径");
         dataPath.setIcon(GetIcon.getIcon("文件夹", 20, 20));
-        dataPath.addActionListener(e -> {
-            OpenInExp.open(CTInfo.DATA_PATH);
-        });
+        dataPath.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH));
 
         menu.add(chat);
         menu.add(github);

@@ -65,9 +65,7 @@ public class Test05 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new Test05().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new Test05().setVisible(true));
     }
 
     private void handleFileUpload(List<File> files) {
@@ -75,14 +73,14 @@ public class Test05 extends JFrame {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                String names = "";
+                StringBuilder names = new StringBuilder();
                 for (File file : files) {
                     // 模拟文件上传处理
                     Thread.sleep(1000); // 替换为实际上传逻辑
                     if (file.isDirectory()) {
-                        names = names + file.getName() + "(文件夹)";
+                        names.append(file.getName()).append("(文件夹)");
                     } else {
-                        names = names + file.getName() + "(文件)";
+                        names.append(file.getName()).append("(文件)");
                     }
                     String temp = "已上传: " + names;
                     SwingUtilities.invokeLater(() ->

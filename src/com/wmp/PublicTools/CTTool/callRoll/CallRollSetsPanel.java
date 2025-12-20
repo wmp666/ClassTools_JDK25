@@ -29,7 +29,7 @@ public class CallRollSetsPanel extends CTBasicSetsPanel {
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
         this.setLayout(new GridLayout(0, 1));
 
@@ -37,11 +37,7 @@ public class CallRollSetsPanel extends CTBasicSetsPanel {
         inputButton.addActionListener(e1 -> {
             String filePath = GetPath.getFilePath(this, "请选择文件", ".txt", "点名列表");
             if (filePath != null) {
-                try {
-                    CallRollInfoControl.setDianMingNameList(filePath);
-                } catch (IOException ex) {
-                    Log.err.print(getClass(), "导入文件出错", ex);
-                }
+                CallRollInfoControl.setDianMingNameList(filePath);
             }
         });
         this.add(inputButton);

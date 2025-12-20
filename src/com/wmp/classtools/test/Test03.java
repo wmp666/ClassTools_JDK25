@@ -78,13 +78,6 @@ public class Test03 {
      */
     public static String getJarFilePath() {
         String path = System.getProperty("user.dir");
-        /*String path = Test03.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation()
-                .getRunPath();
-          // 处理路径中的空格和特殊字符
-        return "\"" + path.replace("file:/", "").replace("/", "\\") + "\"";      */
         File appPath = new File(path);
         File[] files = appPath.listFiles();
         for (File file : files) {

@@ -61,9 +61,7 @@ public class DataControlUnit extends JPanel {
             pathTextField.setColumns(20);
             pathTextField.setEditable(false);
             CTTextButton openInExp = new CTTextButton("打开");
-            openInExp.addActionListener(e -> {
-                OpenInExp.open(path);
-            });
+            openInExp.addActionListener(e -> OpenInExp.open(path));
             pathPanel.add(pathLabel, gbc);
             gbc.gridx++;
             pathPanel.add(pathTextField, gbc);
@@ -104,9 +102,7 @@ public class DataControlUnit extends JPanel {
 
                     File[] files = file.listFiles();
                     TreeMap<String, DataControlUnit> unitMap = new TreeMap<>();
-                    specialChildPathList.forEach(dataControlUnit -> {
-                        unitMap.put(dataControlUnit.getPath(), dataControlUnit);
-                    });
+                    specialChildPathList.forEach(dataControlUnit -> unitMap.put(dataControlUnit.getPath(), dataControlUnit));
                     Set<String> keySet = unitMap.keySet();
                     for (File file1 : files) {
                         DataControlUnit dataControlUnit = new DataControlUnit(file1.getName(), file1.getAbsolutePath(), this.canDelete);

@@ -84,7 +84,7 @@ public class ShowHelpDoc extends JFrame {
         this.setVisible(true);
     }
 
-    private static String initHelpDoc(String name) throws IOException, URISyntaxException {
+    private static String initHelpDoc(String name) throws IOException {
 
         copyDoc(name);
 
@@ -93,8 +93,6 @@ public class ShowHelpDoc extends JFrame {
 
         markdown = Files.readString(Paths.get(parent + name));
 
-        //String parent = file.getParent().replace("help", "help\\");
-        //System.out.println("文件上级目录 :" + parent);
         markdown = markdown.replaceAll("!\\[.*]\\(images/", "![](file:" + parent.replace("\\", "/") + "images/")
                 .replaceAll("<img src=\"images/", "<img src=\"file:" + parent.replace("\\", "/") + "images/");
 
@@ -180,27 +178,19 @@ public class ShowHelpDoc extends JFrame {
                 if (name.contains("WIKeyCodeGetHelp")) tempName = "天气数据密钥获取方法";
 
                 CTRoundTextButton helpDocMenuItem = new CTRoundTextButton(tempName + "(" + name + ")");
-                helpDocMenuItem.addActionListener(e1 -> {
-                    new SwingWorker<Void, Void>() {
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            DownloadURLFile.downloadWebFile(dialog, null, url, CTInfo.TEMP_PATH + "help\\WebFile");
-                            return null;
-                        }
+                helpDocMenuItem.addActionListener(e1 -> new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() {
+                        DownloadURLFile.downloadWebFile(dialog, null, url, CTInfo.TEMP_PATH + "help\\WebFile");
+                        return null;
+                    }
 
-                        @Override
-                        protected void done() {
-                            try {
-                                MediaPlayer.playOther(CTInfo.TEMP_PATH + "help\\WebFile\\" + name);
-                            } catch (IOException ex) {
-                                Log.err.print(getClass(), "", ex);
-                                throw new RuntimeException(ex);
-                            }
-                        }
+                    @Override
+                    protected void done() {
+                        MediaPlayer.playOther(CTInfo.TEMP_PATH + "help\\WebFile\\" + name);
+                    }
 
-                    }.execute();
-
-                });
+                }.execute());
                 helpDocDialog.add(helpDocMenuItem);
             });
 
@@ -242,14 +232,9 @@ public class ShowHelpDoc extends JFrame {
         exitButton.addActionListener(e -> this.dispose());
 
         JButton downloadDocButton = new JButton("下载详细文档");
-        downloadDocButton.addActionListener(e -> {
-            showDownloadDialog();
-
-        });
+        downloadDocButton.addActionListener(e -> showDownloadDialog());
         JButton openInExpButton = new JButton("打开所在位置");
-        openInExpButton.addActionListener(e -> {
-            OpenInExp.open(CTInfo.TEMP_PATH + "help\\");
-        });
+        openInExpButton.addActionListener(e -> OpenInExp.open(CTInfo.TEMP_PATH + "help\\"));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));

@@ -25,12 +25,10 @@ import java.util.TreeMap;
 public class ScreenProduct extends JDialog {
 
     private static final HashMap<String, String[]> panelLocationMap = new HashMap<>();
-    /*private final JLabel timeView = new JLabel();
-    private final JLabel otherLabel = new JLabel();*/
     private static ScreenProduct screenProduct;
     //获取屏保设置
     private static SetsScrInfo setsScrInfo = new SetsScrInfo();
-    private static Timer updateBG = new Timer(1000, e -> {
+    private static Timer updateBG = new Timer(1000, _ -> {
     });
     private final JLabel imageViewLabel = new JLabel();
     private final Container c = this.getContentPane();
@@ -57,7 +55,7 @@ public class ScreenProduct extends JDialog {
 
 
         //背景更新
-        updateBG = new Timer(setsScrInfo.getRepaintTimer() * 1000, e -> {
+        updateBG = new Timer(setsScrInfo.getRepaintTimer() * 1000, _ -> {
 
             try {
                 initBackground(index);
@@ -76,10 +74,7 @@ public class ScreenProduct extends JDialog {
         //刷新组件内容
 
         //强刷新
-        Timer strongRepaint = new Timer(60 * 60 * 1000, e -> {
-
-            refreshScreenProductPanel();
-        });
+        Timer strongRepaint = new Timer(60 * 60 * 1000, e -> refreshScreenProductPanel());
         strongRepaint.setRepeats(true);
         strongRepaint.start();
 
@@ -115,21 +110,6 @@ public class ScreenProduct extends JDialog {
                         temp.add(ctViewPanel);
                         panelMap.put("东方", temp.toArray(new CTViewPanel[0]));
                     }
-/*
-                switch (ctViewPanel.getID()) {
-                    case "TimeViewPanel" -> panelMap.put("中间", List.of(ctViewPanel).toArray(new CTViewPanel[0]));
-                    case "NewsTextPanel" -> panelMap.put("南方", List.of(ctViewPanel).toArray(new CTViewPanel[0]));
-                    case "OtherTimeThingPanel" ->
-                            panelMap.put("北方", List.of(ctViewPanel).toArray(new CTViewPanel[0]));
-                    default -> {
-                        if (panelMap.containsKey("东方")) {
-                            CTViewPanel[] tempPanels = panelMap.get("东方");
-                            tempPanels = Arrays.copyOf(tempPanels, tempPanels.length + 1);
-                            tempPanels[tempPanels.length - 1] = ctViewPanel;
-                            panelMap.put("东方", tempPanels);
-                        } else panelMap.put("东方", List.of(ctViewPanel).toArray(new CTViewPanel[0]));
-                    }
-                }*/
                 }
             });
 
@@ -238,11 +218,9 @@ public class ScreenProduct extends JDialog {
             if (i == CTOptionPane.NO_OPTION) return;
             screenProduct.setVisible(false);
             synchronized (Log.getLogInfList()) {
-                try {
-                    Runtime.getRuntime().exec("shutdown -s -t 0");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command( "cmd.exe", "/c", "shutdown -s -t 0");
+
             }
         });
 

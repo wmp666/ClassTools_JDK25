@@ -110,9 +110,4 @@ public class FileDragDropLabel extends JLabel {
         this.setForeground(color);
     }
 
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new FileDragDropLabel().setVisible(true);
-        });
-    }*/
 }

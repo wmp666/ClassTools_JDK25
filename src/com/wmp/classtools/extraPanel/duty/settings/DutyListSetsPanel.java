@@ -1,21 +1,13 @@
 package com.wmp.classTools.extraPanel.duty.settings;
 
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
-import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
-import com.wmp.classTools.CTComponent.CTTable;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class DutyListSetsPanel extends CTTableSetsPanel {
 
@@ -95,8 +87,6 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
             }
             sb.append("\n");
         }
-        //System.out.println("表格数据:" + sb);
-        //System.out.println("--index:" + index.get());
 
         try {
             new IOForInfo(DutyListPath).setInfo(sb.toString());

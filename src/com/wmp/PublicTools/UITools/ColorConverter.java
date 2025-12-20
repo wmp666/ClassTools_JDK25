@@ -25,17 +25,6 @@ public class ColorConverter {
             for (int x = 0; x < width; x++) {
                 int rgb = original.getRGB(x, y);
                 int alpha = (rgb >> 24) & 0xff;
-                //int red = (rgb >> 16) & 0xff;
-                //int green = (rgb >> 8) & 0xff;
-                //int blue = rgb & 0xff;
-
-                //red = (int)(red * redFactor);
-                //green = (int)(green * greenFactor);
-                //blue = (int)(blue * blueFactor);
-
-                //red = Math.min(255, Math.max(0, red));
-                //green = Math.min(255, Math.max(0, green));
-                //blue = Math.min(255, Math.max(0, blue));
 
                 int newRGB = (alpha << 24) | ((int) redFactor << 16) | ((int) greenFactor << 8) | (int) blueFactor;
                 result.setRGB(x, y, newRGB);

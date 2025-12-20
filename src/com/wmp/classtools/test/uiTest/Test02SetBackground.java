@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Test02SetBackground extends JFrame {
-    public Test02SetBackground() throws HeadlessException, IOException {
+    public Test02SetBackground() throws HeadlessException {
         this.setTitle("设置背景");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 300);
@@ -64,14 +64,8 @@ public class Test02SetBackground extends JFrame {
         pane.setLayout(new BorderLayout());
         pane.setOpaque(false);//透明
 
-        //this.getContentPane().add(jPanel, BorderLayout.CENTER);
-        //this.getContentPane().setLayout(new GridLayout(2, 1));
-
         JLabel name = new JLabel("请选择图片");
         pane.add(name, BorderLayout.NORTH);
-
-       /* JButton button = new JButton("选择图片");
-        this.getContentPane().add(button);*/
 
 
         this.setVisible(true);

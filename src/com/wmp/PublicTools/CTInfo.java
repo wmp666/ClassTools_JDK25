@@ -146,15 +146,11 @@ public class CTInfo {
             //设置隐藏内容
             if (jsonObject.has("disposeButton")) {
                 JSONArray disButtonList = jsonObject.getJSONArray("disposeButton");
-                disButtonList.forEach(object -> {
-                    disButList.add(object.toString());
-                });
+                disButtonList.forEach(object -> disButList.add(object.toString()));
             }
             if (jsonObject.has("disposePanel")) {
                 JSONArray disButtonList = jsonObject.getJSONArray("disposePanel");
-                disButtonList.forEach(object -> {
-                    disPanelList.add(object.toString());
-                });
+                disButtonList.forEach(object -> disPanelList.add(object.toString()));
             }
             //设置是否可以退出
             if (jsonObject.has("canExit")) {

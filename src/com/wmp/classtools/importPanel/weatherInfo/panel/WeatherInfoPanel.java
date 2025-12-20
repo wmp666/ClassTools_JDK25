@@ -82,8 +82,7 @@ public class WeatherInfoPanel extends CTViewPanel {
                     sb.append(info.date().substring(5)).append(" ")
                             .append(" ").append(info.dayweather())
                             .append("->").append(info.nightweather())
-                            .append(" ").append(info.nighttemp() + "-"
-                                    + info.daytemp() + "℃").append("\n");
+                            .append(" ").append(info.nighttemp()).append("-").append(info.daytemp()).append("℃").append("\n");
 
                 }
             }
@@ -220,7 +219,7 @@ public class WeatherInfoPanel extends CTViewPanel {
     }
 
     @Override
-    protected void easyRefresh() throws Exception {
+    protected void easyRefresh() {
         if (!this.isScreenProductViewPanel()) {
             resetPanel(CTFontSizeStyle.BIG);
         } else {

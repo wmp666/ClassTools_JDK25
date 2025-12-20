@@ -4,10 +4,7 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
 import com.wmp.PublicTools.StartupParameters;
 import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.SwingRun;
 
 import javax.swing.*;
@@ -32,7 +29,7 @@ public class Main {
         allArgs.put("CTInfo:isError", StartupParameters.creative("/CTInfo:error", "-CTInfo:error"));
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         JDialog wait = new JDialog();
         wait.setUndecorated(true);
         wait.setAlwaysOnTop(true);

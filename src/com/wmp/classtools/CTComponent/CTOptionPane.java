@@ -9,10 +9,10 @@ import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
+import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -21,12 +21,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
-import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -244,9 +242,7 @@ public class CTOptionPane {
 
                             CTRoundTextButton edit = new CTRoundTextButton("编辑");
                             edit.setIcon(GetIcon.getIcon("编辑", 20, 20));
-                            edit.addActionListener(event -> {
-                                EasterEgg.errorAction();
-                            });
+                            edit.addActionListener(event -> EasterEgg.errorAction());
 
                             ETPopupMenu.add(edit);
 
@@ -524,20 +520,20 @@ public class CTOptionPane {
                 choose.set(YES_OPTION);
 
                 if (style == YEAR_MONTH_DAY) {
-                    result.add(Integer.valueOf(yearSpinner.getValue()));
-                    result.add(Integer.valueOf(monthSpinner.getValue()));
-                    result.add(Integer.valueOf(daySpinner.getValue()));
+                    result.add(yearSpinner.getValue());
+                    result.add(monthSpinner.getValue());
+                    result.add(daySpinner.getValue());
                 } else if (style == MONTH_DAY) {
                     result.add(Calendar.getInstance().get(Calendar.YEAR));
-                    result.add(Integer.valueOf(monthSpinner.getValue()));
-                    result.add(Integer.valueOf(daySpinner.getValue()));
+                    result.add(monthSpinner.getValue());
+                    result.add(daySpinner.getValue());
                 } else if (style == HOURS_MINUTES) {
-                    result.add(Integer.valueOf(hourSpinner.getValue()));
-                    result.add(Integer.valueOf(minuteSpinner.getValue()));
+                    result.add(hourSpinner.getValue());
+                    result.add(minuteSpinner.getValue());
                 } else if (style == HOURS_MINUTES_SECOND) {
-                    result.add(Integer.valueOf(hourSpinner.getValue()));
-                    result.add(Integer.valueOf(minuteSpinner.getValue()));
-                    result.add(Integer.valueOf(secondSpinner.getValue()));
+                    result.add(hourSpinner.getValue());
+                    result.add(minuteSpinner.getValue());
+                    result.add(secondSpinner.getValue());
                 }
                 dialog.dispose();
             }
@@ -639,22 +635,12 @@ public class CTOptionPane {
         // 创建图标标签
         {
             if (icon == null) {
-                Icon tempIcon = null;
-                switch (iconType) {
-
-                    case ERROR_MESSAGE:
-                        tempIcon = GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 50, 50);
-                        break;
-                    case INFORMATION_MESSAGE:
-                        tempIcon = GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
-                        break;
-                    case WARNING_MESSAGE:
-                        tempIcon = GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 50, 50);
-                        break;
-                    default:
-                        tempIcon = GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
-                        break;
-                }
+                Icon tempIcon = switch (iconType) {
+                    case ERROR_MESSAGE -> GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 50, 50);
+                    case INFORMATION_MESSAGE -> GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
+                    case WARNING_MESSAGE -> GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 50, 50);
+                    default -> GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
+                };
                 iconLabel = new JLabel(tempIcon);
                 dialog.setIconImage(((ImageIcon)tempIcon).getImage());
                 dialog.add(iconLabel, BorderLayout.WEST);//设置图标标签的位置 - 左
@@ -824,10 +810,7 @@ public class CTOptionPane {
 
                     exitButton.setText("关闭");
                     exitButton.setEnabled(true);
-                    exitButton.addActionListener(ev -> {
-                        messageDialog.dispose();
-
-                    });
+                    exitButton.addActionListener(ev -> messageDialog.dispose());
                 }).start();
 
 
@@ -958,9 +941,7 @@ public class CTOptionPane {
 
                             CTRoundTextButton edit = new CTRoundTextButton("编辑");
                             edit.setIcon(GetIcon.getIcon("编辑", 20, 20));
-                            edit.addActionListener(event -> {
-                                EasterEgg.errorAction();
-                            });
+                            edit.addActionListener(event -> EasterEgg.errorAction());
 
                             ETPopupMenu.add(edit);
 
@@ -1016,6 +997,7 @@ public class CTOptionPane {
                     public void windowOpened(WindowEvent e) {
                         // 添加滑入动画
                         animateSlideIn(dialog, targetLocation);
+                        MediaPlayer.playMusic("系统", "通知");
                         t.start();
                     }
 

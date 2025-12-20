@@ -75,7 +75,7 @@ public class ShowCookieDialog extends JDialog {
 
     }
 
-    private initCookieSetsPanel initCookieSets(Container c) throws MalformedURLException {
+    private initCookieSetsPanel initCookieSets(Container c) {
         JPanel cookieSettingPanel = new JPanel();
         cookieSettingPanel.setOpaque(false);
         cookieSettingPanel.setLayout(new GridLayout(6, 1, 20, 5));
@@ -226,16 +226,14 @@ public class ShowCookieDialog extends JDialog {
         cookiesPanel.repaint();
     }
 
-    private initControlPanel getInitControlPanel(Container c) throws MalformedURLException {
+    private initControlPanel getInitControlPanel(Container c) {
         JPanel controlPanel = new JPanel();
         controlPanel.setOpaque(false);
         controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
 
         CTTextButton openInExp = new CTTextButton("打开所在目录");
         openInExp.setIcon("文件夹", IconControl.COLOR_COLORFUL, 30, 30);
-        openInExp.addActionListener(e -> {
-            OpenInExp.open(cookieMap.get(s[0]).getPath());
-        });
+        openInExp.addActionListener(e -> OpenInExp.open(cookieMap.get(s[0]).getPath()));
         openInExp.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
         openInExp.setEnabled(false);
         controlPanel.add(openInExp);
@@ -254,9 +252,7 @@ public class ShowCookieDialog extends JDialog {
 
         CTTextButton runCookie = new CTTextButton("运行");
         runCookie.setIcon("祈愿", IconControl.COLOR_COLORFUL, 30, 30);
-        runCookie.addActionListener(e -> {
-            StartCookie.showCookie(s[0]);
-        });
+        runCookie.addActionListener(e -> StartCookie.showCookie(s[0]));
         runCookie.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
         runCookie.setEnabled(false);
         controlPanel.add(runCookie);
@@ -305,16 +301,12 @@ public class ShowCookieDialog extends JDialog {
 
         CTMenuItem openInExp = new CTMenuItem("打开启动单元所在目录");
         openInExp.setIcon(GetIcon.getIcon("文件夹", 16, 16));
-        openInExp.addActionListener(e -> {
-            OpenInExp.open(CTInfo.DATA_PATH + "\\Cookie\\");
-        });
+        openInExp.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH + "\\Cookie\\"));
 
 
         CTMenuItem exit = new CTMenuItem("退出");
         exit.setIcon(GetIcon.getIcon("关闭", 16, 16));
-        exit.addActionListener(e -> {
-            this.setVisible(false);
-        });
+        exit.addActionListener(e -> this.setVisible(false));
 
         fileMenu.add(inputCookie);
         fileMenu.add(outputMenuItem);
@@ -351,9 +343,7 @@ public class ShowCookieDialog extends JDialog {
 
         CTMenuItem deleteCookie = new CTMenuItem("删除启动单元");
         deleteCookie.setIcon(GetIcon.getIcon("删除", 16, 16));
-        deleteCookie.addActionListener(e -> {
-            CookieSets.deleteCookie(cookieMap.get(s[0]));
-        });
+        deleteCookie.addActionListener(e -> CookieSets.deleteCookie(cookieMap.get(s[0])));
 
         editMenu.add(cookieDownload);
         editMenu.add(deleteCookie);

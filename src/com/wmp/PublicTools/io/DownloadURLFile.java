@@ -18,8 +18,6 @@ public class DownloadURLFile {
     /**
      * 下载文件
      *
-     * @param parent
-     * @param panel
      * @param downloadUrl 下载链接
      * @param dataPath    保存路径
      */
@@ -30,8 +28,6 @@ public class DownloadURLFile {
     /**
      * 下载文件
      *
-     * @param parent
-     * @param panel
      * @param downloadUrl    下载链接
      * @param dataPath       保存路径
      * @param expectedSHA256 预期SHA256

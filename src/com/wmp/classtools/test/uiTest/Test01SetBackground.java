@@ -42,9 +42,6 @@ public class Test01SetBackground extends JFrame {
                 viewLabel.setIcon(icon);
             }
 
-            //JPanel jPanel = new JPanel(null);
-            //jPanel.add(viewLabel);
-
             this.getLayeredPane().add(viewLabel, Integer.valueOf(Integer.MIN_VALUE));
         }
 
@@ -52,14 +49,8 @@ public class Test01SetBackground extends JFrame {
         pane.setLayout(new BorderLayout());
         pane.setOpaque(false);//透明
 
-        //this.getContentPane().add(jPanel, BorderLayout.CENTER);
-        //this.getContentPane().setLayout(new GridLayout(2, 1));
-
         JLabel name = new JLabel("请选择图片");
         pane.add(name, BorderLayout.NORTH);
-
-       /* JButton button = new JButton("选择图片");
-        this.getContentPane().add(button);*/
 
 
         this.setVisible(true);

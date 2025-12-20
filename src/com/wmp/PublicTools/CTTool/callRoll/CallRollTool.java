@@ -60,9 +60,7 @@ public class CallRollTool extends CTTool {
         buttonPanel.add(setsButton);
         CTTextButton dianMingButton = new CTTextButton("点名(" + CallRollInfoControl.getCount() + "次)");
         dianMingButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        dianMingButton.addActionListener(e -> {
-            callRoll();
-        });
+        dianMingButton.addActionListener(e -> callRoll());
         buttonPanel.add(dianMingButton);
 
         dialog.add(nameLabel, BorderLayout.CENTER);

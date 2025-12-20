@@ -1,17 +1,10 @@
 package com.wmp.classTools.CTComponent.CTButton;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.classTools.CTComponent.CTBorderFactory;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 public class CTTextButton extends CTButton {
 

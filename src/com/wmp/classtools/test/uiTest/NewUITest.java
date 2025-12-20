@@ -3,11 +3,8 @@ package com.wmp.classTools.test.uiTest;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.classTools.CTComponent.CTCheckBox;
 import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.CTProgressBar;
 
-import javax.imageio.spi.ImageInputStreamSpi;
 import javax.swing.*;
 import java.awt.*;
 

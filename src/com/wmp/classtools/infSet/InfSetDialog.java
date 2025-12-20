@@ -47,7 +47,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
 
     // 添加文件路径参数
-    public InfSetDialog(String showPanel) throws Exception {
+    public InfSetDialog(String showPanel) {
         Log.info.systemPrint("设置", "正在初始化设置...");
         Log.info.loading.showDialog("设置", "正在初始化设置...");
 
@@ -148,15 +148,11 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
         CTMenuItem openAppList = new CTMenuItem("软件位置");
         openAppList.setIcon(GetIcon.getIcon("文件夹", 16, 16));
-        openAppList.addActionListener(e -> {
-            OpenInExp.open(System.getProperty("user.dir"));
-        });
+        openAppList.addActionListener(e -> OpenInExp.open(System.getProperty("user.dir")));
 
         CTMenuItem openSetsList = new CTMenuItem("数据位置");
         openSetsList.setIcon(GetIcon.getIcon("文件夹", 16, 16));
-        openSetsList.addActionListener(e -> {
-            OpenInExp.open(CTInfo.DATA_PATH);
-        });
+        openSetsList.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH));
 
         CTMenu InfSets = new CTMenu("数据设置");
         InfSets.setIcon(GetIcon.getIcon("设置", 16, 16));
@@ -256,10 +252,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
         CTMenuItem saveMenuItem = new CTMenuItem("保存");
         saveMenuItem.setIcon(GetIcon.getIcon("保存", 16, 16));
-        saveMenuItem.addActionListener(e -> {
-            save();
-
-        });
+        saveMenuItem.addActionListener(e -> save());
 
 
         editMenu.add(setMenu);

@@ -117,7 +117,7 @@ public class CookieDownload {
                     File selectedFile = fileChooser.getSelectedFile();// 选择文件
                     new SwingWorker<>() {
                         @Override
-                        protected Void doInBackground() throws Exception {
+                        protected Void doInBackground() {
                             DownloadURLFile.downloadWebFile(dialog, null,
                                     cookieInfoMap.get(ref.openedButtonKey).getDownloadUrl(), selectedFile.getPath());
                             return null;
@@ -185,7 +185,7 @@ public class CookieDownload {
         dialog.getContentPane().setBackground(CTColor.backColor);
     }
 
-    private void getInfo() throws Exception {
+    private void getInfo() {
 
         Log.info.print("CookieDownload", "正在获取快速启动单元数据...");
 
@@ -197,8 +197,6 @@ public class CookieDownload {
 
             String key = assetJson.getString("name");
             String browser_download_url = assetJson.getString("browser_download_url");
-            /*if (cookieInfoMap.containsKey(key))
-                cookieInfoMap.get(key).setDownloadUrl(browser_download_url);*/
             if (!key.equals("CookieInfo.json"))
                 cookieInfoMap.put(key, new CookieInfo(key, "无", browser_download_url));
         });

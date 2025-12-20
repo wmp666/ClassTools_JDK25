@@ -47,16 +47,16 @@ public class CTListSetsPanel extends CTSetsPanel {
 
         // 默认显示第一个面板（如果存在）
         if (!ctSetsPanelList.isEmpty()) {
-            currentPanel.set(ctSetsPanelList.get(0));
+            currentPanel.set(ctSetsPanelList.getFirst());
         } else {
             // 如果没有面板，创建一个空面板
             currentPanel.set(new CTSetsPanel("") {
                 @Override
-                public void save() throws Exception {
+                public void save() {
                 }
 
                 @Override
-                public void refresh() throws Exception {
+                public void refresh() {
                 }
             });
         }
@@ -121,7 +121,7 @@ public class CTListSetsPanel extends CTSetsPanel {
 
 
     @Override
-    public void save() throws Exception {
+    public void save() {
         ctSetsPanelList.forEach(ctSetsPanel -> {
             try {
                 ctSetsPanel.save();
@@ -132,7 +132,7 @@ public class CTListSetsPanel extends CTSetsPanel {
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
 
         init();

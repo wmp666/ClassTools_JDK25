@@ -92,46 +92,44 @@ public class IOForInfo {
 
         File file = new File(path.toUri());
 
-        Thread thread = new Thread(() -> {
-            new SwingWorker<Void, Void>() {
-                //  执行耗时操作
-                @Override
-                protected Void doInBackground() throws Exception {
-                    try {
-                        if (file == null || !file.exists()) {
-                            Log.err.print(IOForInfo.class, "目标不存在");
-                            return null;
-                        }
-
-                        if (file.isDirectory()) {
-                            Files.walk(file.toPath())
-                                    .sorted(Comparator.reverseOrder())
-                                    .map(Path::toFile)
-                                    .forEach(File::delete);
-                        }
-
-                        if (file.delete() || !file.exists()) {
-
-                            Log.info.message(null, "IOForInfo-删除文件", "删除文件/文件夹: " + path);
-                        } else {
-                            String errorType = file.canWrite() ? "文件被占用" : "权限不足";
-                            Log.err.print(IOForInfo.class, "删除失败" + errorType);
-                        }
-                    } catch (Exception e) {
-                        Log.err.print(CookieSets.class, "删除失败", e);
+        Thread thread = new Thread(() -> new SwingWorker<Void, Void>() {
+            //  执行耗时操作
+            @Override
+            protected Void doInBackground() {
+                try {
+                    if (file == null || !file.exists()) {
+                        Log.err.print(IOForInfo.class, "目标不存在");
+                        return null;
                     }
-                    return null;
-                }
 
-                @Override
-                protected void done() {
-                    Log.info.loading.closeDialog("文件删除");
-                    if (callback != null) {
-                        callback.run();
+                    if (file.isDirectory()) {
+                        Files.walk(file.toPath())
+                                .sorted(Comparator.reverseOrder())
+                                .map(Path::toFile)
+                                .forEach(File::delete);
                     }
+
+                    if (file.delete() || !file.exists()) {
+
+                        Log.info.message(null, "IOForInfo-删除文件", "删除文件/文件夹: " + path);
+                    } else {
+                        String errorType = file.canWrite() ? "文件被占用" : "权限不足";
+                        Log.err.print(IOForInfo.class, "删除失败" + errorType);
+                    }
+                } catch (Exception e) {
+                    Log.err.print(CookieSets.class, "删除失败", e);
                 }
-            }.execute();
-        });
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                Log.info.loading.closeDialog("文件删除");
+                if (callback != null) {
+                    callback.run();
+                }
+            }
+        }.execute());
         thread.start();
 
         return thread;
@@ -224,7 +222,6 @@ public class IOForInfo {
                     content.append(line);
                 }
             }
-            writer.close();
         } catch (IOException e) {
             Log.err.print(IOForInfo.class, file.getPath() + "文件写入失败", e);
         }

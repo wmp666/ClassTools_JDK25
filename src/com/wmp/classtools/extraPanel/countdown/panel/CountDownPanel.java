@@ -63,7 +63,7 @@ public class CountDownPanel extends CTViewPanel {
     }
 
     @Override
-    protected void easyRefresh() throws IOException {
+    protected void easyRefresh() {
         initUI();
 
         String targetTime = info.targetTime();

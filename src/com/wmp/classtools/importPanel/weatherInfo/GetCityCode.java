@@ -40,7 +40,7 @@ public class GetCityCode {
         }
     }
 
-    private static Map<String, String> getCityCodes(String cityCode) throws Exception {
+    private static Map<String, String> getCityCodes(String cityCode) {
         Map<String, String> map = new HashMap<>();
 
 

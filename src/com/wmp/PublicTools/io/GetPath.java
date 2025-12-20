@@ -18,7 +18,6 @@ public class GetPath {
      * 获取应用程序路径
      *
      * @param type 1: 应用程序路径 0: 源文件路径
-     * @return
      */
     public static String getAppPath(int type) {
         try {

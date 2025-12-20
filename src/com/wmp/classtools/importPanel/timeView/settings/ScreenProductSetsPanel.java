@@ -32,7 +32,7 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
     private static final CTTextField repaintTimerTextField = new CTTextField();
     private final File dataPath;
 
-    public ScreenProductSetsPanel(String basicDataPath) throws IOException {
+    public ScreenProductSetsPanel(String basicDataPath) {
         super(basicDataPath);
         dataPath = new File(basicDataPath + "\\ScreenProduct");
 
@@ -149,84 +149,85 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
             if (choose == null) {
                 return;
             }
-            if (choose.equals("文件夹")) {
-                String path = GetPath.getDirectoryPath(this, "请选择文件夹");
+            switch (choose) {
+                case "文件夹" -> {
+                    String path = GetPath.getDirectoryPath(this, "请选择文件夹");
 
-                if (path != null && !path.isEmpty()) {
+                    if (path != null && !path.isEmpty()) {
 
-                    String target = dataPath + "\\background\\";
-                    try {
-                        //通过遍历将文件拷贝到目标文件夹
-                        File sourceFile = new File(path);
+                        String target = dataPath + "\\background\\";
+                        try {
+                            //通过遍历将文件拷贝到目标文件夹
+                            File sourceFile = new File(path);
 
-                        File targetFile = new File(target);
-                        if (targetFile.exists()) {
-                            Files.walkFileTree(targetFile.toPath(), new SimpleFileVisitor<Path>() {
-                                // 先去遍历删除文件
-                                @Override
-                                public FileVisitResult visitFile(Path file,
-                                                                 BasicFileAttributes attrs) {
-                                    try {
-                                        Files.delete(file);
-                                    } catch (IOException ex) {
-                                        Log.err.print(getClass(), "文件: " + file + "\n删除失败", ex);
+                            File targetFile = new File(target);
+                            if (targetFile.exists()) {
+                                Files.walkFileTree(targetFile.toPath(), new SimpleFileVisitor<>() {
+                                    // 先去遍历删除文件
+                                    @Override
+                                    public FileVisitResult visitFile(Path file,
+                                                                     BasicFileAttributes attrs) {
+                                        try {
+                                            Files.delete(file);
+                                        } catch (IOException ex) {
+                                            Log.err.print(getClass(), "文件: " + file + "\n删除失败", ex);
+                                        }
+                                        return FileVisitResult.CONTINUE;
                                     }
-                                    return FileVisitResult.CONTINUE;
-                                }
 
-                                // 再去遍历删除目录
-                                @Override
-                                public FileVisitResult postVisitDirectory(Path dir,
-                                                                          IOException exc) {
-                                    try {
-                                        Files.delete(dir);
-                                    } catch (IOException ex) {
-                                        Log.err.print(getClass(), "文件夹: " + dir + "\n删除失败", ex);
+                                    // 再去遍历删除目录
+                                    @Override
+                                    public FileVisitResult postVisitDirectory(Path dir,
+                                                                              IOException exc) {
+                                        try {
+                                            Files.delete(dir);
+                                        } catch (IOException ex) {
+                                            Log.err.print(getClass(), "文件夹: " + dir + "\n删除失败", ex);
+                                        }
+                                        return FileVisitResult.CONTINUE;
                                     }
-                                    return FileVisitResult.CONTINUE;
-                                }
-                            });
+                                });
 
-                        }
-                        targetFile.mkdirs();
-                        if (!sourceFile.exists()) {
-                            Log.err.print(getClass(), "文件夹不存在:" + path);
-                            return;
-                        }
-                        for (File file : Objects.requireNonNull(sourceFile.listFiles())) {
-                            if (file.isFile()) {
-                                // 创建目标文件夹 StandardCopyOption.REPLACE_EXISTING -
-                                Files.copy(file.toPath(), Paths.get(target, file.getName()), StandardCopyOption.REPLACE_EXISTING);
                             }
+                            targetFile.mkdirs();
+                            if (!sourceFile.exists()) {
+                                Log.err.print(getClass(), "文件夹不存在:" + path);
+                                return;
+                            }
+                            for (File file : Objects.requireNonNull(sourceFile.listFiles())) {
+                                if (file.isFile()) {
+                                    // 创建目标文件夹 StandardCopyOption.REPLACE_EXISTING -
+                                    Files.copy(file.toPath(), Paths.get(target, file.getName()), StandardCopyOption.REPLACE_EXISTING);
+                                }
+                            }
+                            //Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException ex) {
+                            Log.err.print(getClass(), "文件夹复制失败:" + ex.getMessage());
+                            throw new RuntimeException(ex);
                         }
-                        //Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        Log.err.print(getClass(), "文件夹复制失败:" + ex.getMessage());
-                        throw new RuntimeException(ex);
+                        jsonObject.put("path", target);
                     }
-                    jsonObject.put("path", target);
+
                 }
+                case "图片" -> {
+                    String path = GetPath.getFilePath(this, "请选择图片", ".png|.jpg|.jpeg", "PNG|JPG");
 
-            } else if (choose.equals("图片")) {
-                String path = GetPath.getFilePath(this, "请选择图片", ".png|.jpg|.jpeg", "PNG|JPG");
+                    if (path != null && !path.isEmpty()) {
+                        String[] split = path.split("\\.");
 
-                if (path != null && !path.isEmpty()) {
-                    String[] split = path.split("\\.");
-
-                    String target = dataPath + "\\background." + split[split.length - 1];
-                    try {
-                        Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        Log.err.print(getClass(), "图片复制失败", ex);
+                        String target = dataPath + "\\background." + split[split.length - 1];
+                        try {
+                            Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
+                        } catch (IOException ex) {
+                            Log.err.print(getClass(), "图片复制失败", ex);
+                        }
+                        jsonObject.put("path", target);
                     }
-                    jsonObject.put("path", target);
+
+
                 }
-
-
-            } else if (choose.equals("Bing壁纸")) {
-                jsonObject.put("path", "BingBG");
-            } else if (choose.equals("Bing壁纸(随机)")) {
-                jsonObject.put("path", "BingBGRandom");
+                case "Bing壁纸" -> jsonObject.put("path", "BingBG");
+                case "Bing壁纸(随机)" -> jsonObject.put("path", "BingBGRandom");
             }
             IOForInfo ioForInfo = new IOForInfo(BGPath);
             try {

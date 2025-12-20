@@ -32,7 +32,7 @@ public class BRPanel extends CTViewPanel {
 
     private final ArrayList<String> oldWBNameList = new ArrayList<>();
 
-    public BRPanel(File birthdayPath) throws IOException {
+    public BRPanel(File birthdayPath) {
 
         this.birthdayPath = birthdayPath;
 
@@ -130,7 +130,7 @@ public class BRPanel extends CTViewPanel {
     }
 
     @Override
-    protected void easyRefresh() throws IOException {
+    protected void easyRefresh() {
 
         this.removeAll();
 

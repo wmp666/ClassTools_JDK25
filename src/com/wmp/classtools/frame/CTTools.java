@@ -59,9 +59,7 @@ public class CTTools extends JDialog {
 
         CTRoundTextButton openButton = new CTRoundTextButton(style == 0 ? "<" : ">");
         openButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
-        openButton.addActionListener(e -> {
-            showDialog(style);
-        });
+        openButton.addActionListener(e -> showDialog(style));
         this.add(openButton, BorderLayout.CENTER);
 
 
@@ -96,9 +94,7 @@ public class CTTools extends JDialog {
         tools.forEach(tool -> {
             CTRoundTextButton button = new CTRoundTextButton(tool.getName());
             button.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-            button.addActionListener(ex -> {
-                tool.showTool();
-            });
+            button.addActionListener(ex -> tool.showTool());
             ctRoundTextButtonArrayList.add(button);
             popupMenu.add(button);
         });

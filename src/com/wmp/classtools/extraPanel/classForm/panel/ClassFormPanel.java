@@ -67,7 +67,7 @@ public class ClassFormPanel extends CTViewPanel {
     }
 
     @Override
-    protected void easyRefresh() throws IOException {
+    protected void easyRefresh() {
         this.removeAll();
 
 

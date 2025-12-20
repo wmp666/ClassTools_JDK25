@@ -80,9 +80,7 @@ public class WeatherInfoSetsPanel extends CTSetsPanel {
 
             CTTextButton helpButton = new CTTextButton("?", false);
             helpButton.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
-            helpButton.addActionListener(e -> {
-                ShowHelpDoc.openWebHelpDoc("WTKeyCodeGetHelp.docx");
-            });
+            helpButton.addActionListener(e -> ShowHelpDoc.openWebHelpDoc("WTKeyCodeGetHelp.docx"));
 
             JPanel keyPanel = new JPanel();
             keyPanel.setLayout(new BorderLayout());
@@ -98,13 +96,13 @@ public class WeatherInfoSetsPanel extends CTSetsPanel {
     }
 
     @Override
-    public void save() throws Exception {
+    public void save() {
         Log.info.print("WISetsPanel", "保存天气信息设置");
         WeatherInfoControl.setWeatherInfo(this.cityCode, this.keyTextField.getText());
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         cityCode = WeatherInfoControl.getWeatherInfo();
         initUI();
     }

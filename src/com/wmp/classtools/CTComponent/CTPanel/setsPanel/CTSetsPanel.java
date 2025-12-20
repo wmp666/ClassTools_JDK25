@@ -30,11 +30,7 @@ public abstract class CTSetsPanel extends CTPanel {
         this.basicDataPath = basicDataPath;
     }
 
-    /**
-     * 获取信息每段数据用 \n 隔开
-     *
-     * @return String 信息
-     */
+
     public abstract void save() throws Exception;
 
 

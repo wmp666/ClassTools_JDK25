@@ -57,9 +57,7 @@ public class NTSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton helpButton = new CTTextButton("?", false);
         helpButton.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
-        helpButton.addActionListener(e -> {
-            ShowHelpDoc.openWebHelpDoc("NewsKeyCodeGetHelp.docx");
-        });
+        helpButton.addActionListener(e -> ShowHelpDoc.openWebHelpDoc("NewsKeyCodeGetHelp.docx"));
         gbc.gridx++;
         keyPanel.add(helpButton, gbc);
 
@@ -67,12 +65,12 @@ public class NTSetsPanel extends CTBasicSetsPanel {
     }
 
     @Override
-    public void save() throws Exception {
+    public void save() {
         NewsTextControl.setKey(newsTextKeyTextField.getText());
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
         initUI();
         this.revalidate();

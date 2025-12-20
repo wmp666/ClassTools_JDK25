@@ -26,7 +26,7 @@ public class CallRollInfoControl {
         io2.setInfo(String.valueOf(count));
     }
 
-    public static void setDianMingNameList(String path) throws IOException {
+    public static void setDianMingNameList(String path) {
         IOForInfo.copyFile(Path.of(path), Path.of(CallRollInfoControl.path));
     }
 

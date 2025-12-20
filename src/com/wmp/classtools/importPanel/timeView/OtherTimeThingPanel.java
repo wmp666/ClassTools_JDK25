@@ -17,34 +17,7 @@ public class OtherTimeThingPanel extends CTViewPanel {
     private static String otherStrFormat = "<html>%s %s%s%s %s[%s]年<br>%s %s</html>";
     private final JLabel other = new JLabel();
 
-    /*private final Thread timeThread = new Thread(() -> {
-
-        while (true) {
-
-            Calendar calendar = Calendar.getInstance();
-            String week = "周" + new String[]{"天", "一", "二", "三", "四", "五", "六"}[calendar.get(Calendar.DAY_OF_WEEK) - 1];
-
-            Lunar lunar = Lunar.fromDate(new Date());
-
-            //周六 八月廿七 乙巳[蛇]年
-            // 大雪 节日
-            StringBuilder jie = new StringBuilder();
-            for (String festival : lunar.getFestivals()) {
-                jie.append(festival).append( " ");
-            }
-            other.setText(String.format(otherStrFormat,
-                    week, lunar.getMonth()<0?"闰":"", DateTools.months[Math.abs(lunar.getMonth()) - 1], DateTools.days[lunar.getDay() - 1], lunar.getYearInGanZhi(), lunar.getYearShengXiao(),
-                    lunar.getJieQi(), jie));
-            try {
-                Thread.sleep(2*60*1000);//2min
-            } catch (InterruptedException e) {
-                Log.err.print(getClass(), "错误", e);
-            }
-            repaint();
-        }
-    });*/
-
-    public OtherTimeThingPanel() throws IOException {
+    public OtherTimeThingPanel() {
 
         this.setName("时间详情");
         this.setID("OtherTimeThingPanel");
@@ -65,7 +38,7 @@ public class OtherTimeThingPanel extends CTViewPanel {
 
 
     @Override
-    protected void easyRefresh() throws Exception {
+    protected void easyRefresh() {
         if (!isScreenProductViewPanel()) {
             otherStrFormat = "<html>%s %s%s%s %s[%s]年<br>%s %s</html>";
             initPanel(CTFontSizeStyle.BIG);

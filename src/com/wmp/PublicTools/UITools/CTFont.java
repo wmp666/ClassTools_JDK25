@@ -41,10 +41,10 @@ public class CTFont {
             case MORE_SMALL -> size = moreSmallSize;
         }//12 14/-15-/16 18/(-19-/)20 -23-/24/25
         String[] allFontName = getAllFontName();
-        for (int i = 0; i < allFontName.length; i++) {
-            if (allFontName[i].equals("Microsoft YaHei UI"))
+        for (String s : allFontName) {
+            if (s.equals("Microsoft YaHei UI"))
                 return new Font("Microsoft YaHei UI", fontStyle, (int) (size * CTInfo.dpi));
-            if (allFontName[i].equals("宋体"))
+            if (s.equals("宋体"))
                 return new Font("宋体", fontStyle, (int) (size * CTInfo.dpi));
         }
         return new Font("宋体", fontStyle, (int) (size * CTInfo.dpi));

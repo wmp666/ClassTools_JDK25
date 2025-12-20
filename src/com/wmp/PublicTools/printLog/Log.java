@@ -1,6 +1,5 @@
 package com.wmp.PublicTools.printLog;
 
-import com.sun.jdi.IncompatibleThreadStateException;
 import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.OpenInExp;
@@ -117,9 +116,7 @@ public class Log {
         more.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         more.addActionListener(e -> {
             CTPopupMenu moreMenu = new CTPopupMenu();
-            FinalPanel.allButList.forEach(but -> {
-                moreMenu.add(but.toRoundTextButton());
-            });
+            FinalPanel.allButList.forEach(but -> moreMenu.add(but.toRoundTextButton()));
 
             moreMenu.show(more,more.getWidth(), 0);
         });
@@ -129,17 +126,13 @@ public class Log {
         CTRoundTextButton exit = new CTRoundTextButton("关闭");
         exit.setIcon(GetIcon.getImageIcon("关闭", IconControl.COLOR_COLORFUL, 20, 20));
         exit.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
-        exit.addActionListener(e -> {
-            Log.exit(0);
-        });
+        exit.addActionListener(e -> Log.exit(0));
         popupMenu.add(exit);
 
         CTRoundTextButton hide = new CTRoundTextButton("隐藏");
         hide.setIcon(GetIcon.getImageIcon("删除", IconControl.COLOR_COLORFUL, 20, 20));
         hide.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
-        hide.addActionListener(e -> {
-            popupMenu.setVisible(false);
-        });
+        hide.addActionListener(e -> popupMenu.setVisible(false));
         popupMenu.add(hide);
 
         trayIcon.removeMouseListener(mouseAdapter);
@@ -388,9 +381,7 @@ public class Log {
         });
 
         CTTextButton saveButton = new CTTextButton("保存至");
-        saveButton.addActionListener(e -> {
-            saveLog();
-        });
+        saveButton.addActionListener(e -> saveLog());
         buttonPanel.add(closeButton);
         buttonPanel.add(openButton);
         buttonPanel.add(clearButton);

@@ -157,7 +157,7 @@ public class ATPanel extends CTViewPanel {
 
             //遍历数组
             for (String s : inf) {
-                if (s.equals("")) {
+                if (s.isEmpty()) {
                     continue;
                 }
                 Log.info.print("ATPanel-initStuList", "请假名单:" + s);

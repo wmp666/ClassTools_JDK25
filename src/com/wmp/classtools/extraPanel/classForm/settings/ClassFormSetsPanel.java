@@ -1,20 +1,13 @@
 package com.wmp.classTools.extraPanel.classForm.settings;
 
-import com.wmp.PublicTools.DateTools;
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
-import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
-import com.wmp.classTools.CTComponent.CTTable;
 import com.wmp.classTools.extraPanel.classForm.settings.week.WeekSetsPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -100,7 +93,7 @@ public class ClassFormSetsPanel extends CTListSetsPanel {
     }
 
     @Override
-    public void refresh() throws IOException {
+    public void refresh() {
         this.removeAll();
 
         initSetsPanel();

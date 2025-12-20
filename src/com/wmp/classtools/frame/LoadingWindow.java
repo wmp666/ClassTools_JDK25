@@ -106,10 +106,6 @@ public class LoadingWindow extends CTWindow {
 
     private String getLoadingText() {
         String easterEgg = EasterEgg.getText(EETextStyle.HTML);
-        /*
-        if (easterEgg.contains("\n")) {
-            easterEgg = "<html>" + easterEgg.replaceAll("\\n", "<br>") + "</html>";
-        }*/
         return easterEgg;
     }
 

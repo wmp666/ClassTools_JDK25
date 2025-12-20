@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class t01GetCookieDownLoadInfo {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         String webInf = GetWebInf.getWebInf("https://api.github.com/repos/wmp666/ClassTools/releases/tags/0.0.2");
 
         JSONObject jsonObject = new JSONObject(webInf);

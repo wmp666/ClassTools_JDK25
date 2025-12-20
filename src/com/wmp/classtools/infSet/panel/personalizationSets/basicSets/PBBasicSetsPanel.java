@@ -202,9 +202,7 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
                 disposeButton.put(button.getName(), checkBox);
             });
 
-            disposeButton.forEach((key, value) -> {
-                disButPanel.add(value);
-            });
+            disposeButton.forEach((key, value) -> disButPanel.add(value));
         }
 
         JPanel otherPanel = new JPanel();
@@ -407,7 +405,7 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
     }
 
     @Override
-    public void refresh() throws IOException {
+    public void refresh() {
         initUI();
 
         this.revalidate();

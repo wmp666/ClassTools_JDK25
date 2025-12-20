@@ -97,7 +97,7 @@ public class CTIconButton extends CTButton implements ActionListener {
 
     }
 
-    public CTIconButton copy() throws MalformedURLException {
+    public CTIconButton copy() {
         CTIconButton ctIconButton = new CTIconButton();
         ctIconButton.setIcon(this.getIcon());
         ctIconButton.setToolTipText(this.text);

@@ -26,15 +26,6 @@ public class Test04 {
             int iconWidth = imageIcon.getIconWidth();
 
             imageIcon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_DEFAULT);
-            /*imageIcon.setImageObserver((img, infoflags, x, y, width, height) -> {
-                if ((infoflags & ImageObserver.ALLBITS) != 0) {
-                    // 当图片加载完成后启动关闭计时器
-                    Timer timer = new Timer(100, e -> window.dispose());
-                    timer.setRepeats(false);
-                    timer.start();
-                }
-                return true;
-            });*/
             JLabel label = new JLabel("", imageIcon, SwingConstants.CENTER);
 
             window.setSize(iconWidth, iconHeight);

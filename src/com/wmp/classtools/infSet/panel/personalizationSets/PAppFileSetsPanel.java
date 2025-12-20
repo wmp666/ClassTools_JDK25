@@ -1,6 +1,5 @@
 package com.wmp.classTools.infSet.panel.personalizationSets;
 
-import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
@@ -14,7 +13,6 @@ import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.frame.ShowHelpDoc;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -141,9 +139,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton helpButton = new CTTextButton("使用帮助");
         helpButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        helpButton.addActionListener(e -> {
-            ShowHelpDoc.openWebHelpDoc("imageCreativeHelp");
-        });
+        helpButton.addActionListener(e -> ShowHelpDoc.openWebHelpDoc("imageCreativeHelp"));
         imageSetsPanel.add(helpButton);
 
         this.add(imageSetsPanel);
@@ -194,21 +190,19 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton helpButton = new CTTextButton("使用帮助");
         helpButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        helpButton.addActionListener(e -> {
-            ShowHelpDoc.openWebHelpDoc("musicCreativeHelp");
-        });
+        helpButton.addActionListener(e -> ShowHelpDoc.openWebHelpDoc("musicCreativeHelp"));
         musicSetsPanel.add(helpButton);
 
         this.add(musicSetsPanel);
     }
 
     @Override
-    public void save() throws Exception {
+    public void save() {
 
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
         initUI();
         this.revalidate();

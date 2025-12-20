@@ -70,9 +70,7 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
             CTTextButton deleteBtn = new CTTextButton("删除");
             deleteBtn.setIcon("删除", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel1 = model;
-            deleteBtn.addActionListener(_ -> {
-                deleteToTable(finalModel1);
-            });
+            deleteBtn.addActionListener(_ -> deleteToTable(finalModel1));
 
 
             buttonPanel.add(deleteBtn);
@@ -176,7 +174,7 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
         this.repaint();
     }
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
         String[][] data = resetData();
         //初始化

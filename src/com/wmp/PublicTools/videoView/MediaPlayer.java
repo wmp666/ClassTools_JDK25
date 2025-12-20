@@ -12,7 +12,7 @@ import java.util.TimerTask;
 
 public class MediaPlayer {
 
-    public static void playVideo(String filePath) throws IOException {
+    public static void playVideo(String filePath) {
         File videoFile = new File(filePath);
 
 
@@ -25,7 +25,7 @@ public class MediaPlayer {
         }
     }
 
-    public static void playLocalMusic(String filePath) throws IOException {
+    public static void playLocalMusic(String filePath) {
         File musicFile = new File(filePath);
 
 
@@ -38,7 +38,7 @@ public class MediaPlayer {
         }
     }
 
-    public static void playOther(String filePath) throws IOException {
+    public static void playOther(String filePath) {
         File file = new File(filePath);
 
 

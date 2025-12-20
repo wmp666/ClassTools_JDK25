@@ -5,7 +5,6 @@ import com.wmp.PublicTools.CTInfo;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.awt.geom.RoundRectangle2D;
 

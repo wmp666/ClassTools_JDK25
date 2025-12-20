@@ -37,7 +37,7 @@ public class LeaveListSetsPanel extends CTSetsPanel {
         initATSet(studentList, leaveList);
     }
 
-    private void initATSet(ArrayList<String> studentList, ArrayList<String> leaveList) throws IOException {
+    private void initATSet(ArrayList<String> studentList, ArrayList<String> leaveList) {
 
         this.removeAll();
         checkBoxList.clear();

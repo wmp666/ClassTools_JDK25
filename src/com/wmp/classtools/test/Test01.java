@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Test01 {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SslUtils.ignoreSsl();
         String url = "https://api.github.com/repos/wmp666/ClassTools_JDK25/releases/latest";
 

@@ -62,9 +62,7 @@ public class NewsTextPanel extends CTViewPanel {
         });
         refreshTimer.start();
 
-        Timer indexRefreshTimer = new Timer(2 * 60 * 60 * 1000, e -> {
-            index++;
-        });
+        Timer indexRefreshTimer = new Timer(2 * 60 * 60 * 1000, e -> index++);
         indexRefreshTimer.start();
 
         Timer controlTimer = new Timer(60 * 1000, e -> {
@@ -82,7 +80,7 @@ public class NewsTextPanel extends CTViewPanel {
 
 
     @Override
-    protected void easyRefresh() throws Exception {
+    protected void easyRefresh() {
         this.removeAll();
         //showPanel.removeAll();
 

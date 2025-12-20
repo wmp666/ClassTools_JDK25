@@ -6,14 +6,11 @@ import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTSpinner;
-import com.wmp.classTools.infSet.tools.SetStartUp;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class PAppInfoSetsPanel extends CTBasicSetsPanel {
     private final CTSpinner SSMDWaitTimeSpinner = new CTSpinner(new SpinnerNumberModel(0, 0, 60, 1));
@@ -54,7 +51,7 @@ public class PAppInfoSetsPanel extends CTBasicSetsPanel {
         this.add(waitTimePanel);
     }
     @Override
-    public void save() throws Exception {
+    public void save() {
         //保存数据-个性化
 
         IOForInfo io = new IOForInfo(new File(CTInfo.DATA_PATH + "appFileInfo.json"));
@@ -78,7 +75,7 @@ public class PAppInfoSetsPanel extends CTBasicSetsPanel {
     }
 
     @Override
-    public void refresh() throws Exception {
+    public void refresh() {
         this.removeAll();
 
         initUI();

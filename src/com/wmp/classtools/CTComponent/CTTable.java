@@ -1,6 +1,5 @@
 package com.wmp.classTools.CTComponent;
 
-import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 

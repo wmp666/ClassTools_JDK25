@@ -1,7 +1,6 @@
 package com.wmp.classTools.CTComponent;
 
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +30,8 @@ public class CTSpinner extends JPanel {
         last.setFocusable(false);
         next.setFocusable(false);
 
-        last.addActionListener(e -> {
-            setPrevious(model);
-        });
-        next.addActionListener(e -> {
-            setNext(model);
-        });
+        last.addActionListener(e -> setPrevious(model));
+        next.addActionListener(e -> setNext(model));
 
         textField.addKeyListener(new KeyAdapter() {
             @Override

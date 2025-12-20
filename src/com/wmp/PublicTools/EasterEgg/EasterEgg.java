@@ -90,9 +90,7 @@ public class EasterEgg {
 
         String style = Log.info.showChooseDialog(null, "祈愿", "请输入选择彩蛋格式\n注:\"其他\"指不是常规格式(MP3, MP4)的文件", "视频", "音乐", "其他");
 
-        new Thread(() -> {
-            Log.info.print("彩蛋", "正在获取数据,稍安勿躁...");
-        }).start();
+        new Thread(() -> Log.info.print("彩蛋", "正在获取数据,稍安勿躁...")).start();
         try {
 
             AtomicReference<JSONArray> info = new AtomicReference<>(new JSONArray());
@@ -203,7 +201,7 @@ public class EasterEgg {
 
         new SwingWorker<Void, Void>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
                 // 异步下载（在后台线程执行）
                 Log.info.print("EasterEgg-下载", "正在下载...");
 
@@ -226,20 +224,15 @@ public class EasterEgg {
                     get(); // 获取执行结果（可捕获异常）
 
 
-                    try {
-                        if (style == STYLE_EE_MUSIC) {
-                            String path = CTInfo.TEMP_PATH + "EasterEgg\\music\\" + name;
-                            MediaPlayer.playLocalMusic(path);
-                        } else if (style == STYLE_EE_VIDEO) {
-                            String path = CTInfo.TEMP_PATH + "EasterEgg\\video\\" + name;
-                            MediaPlayer.playVideo(path);
-                        } else if (style == STYLE_EE_OTHER) {
-                            String path = CTInfo.TEMP_PATH + "EasterEgg\\other\\" + name;
-                            MediaPlayer.playOther(path);
-                        }
-
-                    } catch (IOException e) {
-                        Log.err.print(null, EasterEgg.class, "播放失败", e);
+                    if (style == STYLE_EE_MUSIC) {
+                        String path = CTInfo.TEMP_PATH + "EasterEgg\\music\\" + name;
+                        MediaPlayer.playLocalMusic(path);
+                    } else if (style == STYLE_EE_VIDEO) {
+                        String path = CTInfo.TEMP_PATH + "EasterEgg\\video\\" + name;
+                        MediaPlayer.playVideo(path);
+                    } else if (style == STYLE_EE_OTHER) {
+                        String path = CTInfo.TEMP_PATH + "EasterEgg\\other\\" + name;
+                        MediaPlayer.playOther(path);
                     }
 
 
@@ -307,8 +300,6 @@ public class EasterEgg {
             JSONArray jsonArray = new JSONArray(jsonArrayStr);
 
             //获取时间
-            /*DateFormat dateFormat = new SimpleDateFormat("MM-dd");
-            String date = dateFormat.format(new Date());*/
 
             jsonArray.forEach(jsonObject -> {
 

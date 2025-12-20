@@ -29,11 +29,6 @@ public class ClearTempPanel extends CTSetsPanel {
         this.setBackground(CTColor.backColor);
         this.setLayout(new GridLayout(0, 1, 5, 5));
 
-        /*JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.setLayout(new GridLayout(0,1));
-        buttonPanel.setBounds(0, 0, 400, 45);*/
-
         this.add(getControlUnit("临时文件", CTInfo.TEMP_PATH, true,
                 new DataControlUnit("彩蛋文件", CTInfo.TEMP_PATH + "EasterEgg", true,
                         new DataControlUnit("视频文件", CTInfo.TEMP_PATH + "EasterEgg\\video", true),
@@ -54,7 +49,7 @@ public class ClearTempPanel extends CTSetsPanel {
 
     }
 
-    private DataControlUnit getControlUnit(String name, String DATA_PATH, boolean canDelete, DataControlUnit... childUnits) throws MalformedURLException {
+    private DataControlUnit getControlUnit(String name, String DATA_PATH, boolean canDelete, DataControlUnit... childUnits) {
 
         return new DataControlUnit(name, DATA_PATH, canDelete, childUnits);
 

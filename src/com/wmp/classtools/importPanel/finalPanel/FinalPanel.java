@@ -28,7 +28,7 @@ public class FinalPanel extends CTViewPanel {
     public static final ArrayList<CTIconButton> allButList = new ArrayList<>();
 
 
-    public FinalPanel() throws MalformedURLException {
+    public FinalPanel(){
         super();
 
 
@@ -51,7 +51,7 @@ public class FinalPanel extends CTViewPanel {
 
     }
 
-    private void initButton() throws MalformedURLException {
+    private void initButton() {
 
         CTPopupMenu moreMenu = new CTPopupMenu();
         moreMenu.setBackground(CTColor.backColor);
@@ -61,9 +61,7 @@ public class FinalPanel extends CTViewPanel {
                 "更多", IconControl.COLOR_COLORFUL, () -> {
             //moreDialog.setVisible(true);
         });
-        moreButton.setCallback(() -> {
-            moreMenu.show(moreButton, 0, moreButton.getHeight());
-        });
+        moreButton.setCallback(() -> moreMenu.show(moreButton, 0, moreButton.getHeight()));
         moreButton.setPreferredSize(moreButton.getSize());
         moreButton.setMaximumSize(moreButton.getSize());
         moreButton.setMinimumSize(moreButton.getSize());
@@ -103,9 +101,7 @@ public class FinalPanel extends CTViewPanel {
         allButList.add(about);
 
         CTIconButton CTTools = new CTIconButton("快捷工具",
-                "快捷工具", IconControl.COLOR_COLORFUL, () -> {
-            com.wmp.classTools.frame.CTTools.showDialog(2);
-        });
+                "快捷工具", IconControl.COLOR_COLORFUL, () -> com.wmp.classTools.frame.CTTools.showDialog(2));
         allButList.add(CTTools);
 
         CTIconButton update = new CTIconButton("检查更新",
@@ -139,17 +135,13 @@ public class FinalPanel extends CTViewPanel {
                 length.getAndIncrement();
             } else {
                 CTIconButton temp = null;
-                try {
-                    temp = ctButton.copy();
-                    temp.setPreferredSize(ctButton.getSize());
-                    temp.setMaximumSize(ctButton.getSize());
-                    temp.setMinimumSize(ctButton.getSize());
-                    this.add(Box.createHorizontalStrut(2));
-                    this.add(temp);
-                    this.add(Box.createHorizontalStrut(2)); // 按钮后添加间距
-                } catch (MalformedURLException e) {
-                    Log.err.print(getClass(), "初始化按钮时出错", e);
-                }
+                temp = ctButton.copy();
+                temp.setPreferredSize(ctButton.getSize());
+                temp.setMaximumSize(ctButton.getSize());
+                temp.setMinimumSize(ctButton.getSize());
+                this.add(Box.createHorizontalStrut(2));
+                this.add(temp);
+                this.add(Box.createHorizontalStrut(2)); // 按钮后添加间距
             }
         });
 

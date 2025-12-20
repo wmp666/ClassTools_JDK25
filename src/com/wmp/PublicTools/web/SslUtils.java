@@ -25,14 +25,11 @@ public class SslUtils {
     /**
      * 忽略HTTPS请求的SSL证书，必须在openConnection之前调用
      *
-     * @throws Exception
      */
     public static void ignoreSsl(){
-        HostnameVerifier hv = new HostnameVerifier() {
-            public boolean verify(String urlHostName, SSLSession session) {
-                Log.info.print("SslUtils", "Warning: URL Host: " + urlHostName + " vs. " + session.getPeerHost());
-                return true;
-            }
+        HostnameVerifier hv = (urlHostName, session) -> {
+            Log.info.print("SslUtils", "Warning: URL Host: " + urlHostName + " vs. " + session.getPeerHost());
+            return true;
         };
         trustAllHttpsCertificates();
         HttpsURLConnection.setDefaultHostnameVerifier(hv);
@@ -51,12 +48,10 @@ public class SslUtils {
             return true;
         }
 
-        public void checkServerTrusted(X509Certificate[] certs, String authType)
-                throws CertificateException {
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
         }
 
-        public void checkClientTrusted(X509Certificate[] certs, String authType)
-                throws CertificateException {
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
         }
     }
 }

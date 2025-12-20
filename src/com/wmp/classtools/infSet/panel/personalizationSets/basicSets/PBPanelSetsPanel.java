@@ -8,15 +8,11 @@ import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
 import com.wmp.classTools.CTComponent.CTCheckBox;
-import com.wmp.classTools.CTComponent.CTComboBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.frame.MainWindow;
-import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
 import com.wmp.classTools.infSet.panel.personalizationSets.PersonalizationPanel;
-import com.wmp.classTools.infSet.tools.SetStartUp;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -24,7 +20,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.TreeMap;
 
 public class PBPanelSetsPanel extends CTBasicSetsPanel {
@@ -79,9 +74,7 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
                 disposePanel.put(panel.getID(), checkBox);
             });
 
-            disposePanel.forEach((key, value) -> {
-                disPanPanel.add(value);
-            });
+            disposePanel.forEach((key, value) -> disPanPanel.add(value));
         }
 
         JPanel compatiblePanel = new JPanel();
@@ -197,7 +190,7 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
     }
 
     @Override
-    public void refresh() throws IOException {
+    public void refresh() {
         initUI();
 
         this.revalidate();

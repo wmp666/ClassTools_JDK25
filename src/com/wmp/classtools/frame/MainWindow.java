@@ -39,7 +39,7 @@ public class MainWindow extends CTWindow {
     private static final TreeMap<String, String[]> panelLocationMap = new TreeMap<>();
     public static JFrame mainWindow = new JFrame();
 
-    public MainWindow(String path) throws IOException {
+    public MainWindow(String path) throws IOException{
 
         mainWindow = this;
 
@@ -139,9 +139,7 @@ public class MainWindow extends CTWindow {
                 repaint.start();
 
                 //刷新数据
-                Timer strongRepaint = new Timer(60 * 60 * 1000, e -> {
-                    refreshPanel();
-                });
+                Timer strongRepaint = new Timer(60 * 60 * 1000, e -> refreshPanel());
                 strongRepaint.start();
             }
         }

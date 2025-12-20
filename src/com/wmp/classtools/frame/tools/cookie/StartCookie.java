@@ -80,9 +80,7 @@ public class StartCookie {
                     Log.err.print(StartCookie.class, "运行失败！", e);
                     throw new RuntimeException(e);
                 }
-                new Thread(() -> {
-                    Log.info.message(null, "StartCookie", "已通知运行:" + getCookie.getCookieMap().get(pin).getName());
-                }).start();
+                new Thread(() -> Log.info.message(null, "StartCookie", "已通知运行:" + getCookie.getCookieMap().get(pin).getName())).start();
 
                 //Runtime.getRuntime().exec(cookieFile.getRunPath());
             } else {

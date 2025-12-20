@@ -136,7 +136,7 @@ public class GetNewerVersion {
         new SwingWorker<Void, Void>() {
             String latestVersion;
 
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
                 latestVersion = getLatestVersion(updateMode == NEW_VERSION ? NEW_VERSION : TEST_VERSION);
                 return null;
             }
@@ -277,7 +277,7 @@ public class GetNewerVersion {
         }.execute();
     }
 
-    private static String getSourceURL() throws Exception {
+    private static String getSourceURL() {
         SslUtils.ignoreSsl();
         try {
             // 获取原始JSON响应

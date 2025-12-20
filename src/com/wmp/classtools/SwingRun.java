@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SwingRun {
 
     //, TreeMap<String, StartupParameters> allArgs, ArrayList<String> list
-    public static void show(boolean b, boolean StartUpdate) throws URISyntaxException, IOException {
+    public static void show(boolean b, boolean StartUpdate) throws IOException {
 
         Log.info.loading.showDialog("窗口加载", "正在将UI更改为系统样式...");
 
