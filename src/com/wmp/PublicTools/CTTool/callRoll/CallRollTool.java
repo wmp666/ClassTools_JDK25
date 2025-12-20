@@ -23,7 +23,7 @@ public class CallRollTool extends CTTool {
     public CallRollTool() {
         super("点名器");
 
-        this.setCtSetsPanelList(new CallRollSetsPanel(CTInfo.DATA_PATH));
+        this.setCtSetsPanelList(new CallRollSetsPanel());
     }
 
     @Override

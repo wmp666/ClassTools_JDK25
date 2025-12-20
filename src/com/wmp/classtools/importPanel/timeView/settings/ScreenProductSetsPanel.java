@@ -3,6 +3,7 @@ package com.wmp.classTools.importPanel.timeView.settings;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
@@ -11,7 +12,7 @@ import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTComboBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
-import com.wmp.classTools.frame.tools.screenProduct.SetsScrInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -20,25 +21,20 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
 
-public class ScreenProductSetsPanel extends CTSetsPanel {
+public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
 
     private static final CTComboBox mainColorComboBox = new CTComboBox();
     private static final CTComboBox mainThemeComboBox = new CTComboBox();
     private static final CTTextField repaintTimerTextField = new CTTextField();
-    private final File dataPath;
 
-    public ScreenProductSetsPanel(String basicDataPath) {
-        super(basicDataPath);
-        dataPath = new File(basicDataPath + "\\ScreenProduct");
-
-        if (!dataPath.exists()) {
-            dataPath.mkdirs();
-        }
+    public ScreenProductSetsPanel(CTInfoControl<ScreenProductInfo> infoControl) {
+        super(infoControl);
 
         setName("屏保设置");
         this.setLayout(new BorderLayout());
@@ -51,17 +47,17 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
 
     }
 
-    private static void initViewPanel(JSONObject jsonObject, JLabel viewLabel) {
+    private void initViewPanel(JLabel viewLabel) {
 
         viewLabel.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
         viewLabel.setForeground(CTColor.textColor);
         viewLabel.setText("");
 
         try {
-            if (jsonObject.has("path")) {
-                String path = jsonObject.getString("path");
+            ScreenProductInfo info = getInfoControl().getInfo();
+            if (info.BGBasicPath() != null && !info.BGImagePathList().isEmpty()) {
+                String path = info.BGBasicPath();
                 if (new File(path).exists()) {
-
                     if (new File(path).isFile()) {
                         ImageIcon icon = new ImageIcon(path);
                         do {
@@ -74,7 +70,7 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
                         viewLabel.setText("包含多张图片,不支持预览");
                     }
                 } else if (path.startsWith("BingBG")) {
-                    ImageIcon icon = new ImageIcon(new URL(new SetsScrInfo().getBGImagePath(0)));
+                    ImageIcon icon = new ImageIcon(new URL(info.BGImagePathList().getFirst()));
                     do {
                         icon.setImage(icon.getImage().getScaledInstance(icon.getIconWidth() / 2, icon.getIconHeight() / 2, Image.SCALE_SMOOTH));
                     } while (icon.getIconWidth() >= 400);
@@ -107,26 +103,13 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        File BGPath = new File(dataPath + "\\background.json");
-        if (!BGPath.exists()) {
-            try {
-                FileWriter fileWriter = new FileWriter(BGPath);
-                fileWriter.write("{}");
-                fileWriter.close();
-            } catch (IOException e) {
-                Log.err.print(getClass(), "错误", e);
-            }
-        }
-
-        JSONObject jsonObject = new JSONObject(new IOForInfo(BGPath).getInfos());
-
         JPanel bgPanel = new JPanel(new BorderLayout());
         bgPanel.setOpaque(false);
         bgPanel.setBorder(CTBorderFactory.createTitledBorder("背景设置"));
 
         //预览
         JLabel viewLabel = new JLabel();
-        initViewPanel(jsonObject, viewLabel);
+        initViewPanel(viewLabel);
         viewLabel.setBorder(new EmptyBorder(10, 10, 10, 10));// 设置边框
         viewLabel.setAlignmentX(CENTER_ALIGNMENT);// 设置居中
 
@@ -149,63 +132,27 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
             if (choose == null) {
                 return;
             }
+
+            ScreenProductInfo screenProductInfo = getInfoControl().getInfo();
+
             switch (choose) {
+
                 case "文件夹" -> {
                     String path = GetPath.getDirectoryPath(this, "请选择文件夹");
 
                     if (path != null && !path.isEmpty()) {
-
-                        String target = dataPath + "\\background\\";
-                        try {
                             //通过遍历将文件拷贝到目标文件夹
                             File sourceFile = new File(path);
 
-                            File targetFile = new File(target);
-                            if (targetFile.exists()) {
-                                Files.walkFileTree(targetFile.toPath(), new SimpleFileVisitor<>() {
-                                    // 先去遍历删除文件
-                                    @Override
-                                    public FileVisitResult visitFile(Path file,
-                                                                     BasicFileAttributes attrs) {
-                                        try {
-                                            Files.delete(file);
-                                        } catch (IOException ex) {
-                                            Log.err.print(getClass(), "文件: " + file + "\n删除失败", ex);
-                                        }
-                                        return FileVisitResult.CONTINUE;
-                                    }
-
-                                    // 再去遍历删除目录
-                                    @Override
-                                    public FileVisitResult postVisitDirectory(Path dir,
-                                                                              IOException exc) {
-                                        try {
-                                            Files.delete(dir);
-                                        } catch (IOException ex) {
-                                            Log.err.print(getClass(), "文件夹: " + dir + "\n删除失败", ex);
-                                        }
-                                        return FileVisitResult.CONTINUE;
-                                    }
-                                });
-
-                            }
+                            File targetFile = new File(getInfoControl().getInfoBasicFile(), "background");
+                            IOForInfo.deleteDirectoryRecursively(targetFile.toPath());
                             targetFile.mkdirs();
                             if (!sourceFile.exists()) {
                                 Log.err.print(getClass(), "文件夹不存在:" + path);
                                 return;
                             }
-                            for (File file : Objects.requireNonNull(sourceFile.listFiles())) {
-                                if (file.isFile()) {
-                                    // 创建目标文件夹 StandardCopyOption.REPLACE_EXISTING -
-                                    Files.copy(file.toPath(), Paths.get(target, file.getName()), StandardCopyOption.REPLACE_EXISTING);
-                                }
-                            }
-                            //Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
-                        } catch (IOException ex) {
-                            Log.err.print(getClass(), "文件夹复制失败:" + ex.getMessage());
-                            throw new RuntimeException(ex);
-                        }
-                        jsonObject.put("path", target);
+                            IOForInfo.copyFile(sourceFile.toPath(), targetFile.toPath());
+                        screenProductInfo = screenProductInfo.getNewSPInfo(null, null, path, null, -1);
                     }
 
                 }
@@ -215,31 +162,23 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
                     if (path != null && !path.isEmpty()) {
                         String[] split = path.split("\\.");
 
-                        String target = dataPath + "\\background." + split[split.length - 1];
+                        String target = new File(getInfoControl().getInfoBasicFile(), "background." + split[split.length - 1]).getAbsolutePath();
                         try {
                             Files.copy(Paths.get(path), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
                         } catch (IOException ex) {
                             Log.err.print(getClass(), "图片复制失败", ex);
                         }
-                        jsonObject.put("path", target);
+                        screenProductInfo = screenProductInfo.getNewSPInfo(null, null, target, null, -1);
                     }
 
 
                 }
-                case "Bing壁纸" -> jsonObject.put("path", "BingBG");
-                case "Bing壁纸(随机)" -> jsonObject.put("path", "BingBGRandom");
+                case "Bing壁纸" -> screenProductInfo = screenProductInfo.getNewSPInfo(null, null, "BingBG", null, -1);
+                case "Bing壁纸(随机)" -> screenProductInfo = screenProductInfo.getNewSPInfo(null, null, "BingBG", null, -1);
             }
-            IOForInfo ioForInfo = new IOForInfo(BGPath);
-            try {
-                ioForInfo.setInfo(jsonObject.toString());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            getInfoControl().setInfo(screenProductInfo);
 
-
-            Log.info.message(this, "InfSetDialog", "已保存数据: " + jsonObject);
-
-            initViewPanel(jsonObject, viewLabel);
+            initViewPanel(viewLabel);
 
 
         });
@@ -271,14 +210,10 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
                 viewLabel.revalidate();
                 viewLabel.repaint();
 
-                jsonObject.put("path", "");
+                ScreenProductInfo screenProductInfo = getInfoControl().getInfo()
+                        .getNewSPInfo(null, null, "", null, -1);
 
-                IOForInfo ioForInfo = new IOForInfo(BGPath);
-                try {
-                    ioForInfo.setInfo(jsonObject.toString());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                getInfoControl().setInfo(screenProductInfo);
             });
             BGGbc.gridy++;
             dialog.add(clearButton, BGGbc);
@@ -370,10 +305,10 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
 
         //数据显示
         {
-            SetsScrInfo setsScrInfo = new SetsScrInfo();
-            String mainColor = setsScrInfo.getMainColor();
-            String mainTheme = setsScrInfo.getMainTheme();
-            int repaintTimer = setsScrInfo.getRepaintTimer();
+            ScreenProductInfo info = getInfoControl().getInfo();
+            String mainColor = info.mainColor();
+            String mainTheme = info.mainTheme();
+            int repaintTimer = info.repaintTimer();
             //主题色设置
             if (mainColor != null) {
                 switch (mainColor) {
@@ -406,7 +341,7 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
     @Override
     public void save() {
 
-        JSONObject jsonObject = new SetsScrInfo().getJsonObject();
+
 
         //设置主题色
         String tempMainColor = switch (Objects.requireNonNull(mainColorComboBox.getSelectedItem()).toString()) {
@@ -414,27 +349,21 @@ public class ScreenProductSetsPanel extends CTSetsPanel {
             case "蓝色" -> "blue";
             default -> "white";
         };
-        jsonObject.put("mainColor", tempMainColor);
 
         //设置主题
         String tempMainThemeColor = switch (Objects.requireNonNull(mainThemeComboBox.getSelectedItem()).toString()) {
             case "深色" -> "dark";
             default -> "light";
         };
-        jsonObject.put("mainTheme", tempMainThemeColor);
 
-        jsonObject.put("repaintTimer", Integer.parseInt(repaintTimerTextField.getText()));
-
-        IOForInfo ioForInfo = new IOForInfo(dataPath + "\\background.json");
-        try {
-            ioForInfo.setInfo(jsonObject.toString(4));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ScreenProductInfo info = getInfoControl().getInfo().getNewSPInfo(tempMainColor, tempMainThemeColor, null, null, Integer.parseInt(repaintTimerTextField.getText()));
+        getInfoControl().setInfo(info);
     }
 
     @Override
     public void refresh() throws IOException {
+        getInfoControl().refresh();
+
         this.removeAll();
         initUI();
         this.revalidate();

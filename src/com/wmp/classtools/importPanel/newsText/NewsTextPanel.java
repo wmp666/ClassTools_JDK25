@@ -6,6 +6,7 @@ import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.GetMaxSize;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
@@ -22,7 +23,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class NewsTextPanel extends CTViewPanel {
+public class NewsTextPanel extends CTViewPanel<String> {
 
     private static final String url = "https://whyta.cn/api/tx/guonei?key=%s&num=50";
 
@@ -39,12 +40,12 @@ public class NewsTextPanel extends CTViewPanel {
         this.setID("NewsTextPanel");
         this.setOpaque(false);
 
-        this.setCtSetsPanelList(List.of(new NTSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(List.of(new NTSetsPanel(getInfoControl())));
 
         this.setIndependentRefresh(true, 20 * 60 * 1000);
 
         try {
-            webInf = GetWebInf.getWebInf(String.format(url, NewsTextControl.getKey()),
+            webInf = GetWebInf.getWebInf(String.format(url, getInfoControl().getInfo()),
                     false);
         } catch (Exception e) {
             Log.warn.print(getClass().getName(), "获取新闻失败");
@@ -53,7 +54,7 @@ public class NewsTextPanel extends CTViewPanel {
 
         Timer refreshTimer = new Timer(2 * 60 * 60 * 1000, e -> {
             try {
-                webInf = GetWebInf.getWebInf(String.format(url, NewsTextControl.getKey()),
+                webInf = GetWebInf.getWebInf(String.format(url, getInfoControl().getInfo()),
                         false);
             } catch (Exception ex) {
                 Log.warn.print(getClass().getName(), "获取新闻失败");
@@ -78,6 +79,10 @@ public class NewsTextPanel extends CTViewPanel {
 
     }
 
+    @Override
+    public CTInfoControl<String> setInfoControl() {
+        return new NewsTextControl();
+    }
 
     @Override
     protected void easyRefresh() {
@@ -161,7 +166,7 @@ public class NewsTextPanel extends CTViewPanel {
                                     CTRoundTextButton refresh = new CTRoundTextButton("刷新");
                                     refresh.addActionListener(e1 -> {
                                         try {
-                                            webInf = GetWebInf.getWebInf(String.format("https://whyta.cn/api/tx/guonei?key=%s&num=50", NewsTextControl.getKey()),
+                                            webInf = GetWebInf.getWebInf(String.format("https://whyta.cn/api/tx/guonei?key=%s&num=50", getInfoControl().getInfo()),
                                                     false);
                                             index = 0;
                                             easyRefresh();

@@ -5,21 +5,24 @@ import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.PeoPanelProcess;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.extraPanel.classForm.CFInfoControl;
+import com.wmp.classTools.extraPanel.classForm.ClassFormInfo;
+import com.wmp.classTools.extraPanel.classForm.ClassFormInfos;
 import com.wmp.classTools.extraPanel.classForm.settings.ClassFormSetsPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class ClassFormPanel extends CTViewPanel {
+public class ClassFormPanel extends CTViewPanel<ClassFormInfos[]> {
 
-    private final ArrayList<String> oldNowClassNameList = new ArrayList<>();
+    private String oldNowClassName = "无";
     private String oldNextClassName = "无";
 
 
@@ -28,36 +31,32 @@ public class ClassFormPanel extends CTViewPanel {
         this.setName("课程表");
         this.setID("ClassFormPanel");
         this.setOpaque(false);
-        this.setCtSetsPanelList(java.util.List.of(new ClassFormSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(java.util.List.of(new ClassFormSetsPanel(getInfoControl())));
 
         this.setIgnoreState(true);
         this.setIndependentRefresh(true, 1000);
     }
 
-    private void showClassForm(String[] nowClassesList, String nextClass) {
+    @Override
+    public CTInfoControl<ClassFormInfos[]> setInfoControl() {
+        return new CFInfoControl();
+    }
 
-        if (!List.of(nowClassesList).contains("无")) {
+    private void showClassForm(String nowClass, String nextClass) {
+
+        if (!Objects.equals(nowClass, "无")) {
             MediaPlayer.playMusic("课程表", "上课");
         } else {
             MediaPlayer.playMusic("课程表", "下课");
         }
 
-        if (List.of(nowClassesList).contains("无") && nextClass.equals("无")) {
+        if (Objects.equals(nowClass, "无") && nextClass.equals("无")) {
             return;
         }
 
 
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < nowClassesList.length; i++) {
-            if (i != nowClassesList.length - 1)
-                sb.append(nowClassesList[i]).append(", ");
-            else sb.append(nowClassesList[i]);
-
-        }
-
         String infoSB = "本节课:" +
-                sb +
+                nowClass +
                 "\n" +
                 "下节课:" +
                 nextClass;
@@ -72,25 +71,25 @@ public class ClassFormPanel extends CTViewPanel {
 
 
         //课程数据
-        String[] nowClasses = CFInfoControl.getNowClasses();
-        CFInfoControl.nextClassInfo nextClassInfo = CFInfoControl.getNextClass();
+        ClassFormInfo nowClass = ((CFInfoControl) getInfoControl()).getNowClass();
+        CFInfoControl.nextClassInfo nextClassInfo = ((CFInfoControl) getInfoControl()).getNextClass();
         String nextClass = nextClassInfo.className();
         try {
 
-            if (nowClasses.length == 0) {
-                nowClasses = new String[]{"无"};
+            if (nowClass == null) {
+                nowClass = new ClassFormInfo("无", "00:00-00:00");
             }
             if (nextClass == null || nextClass.isEmpty()) nextClass = "无";
 
-            if (!oldNowClassNameList.equals(List.of(nowClasses)) ||
-                    !oldNextClassName.equals(nextClass))
-                showClassForm(nowClasses, nextClass.equals("无") ? "无" : String.format("%s(%s分钟)", nextClass, nextClassInfo.time()));
+            // 使用 Objects.equals 来安全比较，避免 NullPointerException
+            if (!Objects.equals(oldNowClassName, nowClass.className()) ||
+                    !Objects.equals(oldNextClassName, nextClass)) {
+                showClassForm(nowClass.className(), nextClass.equals("无") ? "无" : String.format("%s(%s分钟)", nextClass, nextClassInfo.time()));
+            }
 
-            //数据更新
-            this.oldNowClassNameList.clear();
-            this.oldNowClassNameList.addAll(List.of(nowClasses));
-
-            oldNextClassName = nextClass;
+            // 数据更新
+            this.oldNowClassName = nowClass.className();
+            this.oldNextClassName = nextClass;
 
 
         } catch (Exception e) {
@@ -109,7 +108,7 @@ public class ClassFormPanel extends CTViewPanel {
         this.add(titleLabel, gbc);
 
         gbc.gridy++;
-        this.add(PeoPanelProcess.getShowPeoPanel(List.of(nowClasses)), gbc);
+        this.add(PeoPanelProcess.getShowPeoPanel(List.of(nowClass == null? "无" : nowClass.className())), gbc);
 
         JLabel titleLabel2 = new JLabel("<html>下节课:</html>");
         titleLabel2.setForeground(CTColor.textColor);

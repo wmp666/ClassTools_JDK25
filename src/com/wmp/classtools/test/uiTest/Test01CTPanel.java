@@ -52,10 +52,8 @@ public class Test01CTPanel {
     static class ATPanelTest extends JFrame {
 
         public ATPanelTest() throws IOException {
-            File AllStuPath = new File(CTInfo.DATA_PATH + "Att\\AllStu.txt");
-            File LeaveListPath = new File(CTInfo.DATA_PATH + "Att\\LeaveList.txt");
 
-            ATPanel atPanel = new ATPanel(AllStuPath, LeaveListPath);
+            ATPanel atPanel = new ATPanel();
 
             this.add(atPanel);
             this.pack();
@@ -72,10 +70,7 @@ public class Test01CTPanel {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setLocationRelativeTo(null);
 
-            File DutyListPath = new File(CTInfo.DATA_PATH + "Duty\\DutyList.txt");
-            File indexPath = new File(CTInfo.DATA_PATH + "Duty\\index.txt");
-
-            DPanel dPanel = new DPanel(DutyListPath, indexPath);
+            DPanel dPanel = new DPanel();
             this.add(dPanel);
             this.pack();
             this.setVisible(true);

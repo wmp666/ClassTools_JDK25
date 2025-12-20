@@ -58,7 +58,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
         Log.info.systemPrint("设置", "正在获取设置页面...");
 
-        ctSetsPanelList.add(new PersonalizationPanel(CTInfo.DATA_PATH));
+        ctSetsPanelList.add(new PersonalizationPanel());
 
         MainWindow.allPanelList.forEach(ctPanel -> {
             java.util.List<CTSetsPanel> tempCTSetsPanelList = ctPanel.getCtSetsPanelList();
@@ -69,7 +69,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
         ctSetsPanelList.add(CTTools.CTToolsSetsPanel);
 
-        ctSetsPanelList.add(new ClearTempPanel(CTInfo.DATA_PATH));
+        ctSetsPanelList.add(new ClearTempPanel());
 
         Log.info.systemPrint("设置", "正在完成后续工作...");
         initMenuBar();
@@ -267,10 +267,10 @@ public class InfSetDialog extends JDialog implements WindowListener {
         if (ctSetsPanel instanceof CTListSetsPanel ctListSetsPanel) {
             CTMenu tempMenu = new CTMenu(ctSetsPanel.getName());
             ctListSetsPanel.getCtSetsPanelList().forEach(ctSetsPanel2 -> {
-                if (ctSetsPanel2 instanceof CTListSetsPanel){
-                    initListSetsMenu(ctSetsPanel2, tempMenu);
+                if (ctSetsPanel2 instanceof CTListSetsPanel ctListSetsPanel2){
+                    initListSetsMenu(ctListSetsPanel2, tempMenu);
                 }else{
-                    initBasicSetsMenu(ctSetsPanel2, tempMenu);
+                    initBasicSetsMenu((CTSetsPanel) ctSetsPanel2, tempMenu);
                 }
 
             });

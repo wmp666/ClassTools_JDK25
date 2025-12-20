@@ -9,7 +9,8 @@ import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
-import com.wmp.classTools.frame.tools.screenProduct.SetsScrInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class ScreenProduct extends JDialog {
     private static final HashMap<String, String[]> panelLocationMap = new HashMap<>();
     private static ScreenProduct screenProduct;
     //获取屏保设置
-    private static SetsScrInfo setsScrInfo = new SetsScrInfo();
+    private static ScreenProductInfoControl screenProductInfoControl = new ScreenProductInfoControl();
     private static Timer updateBG = new Timer(1000, _ -> {
     });
     private final JLabel imageViewLabel = new JLabel();
@@ -46,21 +47,19 @@ public class ScreenProduct extends JDialog {
 
         this.getLayeredPane().add(imageViewLabel, Integer.valueOf(Integer.MIN_VALUE));
 
-        setsScrInfo = new SetsScrInfo();
-
-        if (setsScrInfo.getBGImagesLength() > 1)
-            initBackground(new Random().nextInt(setsScrInfo.getBGImagesLength() - 1));
+        if (!screenProductInfoControl.getInfo().BGImagePathList().isEmpty())
+            initBackground(new Random().nextInt(screenProductInfoControl.getInfo().BGImagePathList().size() - 1));
         else initBackground(0);
         initColor();
 
 
         //背景更新
-        updateBG = new Timer(setsScrInfo.getRepaintTimer() * 1000, _ -> {
+        updateBG = new Timer(screenProductInfoControl.getInfo().repaintTimer() * 1000, _ -> {
 
             try {
                 initBackground(index);
                 initColor();
-                if (index < setsScrInfo.getBGImagesLength() - 1) index++;
+                if (index < screenProductInfoControl.getInfo().BGImagePathList().size() - 1) index++;
                 else index = 0;
             } catch (Exception ex) {
                 Log.err.print(getClass(), "背景刷新失败", ex);
@@ -182,8 +181,8 @@ public class ScreenProduct extends JDialog {
         }
 
         //刷新背景
-        setsScrInfo = new SetsScrInfo();
-        updateBG.setDelay(setsScrInfo.getRepaintTimer() * 1000);
+        ScreenProductInfo screenProductInfo = screenProductInfoControl.refresh();
+        updateBG.setDelay(screenProductInfo.repaintTimer() * 1000);
         updateBG.restart();
     }
 
@@ -232,11 +231,10 @@ public class ScreenProduct extends JDialog {
             if (i == CTOptionPane.NO_OPTION) return;
             screenProduct.setVisible(false);
             synchronized (Log.getLogInfList()) {
-                try {
-                    Runtime.getRuntime().exec("shutdown -r -t 0");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+
+                    ProcessBuilder processBuilder = new ProcessBuilder();
+                    processBuilder.command( "cmd.exe", "/c", "shutdown -r -t 0");
+
             }
         });
 
@@ -308,7 +306,9 @@ public class ScreenProduct extends JDialog {
             imageViewLabel.setBackground(CTColor.backColor);
             panel.setOpaque(true);
 
-            String bgImagePath = setsScrInfo.getBGImagePath(index);
+            String bgImagePath = screenProductInfoControl.getInfo().BGImagePathList().size() == 1 ?
+                    screenProductInfoControl.getInfo().BGImagePathList().getFirst():
+                    screenProductInfoControl.getInfo().BGImagePathList().get(index);
             if (bgImagePath != null) {
 
                 Image image;

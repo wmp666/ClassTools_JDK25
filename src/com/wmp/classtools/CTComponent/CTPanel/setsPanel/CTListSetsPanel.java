@@ -1,5 +1,6 @@
 package com.wmp.classTools.CTComponent.CTPanel.setsPanel;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTList;
 
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class CTListSetsPanel extends CTSetsPanel {
+public class CTListSetsPanel<T> extends CTSetsPanel<T> {
 
     private final List<CTSetsPanel> ctSetsPanelList = new ArrayList<>();
 
-    public CTListSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public CTListSetsPanel(CTInfoControl<T> infoControl) {
+        super(infoControl);
         this.setName("CTSetsPanel");
         this.setLayout(new BorderLayout());
 
@@ -50,7 +51,7 @@ public class CTListSetsPanel extends CTSetsPanel {
             currentPanel.set(ctSetsPanelList.getFirst());
         } else {
             // 如果没有面板，创建一个空面板
-            currentPanel.set(new CTSetsPanel("") {
+            currentPanel.set(new CTSetsPanel(null) {
                 @Override
                 public void save() {
                 }

@@ -1,21 +1,23 @@
 package com.wmp.classTools.extraPanel.classForm.settings.week;
 
 import com.wmp.PublicTools.DateTools;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
+import com.wmp.classTools.extraPanel.classForm.ClassFormInfos;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 
-public class WeekSetsPanel extends CTTableSetsPanel {
+public class WeekSetsPanel extends CTTableSetsPanel<ClassFormInfos[]> {
 
     private int week = 0;
 
-    public WeekSetsPanel(String[] titleArray, String[][] array, String basicDataPath, int week) {
-        super(titleArray, array, basicDataPath);
+    public WeekSetsPanel(String[] titleArray, String[][] array, CTInfoControl<ClassFormInfos[]> infoControl, int week) {
+        super(titleArray, array, infoControl);
         setName(switch (week){
             case 1-> "周一";
             case 2-> "周二";
@@ -86,13 +88,12 @@ public class WeekSetsPanel extends CTTableSetsPanel {
     @Override
     public void save() throws Exception {
         Log.info.print("WeekSetsPanel", "保存课程表设置" + "周" + week);
-        String[][] array = this.getArray();
-        JSONArray jsonArray = new JSONArray();
-        for (String[] strings : array) {
-            jsonArray.put(new JSONObject()
-                    .put("class", strings[0])
-                    .put("time", strings[1]));
+        ClassFormInfos classFormInfos = getInfoControl().getInfo()[week - 1];
+        ClassFormInfos[] result = new ClassFormInfos[7];
+        for (int i = 0; i < 7; i++) {
+            if (i != week - 1) result[i] = null;
+            else result[i] = classFormInfos;
         }
-        new IOForInfo(new File(getBasicDataPath())).setInfo(jsonArray.toString(4));
+        getInfoControl().setInfo(result);
     }
 }

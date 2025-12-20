@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CTTools extends JDialog {
-    public static CTListSetsPanel CTToolsSetsPanel = new CTListSetsPanel(CTInfo.DATA_PATH);
+    public static CTListSetsPanel CTToolsSetsPanel = new CTListSetsPanel(null);
 
     private static final ArrayList<CTTools> oldClass = new ArrayList<>();
     public static final ArrayList<CTTool> tools = new ArrayList<>();

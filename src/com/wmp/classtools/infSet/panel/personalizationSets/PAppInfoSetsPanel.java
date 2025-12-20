@@ -15,8 +15,8 @@ import java.io.File;
 public class PAppInfoSetsPanel extends CTBasicSetsPanel {
     private final CTSpinner SSMDWaitTimeSpinner = new CTSpinner(new SpinnerNumberModel(0, 0, 60, 1));
 
-    public PAppInfoSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PAppInfoSetsPanel() {
+        super(null);
         setName("应用信息设置");
 
         initUI();

@@ -60,6 +60,10 @@ public class GetIcon {
         return icon;
     }
 
+    public static ImageIcon getImageIcon(String name, int colorStyle, int width, int height, boolean useDPI) {
+        return (ImageIcon) getIcon(name, colorStyle, width, height, useDPI);
+    }
+
     public static ImageIcon getImageIcon(String name, int colorStyle, int width, int height) {
         return (ImageIcon) getIcon(name, colorStyle, width, height, true);
     }

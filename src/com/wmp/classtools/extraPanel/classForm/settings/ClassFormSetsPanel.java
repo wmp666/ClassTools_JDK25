@@ -1,9 +1,13 @@
 package com.wmp.classTools.extraPanel.classForm.settings;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
+import com.wmp.classTools.extraPanel.classForm.CFInfoControl;
+import com.wmp.classTools.extraPanel.classForm.ClassFormInfo;
+import com.wmp.classTools.extraPanel.classForm.ClassFormInfos;
 import com.wmp.classTools.extraPanel.classForm.settings.week.WeekSetsPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,17 +17,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ClassFormSetsPanel extends CTListSetsPanel {
-
-
-    private final String path;
+public class ClassFormSetsPanel extends CTListSetsPanel<ClassFormInfos[]> {
 
     private final ArrayList<String[][]> CFTableInfoList = new ArrayList<>();
 
-    public ClassFormSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public ClassFormSetsPanel(CTInfoControl<ClassFormInfos[]> infoControl) {
+        super(infoControl);
 
-        this.path = basicDataPath + "ClassForm\\";
         this.setID("ClassFormSetsPanel");
         this.setName("课程表设置");
         this.setLayout(new BorderLayout());
@@ -57,28 +57,21 @@ public class ClassFormSetsPanel extends CTListSetsPanel {
         Log.info.print("CFSetsPanel", "重置课程表设置面板:" + week);
 
         return new WeekSetsPanel(new String[]{"课程", "时间(周" + week + ")"},
-                CFTableInfoList.get(week - 1), new File(path, week + ".json").getAbsolutePath(), week);
+                CFTableInfoList.get(week - 1), getInfoControl(), week);
 
     }
 
     private String[][] getClassFormData(int week) {
         Log.info.print("CFSetsPanel", "获取星期" + week + "课程表数据");
 
-        File path = new File(this.path + week + ".json");
+        ClassFormInfos info = getInfoControl().getInfo()[week - 1];
 
         ArrayList<String> CFList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
         try {
-            String infos = new IOForInfo(path).getInfos();
-            if (infos.equals("err")) return new String[][]{{}, {}};
-
-            JSONArray jsonArray = new JSONArray(infos);
-            jsonArray.forEach(object -> {
-                if (object instanceof JSONObject jsonObject) {
-                    if (!(jsonObject.has("class") && jsonObject.has("time"))) return;
-                    CFList.add(jsonObject.getString("class"));
-                    dateList.add(jsonObject.getString("time"));
-                }
+            info.classFormInfos().forEach(info1 -> {
+                CFList.add(info1.className());
+                dateList.add(info1.targetTime());
             });
             String[][] temp = new String[CFList.size()][2];
             for (int i = 0; i < CFList.size(); i++) {
@@ -94,6 +87,7 @@ public class ClassFormSetsPanel extends CTListSetsPanel {
 
     @Override
     public void refresh() {
+        getInfoControl().refresh();
         this.removeAll();
 
         initSetsPanel();

@@ -46,13 +46,6 @@ public class MainWindow extends CTWindow {
         panelLocationMap.put("上方", new String[]{"TimeViewPanel", "OtherTimeThingPanel", "WeatherInfoPanel"});
         panelLocationMap.put("下方", new String[]{"NewsTextPanel", "FinalPanel"});
 
-
-        File DutyListPath = new File(path + "Duty\\DutyList.txt");
-        File indexPath = new File(path + "Duty\\index.txt");
-        File AllStuPath = new File(path + "Att\\AllStu.txt");
-        File LeaveListPath = new File(path + "Att\\LeaveList.txt");
-        File birthdayPath = new File(path + "birthday.json");
-
         //添加组件
         TimeViewPanel timeViewPanel = new TimeViewPanel();
         OtherTimeThingPanel otherTimeThingPanel = new OtherTimeThingPanel();
@@ -60,10 +53,10 @@ public class MainWindow extends CTWindow {
         NewsTextPanel eEPanel = new NewsTextPanel();
         FinalPanel finalPanel = new FinalPanel();
 
-        DPanel dPanel = new DPanel(DutyListPath, indexPath);
+        DPanel dPanel = new DPanel();
         allPanelList.add(dPanel);
 
-        ATPanel aTPanel = new ATPanel(AllStuPath, LeaveListPath);
+        ATPanel aTPanel = new ATPanel();
         allPanelList.add(aTPanel);
 
         CountDownPanel countDownPanel = new CountDownPanel();
@@ -72,8 +65,11 @@ public class MainWindow extends CTWindow {
         ClassFormPanel classFormPanel = new ClassFormPanel();
         allPanelList.add(classFormPanel);
 
-        BRPanel brPanel = new BRPanel(birthdayPath);
+        BRPanel brPanel = new BRPanel();
         allPanelList.add(brPanel);
+/*
+        MessageRemindPanel messageRemindPanel = new MessageRemindPanel();
+        allPanelList.add(messageRemindPanel);*/
 
         allPanelList.add(timeViewPanel); // 添加到列表中以便统一管理
         allPanelList.add(otherTimeThingPanel);

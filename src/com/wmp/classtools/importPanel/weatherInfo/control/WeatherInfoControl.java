@@ -1,15 +1,17 @@
-package com.wmp.classTools.importPanel.weatherInfo;
+package com.wmp.classTools.importPanel.weatherInfo.control;
 
 import com.wmp.PublicTools.CTInfo;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 
+import java.io.File;
 import java.io.IOException;
 
-public class WeatherInfoControl {
+public class WeatherInfoControl extends CTInfoControl<WeatherInfo> {
 
     //bfaf25fc5c695452951e7edb57ddcd49
-    public static void setWeatherInfo(String cityCode, String key) {
+    private void setWeatherInfo(String cityCode, String key) {
         {
             IOForInfo io = new IOForInfo(CTInfo.DATA_PATH + "WeatherInfo\\cityCode.txt");
             try {
@@ -28,7 +30,7 @@ public class WeatherInfoControl {
         }
     }
 
-    public static String getKey() {
+    private String getKey() {
         IOForInfo io = new IOForInfo(CTInfo.DATA_PATH + "WeatherInfo\\key.txt");
         try {
             String infos = io.getInfos();
@@ -42,7 +44,7 @@ public class WeatherInfoControl {
         return null;
     }
 
-    public static String getWeatherInfo() {
+    private String getCityCode() {
         IOForInfo io = new IOForInfo(CTInfo.DATA_PATH + "WeatherInfo\\cityCode.txt");
         try {
             String infos = io.getInfos();
@@ -55,6 +57,21 @@ public class WeatherInfoControl {
             Log.err.print(WeatherInfoControl.class, "天气信息获取失败", e);
         }
         return null;
+    }
+
+    @Override
+    public File getInfoBasicFile() {
+        return new File(CTInfo.DATA_PATH , "WeatherInfo");
+    }
+
+    @Override
+    public void setInfo(WeatherInfo weatherInfo) {
+        setWeatherInfo(weatherInfo.cityCode(), weatherInfo.key());
+    }
+
+    @Override
+    public WeatherInfo refresh() {
+        return new WeatherInfo(getCityCode(), getKey());
     }
 
     /**

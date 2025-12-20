@@ -81,25 +81,21 @@ public class IOForInfo {
         return null;
     }
 
-    public static Thread deleteDirectoryRecursively(Path path) {
-        return deleteDirectoryRecursively(path, null);
+    public static void deleteDirectoryRecursively(Path path) {
+        deleteDirectoryRecursively(path, null);
     }
 
-    public static Thread deleteDirectoryRecursively(Path path, Runnable callback) {
+    public static void deleteDirectoryRecursively(Path path, Runnable callback) {
         Log.info.print("删除文件", "删除");
 
         Log.info.loading.showDialog("文件删除", "正在删除文件...");
 
         File file = new File(path.toUri());
 
-        Thread thread = new Thread(() -> new SwingWorker<Void, Void>() {
             //  执行耗时操作
-            @Override
-            protected Void doInBackground() {
                 try {
-                    if (file == null || !file.exists()) {
+                    if (!file.exists()) {
                         Log.err.print(IOForInfo.class, "目标不存在");
-                        return null;
                     }
 
                     if (file.isDirectory()) {
@@ -119,20 +115,11 @@ public class IOForInfo {
                 } catch (Exception e) {
                     Log.err.print(CookieSets.class, "删除失败", e);
                 }
-                return null;
-            }
 
-            @Override
-            protected void done() {
                 Log.info.loading.closeDialog("文件删除");
                 if (callback != null) {
                     callback.run();
                 }
-            }
-        }.execute());
-        thread.start();
-
-        return thread;
     }
 
     public static void copyFile(Path source, Path target){

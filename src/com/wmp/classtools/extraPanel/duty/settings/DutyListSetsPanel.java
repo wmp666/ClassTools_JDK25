@@ -1,25 +1,23 @@
 package com.wmp.classTools.extraPanel.duty.settings;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
+import com.wmp.classTools.extraPanel.duty.control.DutyDay;
+import com.wmp.classTools.extraPanel.duty.control.DutyInfo;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class DutyListSetsPanel extends CTTableSetsPanel {
+public class DutyListSetsPanel extends CTTableSetsPanel<DutyInfo> {
 
-    private final File DutyListPath;
-
-    public DutyListSetsPanel(String basicDataPath) {
-        super(new String[]{"扫地", "擦黑板"}, null, basicDataPath);
+    public DutyListSetsPanel(CTInfoControl<DutyInfo> infoControl) {
+        super(new String[]{"扫地", "擦黑板"}, null, infoControl);
         setName("值日生");
-
-        File dataPath = new File(basicDataPath, "Duty");
-
-        this.DutyListPath = new File(dataPath, "DutyList.txt");
 
         //初始化
         try {
@@ -32,38 +30,7 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
     }
 
     private String[][] getDutyList() throws IOException {
-        //获取inf
-        IOForInfo ioForInfo = new IOForInfo(this.DutyListPath);
-
-        String[] inf = ioForInfo.getInfo();
-
-        //System.out.println(inf);
-        if (inf[0].equals("err")) {
-            return null;
-        }
-
-
-        //处理inf
-
-        //初级数据-[0]"[xxx][xxx,xxx]" [1]...
-        String[] inftempList = inf;
-
-        String[][] list = new String[inftempList.length][2];
-        ArrayList<String[]> tempList = new ArrayList<>();
-
-        int i = 0;
-        for (String s : inftempList) {
-            //二级数据- [0]"xxx" [1]"xxx,xxx"
-            //三级数据- [0]{"xxx"} [1]{"xxx","xxx"}
-            ArrayList<String> strings = InfProcess.NDExtractNames(s);
-
-            if (strings.size() == 2) {
-                list[i][0] = strings.get(0);
-                list[i][1] = strings.get(1);
-            }
-            i++;
-        }
-        return list;
+        return getInfoControl().getInfo().toStringList();
     }
 
     @Override
@@ -73,28 +40,19 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
 
         //处理表格中的数据
 
-
         // 遍历表格中的每一行，将每一行的数据添加到tempList中
         //getRowCount()-行数
-        StringBuilder sb = new StringBuilder();
+        //StringBuilder sb = new StringBuilder();
+
         String[][] array = this.getArray();
+        DutyDay[] dutyDayList = new DutyDay[array.length - 1];
         for (int i = 1; i < array.length; i++) {
-
-            //getColumnCount()-列数
-            for (int j = 0; j < array[i].length; j++) {
-
-                sb.append("[").append(array[i][j]).append("]");
-            }
-            sb.append("\n");
+            dutyDayList[i - 1] =
+                    new DutyDay(new ArrayList<>(List.of(array[i][0].split( ","))),
+                            new ArrayList<>(List.of(array[i][1].split( ","))));
         }
 
-        try {
-            new IOForInfo(DutyListPath).setInfo(sb.toString());
-        } catch (IOException e) {
-            Log.err.print(getClass(), "保存失败", e);
-        }
-
-
+        getInfoControl().setInfo(new DutyInfo(dutyDayList, -1));
     }
 
     @Override

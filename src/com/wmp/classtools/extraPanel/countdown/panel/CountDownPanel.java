@@ -5,9 +5,12 @@ import com.wmp.PublicTools.DateTools;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.extraPanel.countdown.CDInfoControl;
+import com.wmp.classTools.extraPanel.countdown.CountDownInfo;
+import com.wmp.classTools.extraPanel.countdown.CountDownInfos;
 import com.wmp.classTools.extraPanel.countdown.settings.CountDownSetsPanel;
 
 import javax.swing.*;
@@ -16,9 +19,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CountDownPanel extends CTViewPanel {
+public class CountDownPanel extends CTViewPanel<CountDownInfos> {
+    private CountDownInfo info = getInfoControl().getInfo().getLatestInfo();
 
-    private static CDInfoControl.CDInfo info = CDInfoControl.getCDInfo();
     private final JLabel titleLabel = new JLabel();
     private final JLabel timeLabel = new JLabel();
 
@@ -29,9 +32,8 @@ public class CountDownPanel extends CTViewPanel {
         this.setName("倒计时界面");
         this.setLayout(new BorderLayout());
         this.setOpaque(false);
-        this.setCtSetsPanelList(List.of(new CountDownSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(List.of(new CountDownSetsPanel(getInfoControl())));
 
-        initInfo();
         initUI();
 
         this.add(titleLabel, BorderLayout.NORTH);
@@ -39,10 +41,6 @@ public class CountDownPanel extends CTViewPanel {
 
         this.setIndependentRefresh(true, 34);
 
-    }
-
-    private static void initInfo() {
-        info = CDInfoControl.getCDInfo();
     }
 
     private void initUI() {
@@ -58,8 +56,13 @@ public class CountDownPanel extends CTViewPanel {
 
     @Override
     public void strongRefresh() throws Exception {
-        initInfo();
+        info = getInfoControl().refresh().getLatestInfo();
         super.strongRefresh();
+    }
+
+    @Override
+    public CTInfoControl<CountDownInfos> setInfoControl() {
+        return new CDInfoControl();
     }
 
     @Override
@@ -76,8 +79,8 @@ public class CountDownPanel extends CTViewPanel {
         }
         //Log.info.print("时间显示","时间差:" + time);
         if (time < -60 * 1000) {
-            CDInfoControl.CDInfo old = info;
-            initInfo();
+            CountDownInfo old = info;
+            info = getInfoControl().getInfo().getLatestInfo();
             if (!old.title().equals(info.title()) && info.title().equals("数据出错")) {
                 Log.info.systemPrint("时间显示", "已切换倒计时");
             }

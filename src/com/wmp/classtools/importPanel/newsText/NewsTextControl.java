@@ -1,14 +1,16 @@
 package com.wmp.classTools.importPanel.newsText;
 
 import com.wmp.PublicTools.CTInfo;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 
+import java.io.File;
 import java.io.IOException;
 
-public class NewsTextControl {
-    public static String getKey() {
-        IOForInfo io = new IOForInfo(CTInfo.DATA_PATH + "NewsText\\key.txt");
+public class NewsTextControl extends CTInfoControl<String> {
+    public String refresh() {
+        IOForInfo io = new IOForInfo(new File(getInfoBasicFile(), "key.txt").getAbsolutePath());
         try {
             String infos = io.getInfos();
             if (infos == null || infos.equals("err")) {
@@ -21,7 +23,12 @@ public class NewsTextControl {
         return null;
     }
 
-    public static void setKey(String key) {
+    @Override
+    public File getInfoBasicFile() {
+        return new File(CTInfo.DATA_PATH, "NewsText");
+    }
+
+    public void setInfo(String key) {
         IOForInfo io = new IOForInfo(CTInfo.DATA_PATH + "NewsText\\key.txt");
         try {
             io.setInfo(key);

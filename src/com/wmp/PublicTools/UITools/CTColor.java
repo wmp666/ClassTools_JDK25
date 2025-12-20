@@ -2,7 +2,8 @@ package com.wmp.PublicTools.UITools;
 
 import com.formdev.flatlaf.*;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.frame.tools.screenProduct.SetsScrInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 
 import java.awt.*;
 import java.io.IOException;
@@ -49,12 +50,11 @@ public class CTColor {
     public static void setScreenProductColor() {
         setAllColor(CTColor.MAIN_COLOR_WHITE, CTColor.STYLE_DARK);
 
-        SetsScrInfo setsScrInfo = new SetsScrInfo();
-        if (setsScrInfo.getMainColor() != null) {
-            setMainColor(setsScrInfo.getMainColor(), true);
-        }
-        if (setsScrInfo.getMainTheme() != null) {
-            setMainTheme(setsScrInfo.getMainTheme(), true);
+        ScreenProductInfoControl infoControl = new ScreenProductInfoControl();
+        ScreenProductInfo info = infoControl.getInfo();
+        if (info != null) {
+            setMainColor(info.mainColor(), true);
+            setMainTheme(info.mainTheme(), true);
         }
 
         canRemove = false;

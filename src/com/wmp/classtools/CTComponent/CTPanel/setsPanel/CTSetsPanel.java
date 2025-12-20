@@ -1,15 +1,16 @@
 package com.wmp.classTools.CTComponent.CTPanel.setsPanel;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.CTPanel;
 
-public abstract class CTSetsPanel extends CTPanel {
+public abstract class CTSetsPanel<T> extends CTPanel {
 
     private String name = "CTSetsPanel";
     //基础数据路径
-    private String basicDataPath;
+    private CTInfoControl<T> infoControl;
 
-    public CTSetsPanel(String basicDataPath) {
-        this.basicDataPath = basicDataPath;
+    public CTSetsPanel(CTInfoControl<T> infoControl) {
+        this.infoControl = infoControl;
     }
 
     @Override
@@ -22,14 +23,13 @@ public abstract class CTSetsPanel extends CTPanel {
         this.name = name;
     }
 
-    public String getBasicDataPath() {
-        return basicDataPath;
+    public CTInfoControl<T> getInfoControl() {
+        return infoControl;
     }
 
-    public void setBasicDataPath(String basicDataPath) {
-        this.basicDataPath = basicDataPath;
+    public void setInfoControl(CTInfoControl<T> infoControl) {
+        this.infoControl = infoControl;
     }
-
 
     public abstract void save() throws Exception;
 

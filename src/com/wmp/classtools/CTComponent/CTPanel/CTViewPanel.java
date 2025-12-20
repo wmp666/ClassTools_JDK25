@@ -1,5 +1,6 @@
 package com.wmp.classTools.CTComponent.CTPanel;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 
@@ -7,7 +8,12 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CTViewPanel extends CTPanel {
+public abstract class CTViewPanel<T> extends CTPanel {
+
+    /**
+     * 用于保存数据,且一个组件最多拥有一个
+     */
+    private CTInfoControl<T> infoControl;
 
     private final Timer refreshTimer = new Timer(2 * 1000, e -> {
         try {
@@ -26,6 +32,7 @@ public abstract class CTViewPanel extends CTPanel {
 
     public CTViewPanel() {
         super();
+        infoControl = setInfoControl();
     }
 
     public List<CTSetsPanel> getCtSetsPanelList() {
@@ -93,7 +100,20 @@ public abstract class CTViewPanel extends CTPanel {
     }
 
     public void strongRefresh() throws Exception {
+        if (getInfoControl() != null)
+            getInfoControl().refresh();
         easyRefresh();
+    }
+
+    /**
+     * 设置数据控制类
+     *
+     * @return infoControl 组件内部存储的数据控制类
+     */
+    public abstract CTInfoControl<T> setInfoControl();
+
+    public final CTInfoControl<T> getInfoControl(){
+        return infoControl;
     }
 
     /**

@@ -28,8 +28,8 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
     //兼容数据
     private final CTTextField dpi = new CTTextField();
 
-    public PBPanelSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PBPanelSetsPanel() {
+        super(null);
 
         setName("组件设置");
 

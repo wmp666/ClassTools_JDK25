@@ -12,8 +12,8 @@ import java.net.MalformedURLException;
 
 public class ClearTempPanel extends CTSetsPanel {
 
-    public ClearTempPanel(String basicDataPath) {
-        super(basicDataPath);
+    public ClearTempPanel() {
+        super(null);
 
         setName("软件数据管理");
 

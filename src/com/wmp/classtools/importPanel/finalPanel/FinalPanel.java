@@ -4,6 +4,7 @@ import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
 import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.update.GetNewerVersion;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class FinalPanel extends CTViewPanel {
+public class FinalPanel extends CTViewPanel<Object> {
 
     public static final ArrayList<CTIconButton> allButList = new ArrayList<>();
 
@@ -38,6 +39,11 @@ public class FinalPanel extends CTViewPanel {
         initPanel();
 
         initButton();
+    }
+
+    @Override
+    public CTInfoControl<Object> setInfoControl() {
+        return null;
     }
 
     private void initPanel() {

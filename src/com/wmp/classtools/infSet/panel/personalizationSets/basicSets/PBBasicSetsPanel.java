@@ -42,8 +42,8 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
     private final CTCheckBox startUp = new CTCheckBox("开机自启动");
     private final CTCheckBox isSaveLog = new CTCheckBox("是否保存日志");
 
-    public PBBasicSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PBBasicSetsPanel() {
+        super(null);
 
         setName("个性化设置");
 

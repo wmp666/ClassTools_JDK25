@@ -1,58 +1,48 @@
 package com.wmp.classTools.extraPanel.attendance.panel;
 
-import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.PeoPanelProcess;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.extraPanel.attendance.control.AttInfo;
+import com.wmp.classTools.extraPanel.attendance.control.AttInfoControl;
 import com.wmp.classTools.extraPanel.attendance.settings.AllStuSetsPanel;
 import com.wmp.classTools.extraPanel.attendance.settings.LeaveListSetsPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ATPanel extends CTViewPanel {
-
-    private final JLabel LateStuLabel = new JLabel();
-    private final JLabel AttendStuLabel = new JLabel();
-    private final JLabel AllStuLabel = new JLabel();
+public class ATPanel extends CTViewPanel<AttInfo> {
 
     private final JLabel StuInfoLabel = new JLabel();
 
-    private final File AllStudentPath;
-    private final File LeaveListPath;
     private final ArrayList<String> studentList = new ArrayList<>();
     private final ArrayList<String> leaveList = new ArrayList<>();//迟到人员
-    private int studentLength;// 应到人数
-    private int studentLateLength; // 请假人数
+    private int allStuLength;// 应到人数
+    private int lateStudentLength; // 请假人数
 
-    public ATPanel(File AllStudentPath, File LeaveListPath) throws IOException {
+    public ATPanel() throws IOException {
         super();
 
-        this.AllStudentPath = AllStudentPath;
-        this.LeaveListPath = LeaveListPath;
 
         ArrayList<CTSetsPanel> list = new ArrayList<>();
-        list.add(new LeaveListSetsPanel(CTInfo.DATA_PATH));
-        list.add(new AllStuSetsPanel(CTInfo.DATA_PATH));
+        list.add(new LeaveListSetsPanel(getInfoControl()));
+        list.add(new AllStuSetsPanel(getInfoControl()));
         this.setCtSetsPanelList(list);
         this.setName("考勤表组件");
         this.setID("ATPanel");
         this.setLayout(new GridBagLayout());
 
-        initStuList(AllStudentPath, LeaveListPath);
-
-
-        //System.out.println(studentList);
+        initStuList();
 
         initContainer();
 
@@ -72,9 +62,9 @@ public class ATPanel extends CTViewPanel {
 
 
         StuInfoLabel.setText("<html>"
-                + "<span " + TextColor + ">" + "应到：<span " + NumColor + ">" + studentLength + "人<br>"
-                + "<span " + TextColor + ">" + "实到：<span " + NumColor + ">" + (studentLength - studentLateLength) + "人<br>"
-                + "<span " + TextColor + ">" + "请假：<span style='color: red;'>" + studentLateLength + "人"
+                + "<span " + TextColor + ">" + "应到：<span " + NumColor + ">" + allStuLength + "人<br>"
+                + "<span " + TextColor + ">" + "实到：<span " + NumColor + ">" + (allStuLength - lateStudentLength) + "人<br>"
+                + "<span " + TextColor + ">" + "请假：<span style='color: red;'>" + lateStudentLength + "人"
                 + "</html>");
         StuInfoLabel.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
 
@@ -103,15 +93,20 @@ public class ATPanel extends CTViewPanel {
 
     }
 
+    @Override
+    public CTInfoControl<AttInfo> setInfoControl() {
+        return new AttInfoControl();
+    }
 
     @Override
     protected void easyRefresh() throws IOException {
         // 清空旧数据
         studentList.clear();
         leaveList.clear();
+        getInfoControl().refresh();
 
         // 重新加载数据
-        initStuList(AllStudentPath, LeaveListPath);
+        initStuList();
 
         // 更新UI组件
         this.removeAll();
@@ -123,56 +118,15 @@ public class ATPanel extends CTViewPanel {
         repaint();
     }
 
-    private void initStuList(File AllStudentPath, File LeaveListPath) throws IOException {
+    private void initStuList(){
         //获取所有学生名单
-        {
-            IOForInfo ioForInfo = new IOForInfo(AllStudentPath);
+        String[] stuList = getInfoControl().getInfo().allStuList();
+        studentList.addAll(Arrays.asList(stuList));
+        allStuLength = stuList.length;
 
-            String[] inf = ioForInfo.getInfo();
-
-            //System.out.println(inf);
-            if (inf[0].equals("err")) {
-                {
-                    //将数据改为默认
-                    // 使用常量数组管理姓名数据
-                    final String[] DEFAULT_NAMES = {
-                            "请", "尽快", "设置", "!!!"
-                    };
-
-                    // 通过数组传递完整数据
-                    ioForInfo.setInfo(DEFAULT_NAMES);
-                }
-
-
-            } else {
-                studentList.addAll(Arrays.asList(inf));
-                studentLength = studentList.size();
-            }
-        }
-
-        //获取请假名单
-        {
-            IOForInfo ioForInfo = new IOForInfo(LeaveListPath);
-            String[] inf = ioForInfo.getInfo();
-
-            //遍历数组
-            for (String s : inf) {
-                if (s.isEmpty()) {
-                    continue;
-                }
-                Log.info.print("ATPanel-initStuList", "请假名单:" + s);
-                //leaveList.add(s);
-            }
-            if (inf[0].equals("err")) {
-                ioForInfo.setInfo("");
-                studentLateLength = 0;
-            } else {
-                //leaveList.clear();
-                leaveList.addAll(List.of(inf));
-                studentLateLength = leaveList.size();
-            }
-        }
-
+        String[] strings = getInfoControl().getInfo().leaveList();
+        leaveList.addAll(Arrays.asList(strings));
+        lateStudentLength = strings.length;
 
     }
 

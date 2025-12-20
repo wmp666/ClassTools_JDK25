@@ -167,8 +167,7 @@ public class MusicControl {
             return false;
         }
         //清空文件
-        Thread thread1 = IOForInfo.deleteDirectoryRecursively(Path.of(CTInfo.APP_INFO_PATH + "music"));
-        thread1.join();
+        IOForInfo.deleteDirectoryRecursively(Path.of(CTInfo.APP_INFO_PATH + "music"));
 
         //解压文件
         Thread thread = ZipPack.unzip(zipPath, CTInfo.APP_INFO_PATH);

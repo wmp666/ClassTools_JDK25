@@ -5,6 +5,7 @@ import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.PeoPanelProcess;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.io.InfProcess;
@@ -12,39 +13,29 @@ import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.extraPanel.duty.control.DutyControl;
+import com.wmp.classTools.extraPanel.duty.control.DutyInfo;
 import com.wmp.classTools.extraPanel.duty.settings.DutyListSetsPanel;
-import com.wmp.classTools.extraPanel.duty.type.DutyDay;
+import com.wmp.classTools.extraPanel.duty.control.DutyDay;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class DPanel extends CTViewPanel {
+public class DPanel extends CTViewPanel<DutyInfo> {
 
-
-    private final ArrayList<DutyDay> DutyList = new ArrayList<>();
-    private final File DutyListPath;
-    private final File indexPath;
     private int index; //当前日期索引
 
-    public DPanel(File DutyListPath, File indexPath) throws IOException {
+    public DPanel() throws IOException {
 
-        this.DutyListPath = DutyListPath;
-        this.indexPath = indexPath;
-
-        ArrayList<CTSetsPanel> setsPanelList = new ArrayList<>();
-        setsPanelList.add(new DutyListSetsPanel(CTInfo.DATA_PATH));
-        this.setCtSetsPanelList(setsPanelList);
+        this.setCtSetsPanelList(List.of(new DutyListSetsPanel(getInfoControl())));
         this.setName("值日表组件");
         this.setID("DPanel");
         //设置容器布局- 绝对布局
         this.setLayout(new BorderLayout());
-
-        initDutyList(DutyListPath);
-
-        initIndex(indexPath);
 
         initContainer();
 
@@ -68,11 +59,11 @@ public class DPanel extends CTViewPanel {
 
         InfoPanel.add(CLBBLabel, gbc);
 
-        DutyDay now = new DutyDay();
+        DutyDay now;
         try {
-            now = DutyList.get(index);
+            now = getInfoControl().getInfo().dutyDay()[index];
         } catch (Exception e) {
-            new IOForInfo(indexPath).setInfo("0");
+            now = getInfoControl().getInfo().dutyDay()[0];
             Log.err.print(getClass(), "数据异常,请检查数据文件", e);
         }
 
@@ -101,12 +92,12 @@ public class DPanel extends CTViewPanel {
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至上一天");
                 if (i == 0) {
                     if (index > 0) index--;
-                    else index = DutyList.size() - 1;
+                    else index = getInfoControl().getInfo().index() - 1;
                 }
 
 
                 try {
-                    new IOForInfo(indexPath).setInfo(String.valueOf(index));
+                    getInfoControl().setInfo(new DutyInfo(null, index));
                     easyRefresh();
                 } catch (IOException ex) {
                     Log.err.print(getClass(), "切换失败", ex);
@@ -123,14 +114,14 @@ public class DPanel extends CTViewPanel {
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至下一天");
 
                 if (i == 0) {
-                    if (index < DutyList.size() - 1) index++;
+                    if (index < getInfoControl().getInfo().index() - 1) index++;
 
                     else index = 0;
                 }
 
 
                 try {
-                    new IOForInfo(indexPath).setInfo(String.valueOf(index));
+                    getInfoControl().setInfo(new DutyInfo(null, index));
                     easyRefresh();
                 } catch (IOException ex) {
                     Log.err.print(getClass(), "切换失败", ex);
@@ -157,66 +148,10 @@ public class DPanel extends CTViewPanel {
 
     }
 
-
-    //初始化索引
-    private void initIndex(File indexPath) throws IOException {
-        IOForInfo ioForInfo = new IOForInfo(indexPath);
-
-        String[] inf = ioForInfo.getInfo();
-
-        //System.out.println(inf);
-        if (inf[0].equals("err")) {
-            //将数据改为默认-空,需要用户自行输入数据
-            index = 0;
-            ioForInfo.setInfo("0");
-        } else {
-            index = Integer.parseInt(inf[0]);
-        }
-        Log.info.print("DPanel-initIndex", "值日索引:" + index);
+    @Override
+    public CTInfoControl<DutyInfo> setInfoControl() {
+        return new DutyControl();
     }
-
-    //初始化数据
-    private void initDutyList(File dutyPath) throws IOException {
-        //获取inf
-        IOForInfo ioForInfo = new IOForInfo(dutyPath);
-
-        //System.out.println("DutyPath:" + dutyPath);
-
-        String[] inf = ioForInfo.getInfo();
-
-
-        if (inf[0].equals("err")) {
-            //将数据改为默认-空,需要用户自行输入数据
-
-            ioForInfo.setInfo("[尽快,设置] [请]",
-                    "[尽快,设置,0] [请]");
-
-            inf = new String[]{"[尽快,设置] [请]",
-                    "[尽快,设置,0] [请]"};
-        } else if (inf[0].equals("null")) {
-            //总会有的
-        }
-
-        //处理inf
-        DutyList.clear();
-        String[] inftempList = inf;
-        for (String s : inftempList) {
-            ArrayList<String[]> strings = InfProcess.RDExtractNames(s);
-
-            try {
-
-                DutyList.add(new DutyDay(DutyDay.setDutyPersonList(strings.get(0)),
-                        DutyDay.setDutyPersonList(strings.get(1))));
-            } catch (Exception e) {
-                if (strings.size() <= 2) {
-                    Log.err.print(this, getClass(), "请检查数据格式是否正确", e);
-                }
-            }
-        }
-
-        Log.info.print("DPanel-initDutyList", "值日数据:" + DutyList);
-    }
-
 
     // 刷新方法
     @Override
@@ -224,21 +159,11 @@ public class DPanel extends CTViewPanel {
 
         this.removeAll();
 
-        initDutyList(DutyListPath);
-        initIndex(indexPath);
         initContainer();
 
         revalidate();
         repaint();
 
 
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 }

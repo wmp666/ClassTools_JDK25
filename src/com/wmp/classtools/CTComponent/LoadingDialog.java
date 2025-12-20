@@ -37,7 +37,7 @@ public class LoadingDialog extends JFrame {
     private void resetDialog() {
         updateTaskBar();
 
-        this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
+        this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48, false).getImage());
         this.getContentPane().setBackground(CTColor.backColor);
         this.revalidate();
         this.repaint();

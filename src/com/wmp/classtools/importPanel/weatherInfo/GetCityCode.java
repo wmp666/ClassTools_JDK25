@@ -2,6 +2,8 @@ package com.wmp.classTools.importPanel.weatherInfo;
 
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfo;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfoControl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,9 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GetCityCode {
-    public static String getCityCode() {
+    public static String getCityCode(WeatherInfo weatherInfo) {
         try {
-            Map<String, String> map = getCityCodes("100000");
+            Map<String, String> map = getCityCodes(weatherInfo);
             Map<String, String> oldMap = new HashMap<>();
 
             String s = Log.info.showChooseDialog(null, "请选择城市", "请选择城市", map.keySet().toArray(new String[0]));
@@ -24,7 +26,7 @@ public class GetCityCode {
 
                 String info = String.format("当前选择:%s 对应编号:%s \n如果展示的内容为你需要的,就可以按下\"否\"/\"取消\"退出", oldCity, oldCityCode);
 
-                map = getCityCodes(map.get(s));
+                map = getCityCodes(weatherInfo.getNewWInfo(map.get(s), null));
                 if (oldMap.equals(map) || map.isEmpty()) return oldMap.get(s);
 
                 s = Log.info.showChooseDialog(null, "请选择城市", info, map.keySet().toArray(new String[0]));
@@ -40,11 +42,11 @@ public class GetCityCode {
         }
     }
 
-    private static Map<String, String> getCityCodes(String cityCode) {
+    private static Map<String, String> getCityCodes(WeatherInfo weatherInfo) {
         Map<String, String> map = new HashMap<>();
 
 
-        String nowCloud = String.format("https://restapi.amap.com/v3/config/district?key=%s&keywords=%s", WeatherInfoControl.getKey(), cityCode);
+        String nowCloud = String.format("https://restapi.amap.com/v3/config/district?key=%s&keywords=%s", weatherInfo.key(), weatherInfo.cityCode());
 
         // 解析JSON响应
         JSONObject jsonResponse = new JSONObject(GetWebInf.getWebInf(nowCloud));

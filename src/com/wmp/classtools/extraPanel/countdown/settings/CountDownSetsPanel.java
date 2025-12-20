@@ -1,15 +1,20 @@
 package com.wmp.classTools.extraPanel.countdown.settings;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import com.wmp.classTools.extraPanel.countdown.CDInfoControl;
+import com.wmp.classTools.extraPanel.countdown.CountDownInfo;
+import com.wmp.classTools.extraPanel.countdown.CountDownInfos;
 
-public class CountDownSetsPanel extends CTTableSetsPanel {
+import java.util.ArrayList;
+
+public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
 
 
-    public CountDownSetsPanel(String basicDataPath) {
-        super(new String[]{"标题", "目标时间"}, null, basicDataPath);
+    public CountDownSetsPanel(CTInfoControl<CountDownInfos> cdInfoControl) {
+        super(new String[]{"标题", "目标时间"}, null, cdInfoControl);
 
         this.setID("CountDownSetsPanel");
         this.setName("倒计时设置");
@@ -18,14 +23,14 @@ public class CountDownSetsPanel extends CTTableSetsPanel {
     }
 
     private String[][] getInfo() {
-        CDInfoControl.CDInfo[] cdInfos = CDInfoControl.getCDInfos();
-        String[][] data = new String[cdInfos.length][2];
+        ArrayList<CountDownInfo> list = getInfoControl().getInfo().list();
+        String[][] data = new String[list.size()][2];
 
-        for (int i = 0; i < cdInfos.length; i++) {
-            data[i][0] = cdInfos[i].title();
-            data[i][1] = cdInfos[i].targetTime();
+        for (int i = 0; i < list.size(); i++) {
+            data[i][0] = list.get(i).title();
+            data[i][1] = list.get(i).targetTime();
         }
-        if (cdInfos.length == 0) {
+        if (list.isEmpty()) {
             data = new String[][]{{"null", "9999.12.30 23:59:59"}};
         }
 
@@ -86,11 +91,12 @@ public class CountDownSetsPanel extends CTTableSetsPanel {
     @Override
     public void save() throws Exception {
         String[][] data = this.getInfo();
-        CDInfoControl.CDInfo[] cdInfo = new CDInfoControl.CDInfo[data.length];
+        ArrayList<CountDownInfo> list = new ArrayList<>();
         for (int i = 0; i < data.length; i++) {
-            cdInfo[i] = new CDInfoControl.CDInfo(data[i][0], data[i][1]);
+            CountDownInfo info = new CountDownInfo(data[i][0], data[i][1]);
+            list.add(info);
         }
-        CDInfoControl.setCDInfo(cdInfo);
+        getInfoControl().setInfo(new CountDownInfos(list));
     }
 
     @Override

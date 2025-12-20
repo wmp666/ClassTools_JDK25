@@ -3,10 +3,12 @@ package com.wmp.classTools.extraPanel.attendance.settings;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTCheckBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.extraPanel.attendance.control.AttInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,20 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LeaveListSetsPanel extends CTSetsPanel {
-
-    private final File AllStuPath;
-    private final File leaveListPath;
-
+public class LeaveListSetsPanel extends CTSetsPanel<AttInfo> {
 
     private final ArrayList<CTCheckBox> checkBoxList = new ArrayList<>();
 
-    public LeaveListSetsPanel(String basicDataPath) throws IOException {
-        super(basicDataPath);
-        File dataPath = new File(basicDataPath, "Att");
-
-        this.AllStuPath = new File(dataPath, "AllStu.txt");
-        this.leaveListPath = new File(dataPath, "LeaveList.txt");
+    public LeaveListSetsPanel(CTInfoControl<AttInfo> infoControl) throws IOException {
+        super(infoControl);
 
         setName("迟到人员");
 
@@ -82,64 +76,33 @@ public class LeaveListSetsPanel extends CTSetsPanel {
     }
 
     private ArrayList<String> getLeaveList() {
-        ArrayList<String> leaveList = new ArrayList<>();
-        // 初始化现有数据
-        try {
-            if (leaveListPath.exists()) {
-                String[] content = new IOForInfo(leaveListPath).getInfo();
-                leaveList.addAll(Arrays.asList(content));
-
-                //leaveArea.setText(content.replace(",", "\n"));
-            }
-        } catch (IOException e) {
-            Log.err.print(getClass(), "获取失败", e);
-        }
-        return leaveList;
+        return new ArrayList<>(Arrays.asList(getInfoControl().getInfo().leaveList()));
     }
 
-    private ArrayList<String> getStudentList() throws IOException {
-        //ArrayList<JCheckBox> checkBoxList = new ArrayList<>();
-        ArrayList<String> studentList = new ArrayList<>();
-
-        //获取所有学生名单
-        {
-            IOForInfo ioForInfo = new IOForInfo(AllStuPath);
-
-            String[] inf = ioForInfo.getInfo();
-
-            //System.out.println(inf);
-            if (!inf[0].equals("err")) {
-                studentList.addAll(Arrays.asList(inf));
-            }
-        }
-        return studentList;
+    private ArrayList<String> getStudentList() {
+        return new ArrayList<>(Arrays.asList(getInfoControl().getInfo().allStuList()));
     }
 
     @Override
     public void save() {
         //保存数据-请假信息
-        {
-            StringBuilder sb = new StringBuilder();
+
+            ArrayList<String> tempList = new ArrayList<>();
             for (CTCheckBox checkBox : checkBoxList) {
                 if (checkBox.isSelected()) {
-                    sb.append(checkBox.getText()).append("\n");
+                    tempList.add(checkBox.getText());
                 }
             }
-            String names = sb.toString();
-            try {
-                new IOForInfo(leaveListPath).setInfo(names);
-            } catch (IOException e) {
-                Log.err.print(getClass(), "保存失败", e);
-            }
-
-
-        }
-
+            getInfoControl().setInfo(
+                new AttInfo(null,
+                        tempList.toArray(new String[0])));
 
     }
 
     @Override
     public void refresh() throws IOException {
+        getInfoControl().refresh();
+
         ArrayList<String> leaveList = getLeaveList();
         ArrayList<String> studentList = getStudentList();
         initATSet(studentList, leaveList);

@@ -25,8 +25,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PAppFileSetsPanel extends CTBasicSetsPanel {
-    public PAppFileSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PAppFileSetsPanel() {
+        super(null);
         setName("文件设置");
 
         initUI();

@@ -13,12 +13,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class CallRollSetsPanel extends CTBasicSetsPanel {
+public class CallRollSetsPanel extends CTBasicSetsPanel<Object> {
 
     CTTextField countTextField = new CTTextField();
 
-    public CallRollSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public CallRollSetsPanel() {
+        super(null);
 
         setName("点名设置");
     }

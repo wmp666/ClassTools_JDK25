@@ -1,8 +1,11 @@
-package com.wmp.classTools.extraPanel.duty.type;
+package com.wmp.classTools.extraPanel.duty.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * 用于存储单个值班信息
+ */
 public class DutyDay {
 
     private ArrayList<String> ClFloorList;
@@ -25,27 +28,10 @@ public class DutyDay {
         return ClFloorList;
     }
 
-    public void setClFloorList(ArrayList<String> clFloorList) {
-        ClFloorList = clFloorList;
-    }
-
-    //重载setClFloor
-    public void setClFloor(String... people) {
-        ClFloorList = setDutyPersonList(people);
-
-    }
-
     public ArrayList<String> getClBlackBroadList() {
         return ClBlackBroadList;
     }
 
-    public void setClBlackBroadList(ArrayList<String> clBlackBroadList) {
-        ClBlackBroadList = clBlackBroadList;
-    }
-
-    public void setClBlackBroad(String... people) {
-        ClBlackBroadList = setDutyPersonList(people);
-    }
 
     @Override
     public String toString() {

@@ -5,13 +5,13 @@ import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
 
 public class PBasicSetsPanel extends CTListSetsPanel {
 
-    public PBasicSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PBasicSetsPanel() {
+        super(null);
 
         setName("基础设置");
 
         this.clearCTList();
-        this.add(new PBBasicSetsPanel(CTInfo.DATA_PATH));
-        this.add(new PBPanelSetsPanel(CTInfo.DATA_PATH));
+        this.add(new PBBasicSetsPanel());
+        this.add(new PBPanelSetsPanel());
     }
 }

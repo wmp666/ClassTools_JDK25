@@ -1,5 +1,6 @@
 package com.wmp.classTools.CTComponent.CTPanel.setsPanel;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
@@ -11,13 +12,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
+public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
 
     private final CTTable table = new CTTable();
     private final String[] titleArray;
 
-    public CTTableSetsPanel(String[] titleArray, String[][] array, String basicDataPath) {
-        super(basicDataPath);
+    public CTTableSetsPanel(String[] titleArray, String[][] array, CTInfoControl<T> infoControl) {
+        super(infoControl);
         setName("表格设置页");
         this.titleArray = titleArray;
 
@@ -175,6 +176,9 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
     }
     @Override
     public void refresh() {
+        if (getInfoControl() != null)
+            getInfoControl().refresh();
+
         this.removeAll();
         String[][] data = resetData();
         //初始化

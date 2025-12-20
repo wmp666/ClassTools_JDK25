@@ -6,13 +6,13 @@ import com.wmp.classTools.infSet.panel.personalizationSets.basicSets.PBasicSetsP
 public class PersonalizationPanel extends CTListSetsPanel {
 
 
-    public PersonalizationPanel(String basicDataPath) {
-        super(basicDataPath);
+    public PersonalizationPanel() {
+        super(null);
 
         this.setName("个性化");
 
-        this.add(new PBasicSetsPanel(basicDataPath));
-        this.add(new PAppFileSetsPanel(basicDataPath));
-        this.add(new PAppInfoSetsPanel(basicDataPath));
+        this.add(new PBasicSetsPanel());
+        this.add(new PAppFileSetsPanel());
+        this.add(new PAppInfoSetsPanel());
     }
 }

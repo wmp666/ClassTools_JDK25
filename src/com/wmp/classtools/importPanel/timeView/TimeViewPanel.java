@@ -4,7 +4,9 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 import com.wmp.classTools.importPanel.timeView.settings.ScreenProductSetsPanel;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class TimeViewPanel extends CTViewPanel {
+public class TimeViewPanel extends CTViewPanel<Object> {
 
     private final JLabel timeView = new JLabel();
 
@@ -24,10 +26,15 @@ public class TimeViewPanel extends CTViewPanel {
         this.setName("时间显示组件");
         this.setID("TimeViewPanel");
         this.setLayout(new BorderLayout());
-        this.setCtSetsPanelList(List.of(new ScreenProductSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(List.of(new ScreenProductSetsPanel(new ScreenProductInfoControl())));
 
         this.setIndependentRefresh(true, 34);
 
+    }
+
+    @Override
+    public CTInfoControl<Object> setInfoControl() {
+        return null;
     }
 
     @Override

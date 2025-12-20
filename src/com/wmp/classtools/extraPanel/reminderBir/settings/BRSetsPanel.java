@@ -1,24 +1,22 @@
 package com.wmp.classTools.extraPanel.reminderBir.settings;
 
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
+import com.wmp.classTools.extraPanel.reminderBir.control.BRInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class BRSetsPanel extends CTTableSetsPanel {
+public class BRSetsPanel extends CTTableSetsPanel<BRInfo[]> {
 
-    private final File birthdayPath;
-
-    public BRSetsPanel(String basicDataPath) {
-        super(new String[]{"姓名", "日期"}, null, basicDataPath);
+    public BRSetsPanel(CTInfoControl<BRInfo[]> infoControl) {
+        super(new String[]{"姓名", "日期"}, null, infoControl);
         setName("生日表");
-
-        birthdayPath = new File(basicDataPath, "birthday.json");
 
         setArray(getData());
     }
@@ -42,26 +40,19 @@ public class BRSetsPanel extends CTTableSetsPanel {
     private String[][] getData() {
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
-        if (!birthdayPath.exists()) return new String[][]{{}, {}};
-        try {
-            String infos = IOForInfo.getInfos(birthdayPath.toURI().toURL());
-            JSONArray jsonArray = new JSONArray(infos);
-            jsonArray.forEach(object -> {
-                if (object instanceof JSONObject jsonObject) {
-                    nameList.add(jsonObject.getString("name"));
-                    dateList.add(jsonObject.getString("birthday"));
-                }
-            });
-            String[][] temp = new String[nameList.size()][2];
-            for (int i = 0; i < nameList.size(); i++) {
-                temp[i][0] = nameList.get(i);
-                temp[i][1] = dateList.get(i);
-            }
-            return temp;
-        } catch (Exception e) {
-            Log.err.print(getClass(), "获取生日数据失败", e);
+
+        BRInfo[] brInfos = getInfoControl().getInfo();
+        for (BRInfo brInfo : brInfos) {
+            nameList.add(brInfo.name());
+            dateList.add(brInfo.birthday());
         }
-        return null;
+
+        String[][] temp = new String[nameList.size()][2];
+        for (int i = 0; i < nameList.size(); i++) {
+            temp[i][0] = nameList.get(i);
+            temp[i][1] = dateList.get(i);
+        }
+        return temp;
     }
 
     @Override
@@ -96,10 +87,6 @@ public class BRSetsPanel extends CTTableSetsPanel {
 
     @Override
     public void save() throws Exception {
-        IOForInfo ioForInfo = new IOForInfo(birthdayPath);
-
-        //将表格中的数组转化成JsonArray
-        JSONArray jsonArray = new JSONArray();
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
 
@@ -109,14 +96,12 @@ public class BRSetsPanel extends CTTableSetsPanel {
             dateList.add(array[i][1]);
         }
 
+        BRInfo[] brInfos = new BRInfo[nameList.size()];
 
-        nameList.forEach(s -> {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name", s);
-            jsonObject.put("birthday", dateList.get(nameList.indexOf(s)));
-            jsonArray.put(jsonObject);
-        });
-        ioForInfo.setInfo(jsonArray.toString(4));
+        for (int i = 0; i < nameList.size(); i++) {
+            brInfos[i] = new BRInfo(nameList.get(i), dateList.get(i));
+        }
+        getInfoControl().setInfo(brInfos);
     }
 
 }

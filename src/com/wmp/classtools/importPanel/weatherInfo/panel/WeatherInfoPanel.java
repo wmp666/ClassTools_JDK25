@@ -4,13 +4,15 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.CTComponent.CTTable;
 import com.wmp.classTools.frame.ShowHelpDoc;
 import com.wmp.classTools.importPanel.weatherInfo.GetWeatherInfo;
-import com.wmp.classTools.importPanel.weatherInfo.WeatherInfoControl;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfo;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfoControl;
 import com.wmp.classTools.importPanel.weatherInfo.settings.WeatherInfoSetsPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,31 +23,38 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class WeatherInfoPanel extends CTViewPanel {
+public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
 
     private final JLabel weather = new JLabel();
     private String format = "<html>%s %s, %s℃<br>%s %s℃-%s℃</html>";
-    private String cityCode = WeatherInfoControl.getWeatherInfo();
+    private String cityCode;
 
     public WeatherInfoPanel() {
         super();
         this.setID("WeatherInfoPanel");
         this.setName("天气详情");
         this.setLayout(new BorderLayout());
-        this.setCtSetsPanelList(java.util.List.of(new WeatherInfoSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(java.util.List.of(new WeatherInfoSetsPanel(getInfoControl())));
+
+        cityCode = getInfoControl().getInfo().cityCode();
 
         initPanel();
         resetPanel(CTFontSizeStyle.BIG);
 
     }
 
+    @Override
+    public CTInfoControl<WeatherInfo> setInfoControl() {
+        return new WeatherInfoControl();
+    }
+
     private void initWeather() {
         try {
 
-            cityCode = WeatherInfoControl.getWeatherInfo();
+            cityCode = getInfoControl().getInfo().cityCode();
 
-            JSONObject nowWeather = GetWeatherInfo.getNowWeather(cityCode);
-            JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(cityCode);
+            JSONObject nowWeather = GetWeatherInfo.getNowWeather(getInfoControl().getInfo());
+            JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
             JSONObject todayOtherWeather = weatherForecasts.getJSONObject(0);
             if (nowWeather == null || todayOtherWeather == null) {
                 weather.setText(String.format("<html>获取天气数据失败<br>%s<br>点击查看详情</html>", GetWeatherInfo.errCode));
@@ -88,8 +97,7 @@ public class WeatherInfoPanel extends CTViewPanel {
             }
             Log.info.adaptedMessage(nowWeather.getString("city") + " 天气数据", sb.toString(), 60, 5);
         } catch (Exception ex) {
-            Log.warn.print(getClass().toString(), "天气数据获取出错" + ex);
-            ex.printStackTrace();
+            Log.err.systemPrint(getClass(), "天气数据获取出错", ex);
         }
         weather.repaint();
     }
@@ -116,7 +124,7 @@ public class WeatherInfoPanel extends CTViewPanel {
                 try {
                     ArrayList<WeatherInfoControl.ForecastsWeatherInfo> forecastsWeatherInfoList = new ArrayList<>();
 
-                    JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(WeatherInfoPanel.this.cityCode);
+                    JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
                     if (weatherForecasts == null) {
                         ShowHelpDoc.openWebHelpDoc("WIErrCode.md");
                         return;

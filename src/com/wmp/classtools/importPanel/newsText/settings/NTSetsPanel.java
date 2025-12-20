@@ -3,6 +3,7 @@ package com.wmp.classTools.importPanel.newsText.settings;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
@@ -12,12 +13,12 @@ import com.wmp.classTools.importPanel.newsText.NewsTextControl;
 import javax.swing.*;
 import java.awt.*;
 
-public class NTSetsPanel extends CTBasicSetsPanel {
+public class NTSetsPanel extends CTBasicSetsPanel<String> {
 
     private final CTTextField newsTextKeyTextField = new CTTextField();
 
-    public NTSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public NTSetsPanel(CTInfoControl<String> infoControl) {
+        super(infoControl);
 
         this.setName("新闻数据获取设置");
         this.setLayout(new GridLayout(0, 1));
@@ -50,7 +51,7 @@ public class NTSetsPanel extends CTBasicSetsPanel {
         keyPanel.add(label, gbc);
 
         newsTextKeyTextField.setColumns(15);
-        newsTextKeyTextField.setText(NewsTextControl.getKey());
+        newsTextKeyTextField.setText(getInfoControl().getInfo());
         newsTextKeyTextField.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
         gbc.gridx++;
         keyPanel.add(newsTextKeyTextField, gbc);
@@ -66,11 +67,13 @@ public class NTSetsPanel extends CTBasicSetsPanel {
 
     @Override
     public void save() {
-        NewsTextControl.setKey(newsTextKeyTextField.getText());
+        getInfoControl().setInfo(newsTextKeyTextField.getText());
     }
 
     @Override
     public void refresh() {
+        getInfoControl().refresh();
+
         this.removeAll();
         initUI();
         this.revalidate();

@@ -1,52 +1,44 @@
 package com.wmp.classTools.extraPanel.reminderBir.panel;
 
-import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.DateTools;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.PeoPanelProcess;
-import com.wmp.PublicTools.io.IOForInfo;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
+import com.wmp.classTools.extraPanel.reminderBir.control.BRInfo;
+import com.wmp.classTools.extraPanel.reminderBir.control.BRInfoControl;
 import com.wmp.classTools.extraPanel.reminderBir.settings.BRSetsPanel;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class BRPanel extends CTViewPanel {
-
-    private final File birthdayPath;
+public class BRPanel extends CTViewPanel<BRInfo[]> {
 
     private final ArrayList<String> oldBRNameList = new ArrayList<>();
 
     private final ArrayList<String> oldWBNameList = new ArrayList<>();
 
-    public BRPanel(File birthdayPath) {
-
-        this.birthdayPath = birthdayPath;
-
+    public BRPanel() {
         this.setLayout(new GridBagLayout());
         this.setName("生日提醒页");
         this.setID("BRPanel");
         this.setOpaque(false);
-        this.setCtSetsPanelList(List.of(new BRSetsPanel(CTInfo.DATA_PATH)));
+        this.setCtSetsPanelList(List.of(new BRSetsPanel(getInfoControl())));
 
         this.setIgnoreState(true);
         this.setIndependentRefresh(true, 2 * 60 * 1000);
     }
 
-    private void showBRAndWB() throws IOException {
+    private void showBRAndWB(){
         List<String> BRTempList = getBRList();
         StringBuilder BRsb = new StringBuilder();
 
@@ -73,24 +65,15 @@ public class BRPanel extends CTViewPanel {
 
     }
 
-    private java.util.List<String> getBRList() throws IOException {
-
-        if (!birthdayPath.exists()) {
-            return List.of("没有相关数据");
-        }
+    private java.util.List<String> getBRList(){
         ArrayList<String> nameList = new ArrayList<>();
-        //Files.readString(Paths.get(birthdayPath.getPath()), StandardCharsets.UTF_8);
-        String info = IOForInfo.getInfos(birthdayPath.toURI().toURL());
-        JSONArray infoArray = new JSONArray(info);
-        infoArray.forEach(item -> {
-            if (item instanceof JSONObject infoObject) {
-                String name = infoObject.getString("name");
-                String birthday = infoObject.getString("birthday");
-                if (DateTools.dayIsNow(birthday)) {
-                    nameList.add(name);
-                }
+
+        BRInfo[] brInfos = getInfoControl().getInfo();
+        for (BRInfo brInfo : brInfos) {
+            if (DateTools.dayIsNow(brInfo.birthday())) {
+                nameList.add(brInfo.name());
             }
-        });
+        }
         if (!nameList.isEmpty()) {
             return nameList;
         }
@@ -103,30 +86,27 @@ public class BRPanel extends CTViewPanel {
      *
      * @return 即将生日列表
      */
-    private java.util.List<String> getWBList() throws IOException {
+    private java.util.List<String> getWBList(){
 
-        if (!birthdayPath.exists()) {
-            return List.of("没有相关数据");
-        }
         ArrayList<String> nameList = new ArrayList<>();
-        //Files.readString(Paths.get(birthdayPath.getPath()), StandardCharsets.UTF_8);
-        String info = IOForInfo.getInfos(birthdayPath.toURI().toURL());
-        JSONArray infoArray = new JSONArray(info);
-        infoArray.forEach(item -> {
-            if (item instanceof JSONObject infoObject) {
-                String name = infoObject.getString("name");
-                String birthday = infoObject.getString("birthday");
-                int remainderDay = DateTools.getRemainderDay(birthday);
-                if (remainderDay < 11 && remainderDay > 0) {
-                    nameList.add(String.format("%s(差%d天)", name, remainderDay));
-                }
+
+        BRInfo[] brInfos = getInfoControl().getInfo();
+        for (BRInfo brInfo : brInfos) {
+            int remainderDay = DateTools.getRemainderDay(brInfo.birthday());
+            if (remainderDay < 11 && remainderDay > 0) {
+                nameList.add(String.format("%s(差%d天)", brInfo.name(), remainderDay));
             }
-        });
+        }
         if (!nameList.isEmpty()) {
             return nameList;
         }
 
         return List.of("无人即将生日");
+    }
+
+    @Override
+    public CTInfoControl<BRInfo[]> setInfoControl() {
+        return new BRInfoControl();
     }
 
     @Override

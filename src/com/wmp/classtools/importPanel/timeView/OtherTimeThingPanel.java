@@ -5,6 +5,7 @@ import com.wmp.PublicTools.DateTools;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 
 import javax.swing.*;
@@ -12,8 +13,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
-public class OtherTimeThingPanel extends CTViewPanel {
+public class OtherTimeThingPanel extends CTViewPanel<Object> {
     private static String otherStrFormat = "<html>%s %s%s%s %s[%s]年<br>%s %s</html>";
     private final JLabel other = new JLabel();
 
@@ -25,6 +27,11 @@ public class OtherTimeThingPanel extends CTViewPanel {
         initPanel(CTFontSizeStyle.BIG);
 
         this.setIndependentRefresh(true, 2 * 60 * 1000);
+    }
+
+    @Override
+    public CTInfoControl<Object> setInfoControl() {
+        return null;
     }
 
     private void initPanel(CTFontSizeStyle size) {

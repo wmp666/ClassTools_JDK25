@@ -3,29 +3,31 @@ package com.wmp.classTools.importPanel.weatherInfo.settings;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.frame.ShowHelpDoc;
 import com.wmp.classTools.importPanel.weatherInfo.GetCityCode;
-import com.wmp.classTools.importPanel.weatherInfo.WeatherInfoControl;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfo;
+import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfoControl;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class WeatherInfoSetsPanel extends CTSetsPanel {
+public class WeatherInfoSetsPanel extends CTSetsPanel<WeatherInfo> {
 
     private final CTTextField keyTextField = new CTTextField();
     private String cityCode = "360000";
 
-    public WeatherInfoSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+    public WeatherInfoSetsPanel(CTInfoControl<WeatherInfo> infoControl) {
+        super(infoControl);
         setName("天气信息设置");
 
         this.setLayout(new BorderLayout());
 
-        cityCode = WeatherInfoControl.getWeatherInfo();
+        cityCode = infoControl.getInfo().cityCode();
 
         initUI();
     }
@@ -50,7 +52,7 @@ public class WeatherInfoSetsPanel extends CTSetsPanel {
 
             CTTextButton cityCodeButton = new CTTextButton("按下选择城市");
             cityCodeButton.addActionListener(e -> {
-                String tempStr = GetCityCode.getCityCode();
+                String tempStr = GetCityCode.getCityCode(getInfoControl().getInfo());
                 if (tempStr == null) {
                     return;
                 }
@@ -73,7 +75,7 @@ public class WeatherInfoSetsPanel extends CTSetsPanel {
             keyLabel.setForeground(CTColor.textColor);
             keyLabel.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
 
-            keyTextField.setText(WeatherInfoControl.getKey());
+            keyTextField.setText(getInfoControl().getInfo().key());
             keyTextField.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
             keyTextField.setBackground(CTColor.backColor);
             keyTextField.setForeground(CTColor.textColor);
@@ -98,12 +100,13 @@ public class WeatherInfoSetsPanel extends CTSetsPanel {
     @Override
     public void save() {
         Log.info.print("WISetsPanel", "保存天气信息设置");
-        WeatherInfoControl.setWeatherInfo(this.cityCode, this.keyTextField.getText());
+        getInfoControl().setInfo(new WeatherInfo(this.cityCode, this.keyTextField.getText()));
     }
 
     @Override
     public void refresh() {
-        cityCode = WeatherInfoControl.getWeatherInfo();
+        getInfoControl().refresh();
+        cityCode = getInfoControl().getInfo().cityCode();
         initUI();
     }
 }
