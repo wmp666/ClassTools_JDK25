@@ -1,121 +1,45 @@
 package com.wmp.classTools.extraPanel.reminderBir.settings;
 
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
-import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
-import com.wmp.classTools.CTComponent.CTTable;
+import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class BRSetsPanel extends CTSetsPanel {
+public class BRSetsPanel extends CTTableSetsPanel {
 
     private final File birthdayPath;
-    private final CTTable BRTable = new CTTable();
-    private final AtomicInteger index = new AtomicInteger();
 
     public BRSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+        super(new String[]{"姓名", "日期"}, null, basicDataPath);
         setName("生日表");
 
         birthdayPath = new File(basicDataPath, "birthday.json");
 
-        //获取数据{{姓名},{日期}}
-        //绘制UI
-        try {
-            initTable(getArray());
-        } catch (Exception e) {
-            Log.err.print(getClass(), "获取生日数据失败", e);
-        }
+        setArray(getData());
     }
 
-    private void initTable(String[][] array) throws MalformedURLException {
-        this.removeAll();
+    @Override
+    public String[] addToTable() {
 
-        this.setLayout(new BorderLayout());
+        String name = Log.info.showInputDialog(this, "BRSetsPanel-新建", "请输入姓名");
+        if (name == null || name.trim().isEmpty()) return null;
 
-        DefaultTableModel model = new DefaultTableModel(array,
-                new String[]{"姓名", "日期"});
-        BRTable.setModel(model);
+        String style = Log.info.showChooseDialog(this, "BRSetsPanel-新建", "请选择日历形式", "公历", "农历");
+        if (style == null || style.trim().isEmpty()) return null;
 
-        JScrollPane scrollPane = new JScrollPane(BRTable);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        this.add(scrollPane, BorderLayout.CENTER);
+        int[] times = Log.info.showTimeChooseDialog(this, "BRSetsPanel-新建", "请输入时间", CTOptionPane.MONTH_DAY);
+        if (times.length != 2) return null;
+        String date = (style.equals("农历") ? "lunar" : "") + times[0] + "-" + times[1];
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
-        //新建
-        {
-
-            CTTextButton newBtn = new CTTextButton("添加");
-            newBtn.setIcon("添加", IconControl.COLOR_COLORFUL, 30, 30);
-            newBtn.addActionListener(e -> {
-                //检测内容是否为空
-                boolean b = true;
-                String s1 = "null";
-                String s2 = "01-01";
-                while (b) {
-                    s1 = Log.info.showInputDialog(this, "BRSetsPanel-新建", "请输入姓名");
-
-                    if (s1 != null && !s1.trim().isEmpty()) {
-                        b = false;
-                    } else if (s1 == null) {
-                        return;
-                    }
-                }
-
-                b = true;
-                while (b) {
-                    String[] inputs = Log.info.showInputDialog(this, "BRSetsPanel-新建", "请输入日期(MM-dd)\n如:01-20\n农历日期可以不加\"0\"补空位", "公历", "农历");
-                    s2 = (inputs[0].equals("农历") ? "lunar" : "") + inputs[1];
-                    if (!s2.trim().isEmpty()) {
-                        b = false;
-                    }
-                }
-
-                model.addRow(new Object[]{s1, s2});
-            });
-            buttonPanel.add(newBtn);
-        }
-
-        // 删除
-        {
-            CTTextButton deleteBtn = new CTTextButton("删除");
-            deleteBtn.setIcon("删除", IconControl.COLOR_COLORFUL, 30, 30);
-            deleteBtn.addActionListener(e -> {
-                int selectedRow = BRTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    model.removeRow(selectedRow);
-                    if (selectedRow < index.get()) {
-                        index.getAndDecrement();
-                    }
-                    if (BRTable.getRowCount() == index.get()) {
-                        index.set(0);
-                    }
-                }
-            });
-
-
-            buttonPanel.add(deleteBtn);
-        }
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        return new String[]{name, date};
     }
 
-    private String[][] getArray() {
+    private String[][] getData() {
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
         if (!birthdayPath.exists()) return new String[][]{{}, {}};
@@ -141,6 +65,36 @@ public class BRSetsPanel extends CTSetsPanel {
     }
 
     @Override
+    public String[] removeToTable(String[] oldArray) {
+        String name = Log.info.showInputDialog(this, "BRSetsPanel-修改",
+                String.format("原数据:%s\n请输入姓名\n注:若不修改不用输入内容", oldArray[0]));
+        if (name == null || name.trim().isEmpty()) name = oldArray[0];
+
+        String oldStyle = oldArray[1].startsWith("lunar")?"农历":"公历";
+        String style = Log.info.showChooseDialog(this, "BRSetsPanel-修改",
+                String.format("原数据:%s\n请选择日历形式\n注:若不修改不用输入内容", oldStyle),  "公历", "农历");
+        if (style == null || style.trim().isEmpty()) style = oldStyle;
+
+        int[] oldTimes = new int[2];
+        if (oldStyle.equals("农历")){
+            String temp = oldArray[1].substring(5);
+            String[] split = temp.split("-");
+            oldTimes[0] = Integer.parseInt(split[0]);
+            oldTimes[1] = Integer.parseInt(split[1]);
+        }
+        int[] times = Log.info.showTimeChooseDialog(this, "BRSetsPanel-修改", "请输入时间", CTOptionPane.MONTH_DAY, oldTimes);
+        String date = (style.equals("农历") ? "lunar" : "") + times[0] + "-" + times[1];
+
+        return new String[]{name, date};
+    }
+
+    @Override
+    public String[][] resetData() {
+        return getData();
+    }
+
+
+    @Override
     public void save() throws Exception {
         IOForInfo ioForInfo = new IOForInfo(birthdayPath);
 
@@ -148,19 +102,14 @@ public class BRSetsPanel extends CTSetsPanel {
         JSONArray jsonArray = new JSONArray();
         ArrayList<String> nameList = new ArrayList<>();
         ArrayList<String> dateList = new ArrayList<>();
-        for (int i = 0; i < BRTable.getRowCount(); i++) {
 
-            //getColumnCount()-列数
-            for (int j = 0; j < BRTable.getColumnCount(); j++) {
-                if (j == 0) {
-                    nameList.add(BRTable.getValueAt(i, j).toString());
-                } else {
-                    dateList.add(BRTable.getValueAt(i, j).toString());
-                }
-                //BRTable.getValueAt(i, j);
-            }
-
+        String[][] array = this.getArray();
+        for (int i = 1; i < array.length; i++) {
+            nameList.add(array[i][0]);
+            dateList.add(array[i][1]);
         }
+
+
         nameList.forEach(s -> {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name", s);
@@ -170,16 +119,4 @@ public class BRSetsPanel extends CTSetsPanel {
         ioForInfo.setInfo(jsonArray.toString(4));
     }
 
-    @Override
-    public void refresh() throws IOException {
-        try {
-            initTable(getArray());
-        } catch (Exception e) {
-            Log.err.print(getClass(), "获取生日数据失败", e);
-            throw new RuntimeException(e);
-        }
-
-        this.revalidate();
-        this.repaint();
-    }
 }

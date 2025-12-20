@@ -31,7 +31,7 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
 
         //初始化
         try {
-            String[][] dutyList = getDutyList(this.DutyListPath);
+            String[][] dutyList = getDutyList();
             setArray(dutyList);
         } catch (IOException e) {
             Log.err.print(getClass(), "初始化失败", e);
@@ -39,18 +39,15 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
 
     }
 
-    private String[][] getDutyList(File dutyPath) throws IOException {
+    private String[][] getDutyList() throws IOException {
         //获取inf
-        IOForInfo ioForInfo = new IOForInfo(dutyPath);
+        IOForInfo ioForInfo = new IOForInfo(this.DutyListPath);
 
         String[] inf = ioForInfo.getInfo();
 
         //System.out.println(inf);
         if (inf[0].equals("err")) {
-            //总会有的
-            ioForInfo.setInfo("[尽快,设置] [请]",
-                    "[尽快,设置,1] [请]");
-            return new String[][]{{"err"}, {"null"}};
+            return null;
         }
 
 
@@ -110,4 +107,13 @@ public class DutyListSetsPanel extends CTTableSetsPanel {
 
     }
 
+    @Override
+    public String[][] resetData() {
+        try {
+            return getDutyList();
+        } catch (IOException e) {
+            Log.err.print(getClass(), "重置数据失败", e);
+            return null;
+        }
+    }
 }

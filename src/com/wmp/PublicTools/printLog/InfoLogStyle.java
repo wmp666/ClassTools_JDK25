@@ -113,4 +113,9 @@ public class InfoLogStyle extends PrintLogStyle {
         Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
         return CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true);
     }
+
+    public int[] showTimeChooseDialog(Container c, String owner, String logInfo, int style, int[] times) {
+        Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
+        return CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true, times);
+    }
 }

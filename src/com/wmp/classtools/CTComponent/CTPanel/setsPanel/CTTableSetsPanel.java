@@ -8,15 +8,13 @@ import com.wmp.classTools.CTComponent.CTTable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
 
-    private final CTTable BRTable = new CTTable();
-    private String[] titleArray = {"", ""};
+    private final CTTable table = new CTTable();
+    private final String[] titleArray;
 
     public CTTableSetsPanel(String[] titleArray, String[][] array, String basicDataPath) {
         super(basicDataPath);
@@ -34,11 +32,11 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
         DefaultTableModel model = null;
         model = new DefaultTableModel(Objects.requireNonNullElseGet(array, () -> new String[][]{}),
                 titleArray);
-        BRTable.setModel(model);
+        table.setModel(model);
         //禁用编辑
-        BRTable.setCellEditor( null);
+        table.setCellEditor( null);
 
-        JScrollPane scrollPane = new JScrollPane(BRTable);
+        JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         this.add(scrollPane, BorderLayout.CENTER);
@@ -54,10 +52,14 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
             newBtn.setIcon("添加", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel = model;
             newBtn.addActionListener(e -> {
-                String[] strings = addToTable();
+                try {
+                    String[] strings = addToTable();
 
-                if (strings != null) {
-                    finalModel.addRow(strings);
+                    if (strings != null) {
+                        finalModel.addRow(strings);
+                    }
+                } catch (Exception ex) {
+                    Log.err.print(this.getClass(), "添加数据失败", ex);
                 }
             });
             buttonPanel.add(newBtn);
@@ -82,19 +84,23 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
             removeBtn.setIcon("刷新", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel1 = model;
             removeBtn.addActionListener(_ -> {
-                int selectedRow = BRTable.getSelectedRow();
-                String[] strings = null;
-                if (selectedRow != -1) {
-                    strings = new String[finalModel1.getColumnCount()];
-                    for (int i = 0; i < finalModel1.getColumnCount(); i++) {
-                        strings[i] = finalModel1.getValueAt(selectedRow, i).toString();
-                    }
-                    String[] newArray = removeToTable(strings);
-                    if (newArray != null) {
+                try {
+                    int selectedRow = table.getSelectedRow();
+                    String[] strings = null;
+                    if (selectedRow != -1) {
+                        strings = new String[finalModel1.getColumnCount()];
                         for (int i = 0; i < finalModel1.getColumnCount(); i++) {
-                            finalModel1.setValueAt(newArray[i], selectedRow, i);
+                            strings[i] = finalModel1.getValueAt(selectedRow, i).toString();
+                        }
+                        String[] newArray = removeToTable(strings);
+                        if (newArray != null) {
+                            for (int i = 0; i < finalModel1.getColumnCount(); i++) {
+                                finalModel1.setValueAt(newArray[i], selectedRow, i);
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    Log.err.print(this.getClass(), "修改数据失败", e);
                 }
 
             });
@@ -123,7 +129,7 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
     }
 
     public void deleteToTable(DefaultTableModel model){
-        int selectedRow = BRTable.getSelectedRow();
+        int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
             model.removeRow(selectedRow);
         }
@@ -143,8 +149,12 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
         return arrays.toArray(new String[0]);
     }
 
+    /**
+     * 获取表格数据
+     * @return 数据第一行为标题
+     */
     public String[][] getArray() {
-        Object[][] data = BRTable.getData();
+        Object[][] data = table.getData();
 
         String[][] result = new String[data.length + 1][data[0].length];
         result[0] = titleArray;
@@ -168,10 +178,17 @@ public abstract class CTTableSetsPanel extends CTBasicSetsPanel{
     @Override
     public void refresh() throws Exception {
         this.removeAll();
+        String[][] data = resetData();
         //初始化
-        initTable(titleArray,  BRTable.getStrData());
+        initTable(titleArray, data == null?table.getStrData(): data);
 
         this.revalidate();
         this.repaint();
     }
+
+    /**
+     * 重置数据 在调用刷新时需要调用<br>
+     * 若生成的数据异常,请返回null
+     */
+    abstract public String[][] resetData();
 }

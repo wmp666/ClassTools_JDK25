@@ -10,7 +10,8 @@ import java.awt.event.KeyEvent;
 
 public class CTSpinner extends JPanel {
 
-    CTTextField textField = new CTTextField();
+    private CTTextField textField = new CTTextField();
+    private SpinnerModel model;
 
     public CTSpinner() {
         this(new SpinnerNumberModel());
@@ -20,6 +21,7 @@ public class CTSpinner extends JPanel {
         this.setLayout(new BorderLayout());
         this.setOpaque(false);
 
+        this.model = model;
 
         CTRoundTextButton last = new CTRoundTextButton("<");
         CTRoundTextButton next = new CTRoundTextButton(">");
@@ -75,6 +77,7 @@ public class CTSpinner extends JPanel {
 
     public void setValue(Object value) {
         textField.setText(value.toString());
+        model.setValue(value);
     }
 
     public int getValue() {

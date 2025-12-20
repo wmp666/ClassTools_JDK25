@@ -361,27 +361,34 @@ public class CTOptionPane {
      * @return 时间选择结果
      */
     public static int[] showTimeChooseDialog(Component owner, String title, Icon icon, int iconType, int timeStyle, boolean isAlwaysOnTop) {
-        int[] times = new int[]{0, 0, 0};
+        int[] times = null;
         if (timeStyle == YEAR_MONTH_DAY) {
+            times = new int[3];
+
             times[0] = Calendar.getInstance().get(Calendar.YEAR);
             times[1] = Calendar.getInstance().get(Calendar.MONTH) + 1;
             times[2] = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         } else if (timeStyle == MONTH_DAY) {
+            times = new int[2];
 
             times[0] = Calendar.getInstance().get(Calendar.MONTH) + 1;
             times[1] = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         } else if (timeStyle == HOURS_MINUTES) {
+            times = new int[2];
+
             times[0] = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             times[1] = Calendar.getInstance().get(Calendar.MINUTE);
 
         } else if (timeStyle == HOURS_MINUTES_SECOND) {
+            times = new int[3];
+
             times[0] = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             times[1] = Calendar.getInstance().get(Calendar.MINUTE);
             times[2] = Calendar.getInstance().get(Calendar.SECOND);
         }
-        return showTimeChooseDialog(owner, title, icon, iconType, timeStyle, true, times);
+        return showTimeChooseDialog(owner, title, icon, iconType, timeStyle, isAlwaysOnTop, times);
     }
 
     /**
@@ -553,7 +560,7 @@ public class CTOptionPane {
             }
             return arrayInt;
         }
-        return new int[0];
+        return times;
     }
 
     public static String[] showChoicesDialog(Component owner, String title, String message, Icon icon, int iconType, boolean isAlwaysOnTop, String... choices) {
@@ -659,10 +666,11 @@ public class CTOptionPane {
         }
 
         if (northTitle != null && !northTitle.isEmpty()) {
-            JLabel messageLabel = new JLabel(northTitle);
-            messageLabel.setFont(new Font("微软雅黑", Font.PLAIN, CTFont.getSize(CTFontSizeStyle.SMALL)));
-            messageLabel.setForeground(CTColor.textColor);
-            dialog.add(messageLabel, BorderLayout.NORTH);
+            JTextArea messageTextArea = new JTextArea(northTitle);
+            messageTextArea.setEditable(false);
+            messageTextArea.setFont(new Font("微软雅黑", Font.PLAIN, CTFont.getSize(CTFontSizeStyle.SMALL)));
+            messageTextArea.setForeground(CTColor.textColor);
+            dialog.add(messageTextArea, BorderLayout.NORTH);
         }
 
         JPanel toolsPanel = new JPanel(new GridLayout(0, 1, 5, 5));
