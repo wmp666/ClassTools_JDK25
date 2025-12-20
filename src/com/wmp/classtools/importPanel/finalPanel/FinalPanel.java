@@ -104,7 +104,7 @@ public class FinalPanel extends CTViewPanel {
 
         CTIconButton CTTools = new CTIconButton("快捷工具",
                 "快捷工具", IconControl.COLOR_COLORFUL, () -> {
-            com.wmp.classTools.frame.CTTools.showDialog();
+            com.wmp.classTools.frame.CTTools.showDialog(2);
         });
         allButList.add(CTTools);
 

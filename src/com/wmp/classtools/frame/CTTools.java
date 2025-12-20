@@ -11,6 +11,7 @@ import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class CTTools extends JDialog {
     private static final ArrayList<CTTools> oldClass = new ArrayList<>();
     public static final ArrayList<CTTool> tools = new ArrayList<>();
 
+
     public CTTools() {
         oldClass.forEach(CTTools::dispose);
         oldClass.clear();
@@ -31,6 +33,10 @@ public class CTTools extends JDialog {
         new CTTools(1);
     }
 
+    /**
+     *
+     * @param style 0-右 1-左
+     */
     private CTTools(int style) {
 
         oldClass.add(this);
@@ -40,6 +46,8 @@ public class CTTools extends JDialog {
 
         tools.clear();
         tools.add(new CallRollTool());
+
+
 
         CTToolsSetsPanel.setName("快捷工具设置");
         CTToolsSetsPanel.clearCTList();
@@ -52,8 +60,7 @@ public class CTTools extends JDialog {
         CTRoundTextButton openButton = new CTRoundTextButton(style == 0 ? "<" : ">");
         openButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         openButton.addActionListener(e -> {
-            showDialog();
-
+            showDialog(style);
         });
         this.add(openButton, BorderLayout.CENTER);
 
@@ -71,20 +78,29 @@ public class CTTools extends JDialog {
         this.setVisible(true);
     }
 
-    public static void showDialog() {
+    /**
+     *
+     * @param style 0-右 1-左
+     */
+    public static void showDialog(int style) {
         JDialog dialog = new JDialog();
         dialog.setTitle("快捷工具");
         dialog.setModal(true);
         dialog.getContentPane().setBackground(CTColor.backColor);
         dialog.setLayout(new GridLayout(0, 1, (int) (5 * CTInfo.dpi), (int) (5 * CTInfo.dpi)));
 
+
+        CTPopupMenu popupMenu = new CTPopupMenu();
+
+        ArrayList<CTRoundTextButton> ctRoundTextButtonArrayList = new ArrayList<>();
         tools.forEach(tool -> {
             CTRoundTextButton button = new CTRoundTextButton(tool.getName());
             button.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
             button.addActionListener(ex -> {
                 tool.showTool();
             });
-            dialog.getContentPane().add(button);
+            ctRoundTextButtonArrayList.add(button);
+            popupMenu.add(button);
         });
 
         CTRoundTextButton button = new CTRoundTextButton("打开更多工具(快捷启动单元)");
@@ -97,11 +113,17 @@ public class CTTools extends JDialog {
                 Log.err.print(ShowCookieDialog.class, "CookieDialog打开失败", e);
             }
         });
-        dialog.getContentPane().add(button);
+        popupMenu.add(button);
 
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        if (style == 2){
+            ctRoundTextButtonArrayList.forEach(dialog::add);
+            dialog.add(button);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } else if (style == 0) popupMenu.show(oldClass.get(0), -popupMenu.getWidth() - oldClass.get(0).getWidth(), 0);
+        else if (style == 1)popupMenu.show(oldClass.get(1), oldClass.get(1).getWidth(), 0);
     }
 
     private void initFrame() {

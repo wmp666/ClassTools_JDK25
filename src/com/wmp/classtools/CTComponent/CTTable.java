@@ -35,4 +35,16 @@ public class CTTable extends JTable {
         return data;
     }
 
+    public String[][] getStrData() {
+        int rowCount = this.getRowCount();
+        int columnCount = this.getColumnCount();
+        String[][] data = new String[rowCount][columnCount];
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                data[i][j] = this.getValueAt(i, j).toString();
+            }
+        }
+        return data;
+    }
+
 }

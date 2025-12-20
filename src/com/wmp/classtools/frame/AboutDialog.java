@@ -13,6 +13,7 @@ import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.update.GetNewerVersion;
 import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
+import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.Menu.CTMenu;
 import com.wmp.classTools.CTComponent.Menu.CTMenuBar;
 import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
@@ -221,6 +222,19 @@ public class AboutDialog extends JDialog {
                 Log.err.print(getClass(), "帮助打开失败", ex);
             }
 
+        });
+
+        CTMenuItem aboutMenuItem = new CTMenuItem("关于");
+        aboutMenuItem.setIcon(GetIcon.getIcon("文档", 20, 20));
+        aboutMenuItem.addActionListener(e -> {
+            String info = "1.开源仓库: \n1.Open JDK\n" +
+                                        "2.Jsoup(org.jsoup)\n" +
+                                        "3.Lunar(com.nlf.calendar)\n" +
+                                        "4.Jlayer(javazoom.jl)\n" +
+                                        "5.Flatlaf(com.formdev.flatlaf)...\n" +
+                    "2.作者: " + CTInfo.author + "\n" +
+                    "3.支持人员: 作者的初中,高中同学与好友";
+            CTOptionPane.showConfirmDialog(this, "关于", info, GetIcon.getIcon("图标", 48, 48), CTOptionPane.INFORMATION_MESSAGE, true);
         });
 
         CTMenuItem easterEgg = new CTMenuItem("■■");

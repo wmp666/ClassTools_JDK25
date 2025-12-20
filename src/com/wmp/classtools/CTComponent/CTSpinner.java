@@ -77,7 +77,7 @@ public class CTSpinner extends JPanel {
         textField.setText(value.toString());
     }
 
-    public String getValue() {
-        return textField.getText();
+    public int getValue() {
+        return Integer.parseInt(textField.getText());
     }
 }

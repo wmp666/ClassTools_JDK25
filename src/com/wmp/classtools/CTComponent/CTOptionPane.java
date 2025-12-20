@@ -7,10 +7,13 @@ import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
+import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,9 +22,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -840,7 +845,18 @@ public class CTOptionPane {
 
     private static final LinkedList<CTWindow> SSMDialogs = new LinkedList<>();
     public static void showSystemStyleMessageDialog(TrayIcon.MessageType iconType, String owner, String logInfo){
+        int waitTime = 5;
 
+        try {
+            File dataFile = new File(CTInfo.DATA_PATH, "appFileInfo.json");
+            JSONObject jsonObject = new JSONObject(IOForInfo.getInfos(dataFile.getAbsolutePath()));
+            if (jsonObject.has("SSMDWaitTime")) {
+                waitTime = jsonObject.getInt("SSMDWaitTime");
+            }
+        } catch (Exception _) {
+        }
+
+        int finalWaitTime = waitTime;
         new Thread(() ->{
             synchronized (SSMDialogs){
                 while (!SSMDialogs.isEmpty()) {
@@ -857,7 +873,7 @@ public class CTOptionPane {
                 dialog.setLayout(new BorderLayout());
                 dialog.getContentPane().setBackground(CTColor.backColor);
 
-                Timer t = new Timer(5000, ex -> {
+                Timer t = new Timer(finalWaitTime * 1000, ex -> {
                     if (dialog.isVisible()) {
                         SSMDialogs.remove(dialog);
                         dialog.dispose();
@@ -865,10 +881,14 @@ public class CTOptionPane {
                 });
 
                 JLabel iconLabel = new JLabel();
-                switch (iconType) {
-                    case ERROR -> iconLabel.setIcon(GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 70, 70));
-                    case WARNING -> iconLabel.setIcon(GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 70, 70));
-                    case INFO -> iconLabel.setIcon(GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 70, 70));
+                if (!CTInfo.isError) {
+                    switch (iconType) {
+                        case ERROR -> iconLabel.setIcon(GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 70, 70));
+                        case WARNING -> iconLabel.setIcon(GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 70, 70));
+                        case INFO -> iconLabel.setIcon(GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 70, 70));
+                    }
+                }else {
+                    iconLabel.setIcon(GetIcon.getIcon("图标", IconControl.COLOR_COLORFUL, 70, 70));
                 }
                 iconLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -883,9 +903,7 @@ public class CTOptionPane {
                 });
                 try {
                     dialog.setIconImage(((ImageIcon)iconLabel.getIcon()).getImage());
-                } catch (Exception _) {
-
-                }
+                } catch (Exception _) {}
                 dialog.add(iconLabel, BorderLayout.WEST);
 
                 JTextArea title = new JTextArea(owner);

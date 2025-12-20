@@ -6,6 +6,7 @@ import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import com.wmp.classTools.CTComponent.CTTable;
 
 import javax.swing.*;
@@ -16,15 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DutyListSetsPanel extends CTSetsPanel {
+public class DutyListSetsPanel extends CTTableSetsPanel {
 
     private final File DutyListPath;
 
-    private final CTTable DutyTable = new CTTable();
-    private final AtomicInteger index = new AtomicInteger();
-
     public DutyListSetsPanel(String basicDataPath) {
-        super(basicDataPath);
+        super(new String[]{"扫地", "擦黑板"}, null, basicDataPath);
         setName("值日生");
 
         File dataPath = new File(basicDataPath, "Duty");
@@ -34,88 +32,10 @@ public class DutyListSetsPanel extends CTSetsPanel {
         //初始化
         try {
             String[][] dutyList = getDutyList(this.DutyListPath);
-            initDuSet(dutyList);
+            setArray(dutyList);
         } catch (IOException e) {
             Log.err.print(getClass(), "初始化失败", e);
         }
-
-    }
-
-    private void initDuSet(String[][] dutyList) throws IOException {
-
-        this.removeAll();
-
-        this.setLayout(new BorderLayout());
-
-        DefaultTableModel model = new DefaultTableModel(dutyList,
-                new String[]{"扫地", "擦黑板"});
-        DutyTable.setModel(model);
-
-        JScrollPane scrollPane = new JScrollPane(DutyTable);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        this.add(scrollPane, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
-        //新建
-        {
-
-            CTTextButton newBtn = new CTTextButton("添加");
-            newBtn.setIcon("添加", IconControl.COLOR_COLORFUL, 30, 30);
-            newBtn.addActionListener(e -> {
-                //检测内容是否为空
-                boolean b = true;
-                String s1 = "null";
-                String s2 = "null";
-                while (b) {
-                    s1 = Log.info.showInputDialog(this, "InfSetDialog-新建", "请输入擦黑板人员");
-
-                    if (s1 != null && !s1.trim().isEmpty() && !(s1.indexOf('[') != -1 || s1.indexOf(']') != -1)) {
-                        b = false;
-                    } else if (s1 == null) {
-                        return;
-                    }
-                }
-
-                b = true;
-                while (b) {
-                    s2 = Log.info.showInputDialog(this, "InfSetDialog-新建", "请输入扫地人员");
-                    if (s2 != null && !s2.trim().isEmpty() && !(s2.indexOf('[') != -1 || s2.indexOf(']') != -1)) {
-                        b = false;
-                    } else if (s2 == null) {
-                        return;
-                    }
-                }
-
-                model.addRow(new Object[]{s2, s1});
-            });
-            buttonPanel.add(newBtn);
-        }
-
-        // 删除
-        {
-
-            CTTextButton deleteBtn = new CTTextButton("删除");
-            deleteBtn.setIcon("删除", IconControl.COLOR_COLORFUL, 30, 30);
-            deleteBtn.addActionListener(e -> {
-                int selectedRow = DutyTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    model.removeRow(selectedRow);
-                    if (selectedRow < index.get()) {
-                        index.getAndDecrement();
-                    }
-                    if (DutyTable.getRowCount() == index.get()) {
-                        index.set(0);
-                    }
-                }
-            });
-            buttonPanel.add(deleteBtn);
-        }
-
-        this.add(buttonPanel, BorderLayout.SOUTH);
 
     }
 
@@ -168,12 +88,13 @@ public class DutyListSetsPanel extends CTSetsPanel {
         // 遍历表格中的每一行，将每一行的数据添加到tempList中
         //getRowCount()-行数
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < DutyTable.getRowCount(); i++) {
+        String[][] array = this.getArray();
+        for (int i = 1; i < array.length; i++) {
 
             //getColumnCount()-列数
-            for (int j = 0; j < DutyTable.getColumnCount(); j++) {
+            for (int j = 0; j < array[i].length; j++) {
 
-                sb.append("[").append(DutyTable.getValueAt(i, j)).append("]");
+                sb.append("[").append(array[i][j]).append("]");
             }
             sb.append("\n");
         }
@@ -189,18 +110,4 @@ public class DutyListSetsPanel extends CTSetsPanel {
 
     }
 
-    @Override
-    public void refresh() throws IOException {
-
-        this.removeAll();
-        //初始化
-        try {
-            String[][] dutyList = getDutyList(this.DutyListPath);
-            initDuSet(dutyList);
-        } catch (IOException e) {
-            Log.err.print(getClass(), "刷新失败", e);
-        }
-        this.revalidate();
-        this.repaint();
-    }
 }

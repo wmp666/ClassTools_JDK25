@@ -13,5 +13,6 @@ public class PersonalizationPanel extends CTListSetsPanel {
 
         this.add(new PBasicSetsPanel(basicDataPath));
         this.add(new PAppFileSetsPanel(basicDataPath));
+        this.add(new PAppInfoSetsPanel(basicDataPath));
     }
 }

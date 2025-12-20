@@ -143,9 +143,6 @@ public class GetNewerVersion {
 
             protected void done() {
                 if (latestVersion == null) {
-
-                    Log.err.print(dialog, GetNewerVersion.class, "无法获取版本信息");
-
                     return;
                 }
                 int i = isNewerVersion(latestVersion, CTInfo.version);
