@@ -70,11 +70,10 @@ public class WeekSetsPanel extends CTTableSetsPanel<ClassFormInfos[]> {
 
         String className = Log.info.showInputDialog(this, "WeekSetsPanel-新建",
                 String.format("原数据:%s\n请输入课程\n注:若不修改不用输入内容", oldName));
-        if (className == null || className.trim().isEmpty()) return null;
 
         int[] beginTimes = Log.info.showTimeChooseDialog(this, "CFSetsPanel-新建", "请选择开始时间", CTOptionPane.HOURS_MINUTES, oldBeginTimes);
         int[] afterTimes = Log.info.showTimeChooseDialog(this, "CFSetsPanel-新建", "请选择结束时间", CTOptionPane.HOURS_MINUTES, oldAfterTimes);
-        if (beginTimes == null || afterTimes== null) return null;
+
         String date = DateTools.getTimeStr(beginTimes, CTOptionPane.HOURS_MINUTES, ':') + "-" + DateTools.getTimeStr(afterTimes, CTOptionPane.HOURS_MINUTES, ':');
 
         return new String[]{className, date};

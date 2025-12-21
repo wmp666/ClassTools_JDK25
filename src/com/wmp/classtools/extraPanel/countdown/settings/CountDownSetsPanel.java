@@ -23,7 +23,7 @@ public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
     }
 
     private String[][] getInfo() {
-        ArrayList<CountDownInfo> list = getInfoControl().refresh().list();
+        ArrayList<CountDownInfo> list = getInfoControl().getInfo().list();
         String[][] data = new String[list.size()][2];
 
         for (int i = 0; i < list.size(); i++) {
@@ -50,7 +50,7 @@ public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
         int[] times = Log.info.showTimeChooseDialog(this, "CountDownSetsPanel-新建", "请输入时间", CTOptionPane.HOURS_MINUTES_SECOND);
         if (times.length != 3) return null;
 
-        String time = String.format("%s.%s.%s %s:%s:%s", dates[0], dates[1] ,dates[2], times[0], times[1], times[2]);
+        String time = String.format("%04d.%02d.%02d %02d:%02d:%02d", dates[0], dates[1] ,dates[2], times[0], times[1], times[2]);
 
         return new String[]{name, time};
     }
@@ -82,7 +82,7 @@ public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
         int[] times = Log.info.showTimeChooseDialog(this, "CountDownSetsPanel-新建", "请输入时间", CTOptionPane.HOURS_MINUTES_SECOND, oldTimes);
         if (times.length != 3) return null;
 
-        String time = String.format("%s.%s.%s %s:%s:%s", dates[0], dates[1] ,dates[2], times[0], times[1], times[2]);
+        String time = String.format("%04d.%02d.%02d %02d:%02d:%02d", dates[0], dates[1] ,dates[2], times[0], times[1], times[2]);
 
 
         return new String[]{name, time};
@@ -90,9 +90,9 @@ public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
 
     @Override
     public void save() throws Exception {
-        String[][] data = this.getInfo();
+        String[][] data = getArray();
         ArrayList<CountDownInfo> list = new ArrayList<>();
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 1; i < data.length; i++) {
             CountDownInfo info = new CountDownInfo(data[i][0], data[i][1]);
             list.add(info);
         }
