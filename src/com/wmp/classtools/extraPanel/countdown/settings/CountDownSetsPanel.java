@@ -23,7 +23,7 @@ public class CountDownSetsPanel extends CTTableSetsPanel<CountDownInfos> {
     }
 
     private String[][] getInfo() {
-        ArrayList<CountDownInfo> list = getInfoControl().getInfo().list();
+        ArrayList<CountDownInfo> list = getInfoControl().refresh().list();
         String[][] data = new String[list.size()][2];
 
         for (int i = 0; i < list.size(); i++) {
