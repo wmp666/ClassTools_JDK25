@@ -52,6 +52,7 @@ public class LoadingWindow extends CTWindow {
         this.setAlwaysOnTop(true);
         this.setSize(this.getPreferredSize());
         this.setLocationRelativeTo(null);
+        this.setCursor(Cursor.WAIT_CURSOR);
 
         Taskbar taskbar = Taskbar.getTaskbar();
         if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {

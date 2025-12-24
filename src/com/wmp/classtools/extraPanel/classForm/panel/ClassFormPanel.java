@@ -56,7 +56,7 @@ public class ClassFormPanel extends CTViewPanel {
 
         }
 
-        String infoSB = "现在的课程:" +
+        String infoSB = "本节课:" +
                 sb +
                 "\n" +
                 "下节课:" +

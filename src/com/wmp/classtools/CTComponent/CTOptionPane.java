@@ -219,9 +219,7 @@ public class CTOptionPane {
                 //messageArea.setFocusable(false);//设置文本区域可聚焦
                 messageArea.setOpaque(false);//设置文本区域不透明
                 messageArea.setLineWrap(true);//设置文本区域自动换行
-                messageArea.setWrapStyleWord(true);//设置文本区域自动换行时单词不被分割
                 messageArea.setForeground(CTColor.textColor);
-                messageArea.setAutoscrolls(false);
                 messageArea.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, (int) (15 * CTInfo.dpi)));
 
 

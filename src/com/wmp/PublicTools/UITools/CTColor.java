@@ -144,7 +144,7 @@ public class CTColor {
         return switch (colorStyle) {
             case MAIN_COLOR_WHITE -> Color.WHITE;
             case MAIN_COLOR_BLUE -> new Color(0x29A8E3);
-            case MAIN_COLOR_GREEN -> new Color(0x00FF00);
+            case MAIN_COLOR_GREEN -> new Color(0x05E666);
             case MAIN_COLOR_RED -> new Color(0xFF0000);
             case MAIN_COLOR_BLACK -> new Color(0x282C34);
             case STYLE_SYSTEM -> SystemColor.getAccentColor();

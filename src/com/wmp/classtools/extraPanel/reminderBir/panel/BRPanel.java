@@ -68,7 +68,7 @@ public class BRPanel extends CTViewPanel {
                 else WBsb.append(WBTempList.get(i));
 
             }
-            CTOptionPane.showFullScreenMessageDialog("生日祝福", String.format("今日生日:%s\n即将生日:%s", BRsb, WBsb), 60, 8);
+            CTOptionPane.showFullScreenMessageDialog("生日祝福", String.format("今日生日:%s\n即将生日:%s", BRsb, WBsb), 60, 5);
         }
 
     }

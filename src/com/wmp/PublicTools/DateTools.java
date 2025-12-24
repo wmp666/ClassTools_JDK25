@@ -67,7 +67,7 @@ public class DateTools {
                     day = targetSolar.subtract(solar);
                 }
 
-                if (day < 0) {
+                if (day <= 0) {
                     lunarYear = lunarYear + 1;
                     {
                         //3.获取农历,并转成公历
@@ -94,7 +94,7 @@ public class DateTools {
                 //获取间隔天数
                 day = targetSolar.subtract(solar);
 
-                if (day < 0) {
+                if (day <= 0) {
                     //获取今年年份 - 公历
                     solar = Solar.fromDate(new Date());
                     //获取目标时间 - 公历
