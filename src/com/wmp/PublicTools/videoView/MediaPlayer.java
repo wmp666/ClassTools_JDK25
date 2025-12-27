@@ -1,6 +1,6 @@
 package com.wmp.PublicTools.videoView;
 
-import com.wmp.PublicTools.appFileControl.MusicControl;
+import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.printLog.Log;
 import javazoom.jl.player.Player;
 
@@ -67,7 +67,7 @@ public class MediaPlayer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Player player = MusicControl.getPlayer(key);
+                Player player = AudioControl.getPlayer(key);
                 if (player != null) {
                     try {
                         player.play();

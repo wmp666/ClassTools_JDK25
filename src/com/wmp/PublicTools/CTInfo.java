@@ -4,7 +4,7 @@ import com.wmp.Main;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.appFileControl.MusicControl;
+import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
@@ -47,7 +47,7 @@ public class CTInfo {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static String version = "1.48.1.0.2";
+    public static String version = "1.48.2.0.1";
     private static JSONObject jsonObject;
 
     static {
@@ -115,7 +115,7 @@ public class CTInfo {
 
     private static void initCTBasicInfo() {
         IconControl.init();
-        MusicControl.init();
+        AudioControl.init();
         Log.initTrayIcon();
     }
 

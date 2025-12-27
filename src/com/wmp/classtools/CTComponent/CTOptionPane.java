@@ -654,6 +654,7 @@ public class CTOptionPane {
 
         if (northTitle != null && !northTitle.isEmpty()) {
             JTextArea messageTextArea = new JTextArea(northTitle);
+            messageTextArea.setOpaque(false);
             messageTextArea.setEditable(false);
             messageTextArea.setFont(new Font("微软雅黑", Font.PLAIN, CTFont.getSize(CTFontSizeStyle.SMALL)));
             messageTextArea.setForeground(CTColor.textColor);

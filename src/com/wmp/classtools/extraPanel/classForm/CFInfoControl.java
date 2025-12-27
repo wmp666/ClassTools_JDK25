@@ -130,13 +130,22 @@ public class CFInfoControl extends CTInfoControl<ClassFormInfos[]> {
                 classFormInfos[i] = new ClassFormInfos(infos);
             }
             return classFormInfos;
-        } catch (IOException e) {
-            Log.err.print(CFInfoControl.class, "ClassFormInfos.json文件读取失败", e);
+        } catch (Exception e) {
+            Log.err.systemPrint(CFInfoControl.class, "ClassFormInfos.json文件读取失败", e);
         }
         ArrayList<ClassFormInfo> temp = new ArrayList<>();
+
         temp.add(new ClassFormInfo("无", "00:00-00:00"));
+
         return new ClassFormInfos[]{
+                new ClassFormInfos(temp), //1
+                new ClassFormInfos(temp), //2
+                new ClassFormInfos(temp), //3
+                new ClassFormInfos(temp), //4
+                new ClassFormInfos(temp), //5
+                new ClassFormInfos(temp), //6
                 new ClassFormInfos(temp)
+                //7
         };
     }
 

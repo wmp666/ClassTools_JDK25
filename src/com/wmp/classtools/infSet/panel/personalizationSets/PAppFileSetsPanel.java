@@ -4,7 +4,7 @@ import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.appFileControl.MusicControl;
+import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
@@ -181,7 +181,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
                         version.set(Log.info.showInputDialog(this, "输入音频版本", "请输入音频版本,如:1.0.0"));
                     }
                 }
-                MusicControl.downloadFile(downloadURL, version);
+                AudioControl.downloadFile(downloadURL, version);
             } catch (Exception ex) {
                 Log.err.print(getClass(), "音频下载失败", ex);
             }

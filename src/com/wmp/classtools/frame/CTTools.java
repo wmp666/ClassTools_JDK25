@@ -111,6 +111,16 @@ public class CTTools extends JDialog {
         });
         popupMenu.add(button);
 
+        JButton aidTools =  new JButton("急救工具");
+        aidTools.addActionListener( e -> {
+            if (style == 1) {
+                Log.getCtPopupMenu().show(aidTools, aidTools.getWidth(), 0);
+            } else if (style == 0) {
+                 Log.getCtPopupMenu().show(aidTools, -aidTools.getWidth(), 0);
+            }
+        });
+        popupMenu.add(aidTools);
+
         if (style == 2){
             ctRoundTextButtonArrayList.forEach(dialog::add);
             dialog.add(button);

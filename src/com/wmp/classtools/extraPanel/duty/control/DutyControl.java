@@ -22,14 +22,15 @@ public class DutyControl extends CTInfoControl<DutyInfo> {
     public void setInfo(DutyInfo dutyInfo) {
         try {
             if (dutyInfo.dutyDay() != null) {
+                System.out.println(dutyInfo);
                 StringBuilder sb = new StringBuilder();
                 String[][] array = dutyInfo.toStringList();
-                for (int i = 1; i < array.length; i++) {
+                for (String[] strings : array) {
 
                     //getColumnCount()-列数
-                    for (int j = 0; j < array[i].length; j++) {
+                    for (String string : strings) {
 
-                        sb.append("[").append(array[i][j]).append("]");
+                        sb.append("[").append(string).append("]");
                     }
                     sb.append("\n");
                 }
@@ -90,6 +91,11 @@ public class DutyControl extends CTInfoControl<DutyInfo> {
                 IOForInfo ioForInfo = new IOForInfo(new File(getInfoBasicFile(), "index.txt"));
                 String inf = ioForInfo.getInfos();
                 index = Integer.parseInt(inf);
+                if ((index > dutyDays.length - 1)
+                || (index < 0)) {
+                    index = 0;
+                    Log.warn.print(getClass().toString(), "index越界(大于值日列表数或小于0),已重置为0");
+                }
             }
             return new DutyInfo(dutyDays, index);
         } catch (Exception e) {

@@ -55,11 +55,11 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
 
             JSONObject nowWeather = GetWeatherInfo.getNowWeather(getInfoControl().getInfo());
             JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
-            JSONObject todayOtherWeather = weatherForecasts.getJSONObject(0);
-            if (nowWeather == null || todayOtherWeather == null) {
+            if (nowWeather == null || weatherForecasts == null) {
                 weather.setText(String.format("<html>获取天气数据失败<br>%s<br>点击查看详情</html>", GetWeatherInfo.errCode));
                 return;
             }
+            JSONObject todayOtherWeather = weatherForecasts.getJSONObject(0);
             weather.setText(String.format(format,
                     nowWeather.getString("city"),
                     nowWeather.getString("weather"),

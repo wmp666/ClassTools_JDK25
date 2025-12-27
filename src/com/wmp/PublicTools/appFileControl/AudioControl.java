@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class MusicControl {
+public class AudioControl {
 
     private static final Map<String, Player> PLAYER_MAP = new HashMap<>();
 
@@ -37,31 +37,31 @@ public class MusicControl {
         try {
 
             //获取基础音频
-            String resourceInfos = IOForInfo.getInfos(MusicControl.class.getResource("musicIndex.json"));
+            String resourceInfos = IOForInfo.getInfos(AudioControl.class.getResource("musicIndex.json"));
             JSONArray resourceJsonArray = new JSONArray(resourceInfos);
             resourceJsonArray.forEach(object -> {
 
                 JSONObject jsonObject = (JSONObject) object;
-                Log.info.print("MusicControl", String.format("名称:%s|位置:%s", jsonObject.getString("name"), jsonObject.getString("path")));
+                Log.info.print("AudioControl", String.format("名称:%s|位置:%s", jsonObject.getString("name"), jsonObject.getString("path")));
                 String pathStr = jsonObject.getString("path");
-                URL path = MusicControl.class.getResource(pathStr);
+                URL path = AudioControl.class.getResource(pathStr);
                 if (path == null) {
-                    Log.warn.print("MusicControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
+                    Log.warn.print("AudioControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
                 } else {
                     PLAYER_MAP.put(jsonObject.getString("name"),
-                            getPlayer(MusicControl.class.getResourceAsStream(pathStr)));
+                            getPlayer(AudioControl.class.getResourceAsStream(pathStr)));
                 }
             });
 
         } catch (Exception e) {
-            Log.warn.message(null, MusicControl.class.getName(), "音频加载失败:\n" + e);
+            Log.warn.message(null, AudioControl.class.getName(), "音频加载失败:\n" + e);
         }
         try {
             //判断磁盘中是否有音频
             getNewMusic();
 
         } catch (Exception e) {
-            Log.warn.print(null, MusicControl.class.getName(), "音频更新失败:\n" + e);
+            Log.warn.print(null, AudioControl.class.getName(), "音频更新失败:\n" + e);
         }
 
         try {
@@ -71,19 +71,19 @@ public class MusicControl {
             JSONArray musicJsonArray = new JSONArray(musicInfos);
             musicJsonArray.forEach(object -> {
                 JSONObject jsonObject = (JSONObject) object;
-                Log.info.print("MusicControl", String.format("名称:%s|位置:%s", jsonObject.getString("name"), jsonObject.getString("path")));
+                Log.info.print("AudioControl", String.format("名称:%s|位置:%s", jsonObject.getString("name"), jsonObject.getString("path")));
                 String pathStr = new File(CTInfo.APP_INFO_PATH, jsonObject.getString("path")).getPath();
                 try {
                     File file = new File(pathStr);
                     if (!file.exists()) {
-                        Log.warn.print("MusicControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
+                        Log.warn.print("AudioControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
                     } else {
                         PLAYER_MAP.put(jsonObject.getString("name"),
                                 getPlayer(new FileInputStream(file)));
                     }
 
                 } catch (Exception e) {
-                    Log.warn.print("MusicControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
+                    Log.warn.print("AudioControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
                 }
 
 
@@ -91,7 +91,7 @@ public class MusicControl {
 
 
         } catch (Exception e) {
-            Log.warn.message(null, MusicControl.class.getName(), "本地音频加载失败:\n" + e);
+            Log.warn.message(null, AudioControl.class.getName(), "本地音频加载失败:\n" + e);
         }
 
     }
@@ -122,10 +122,10 @@ public class MusicControl {
                 int newerVersion = GetNewerVersion.isNewerVersion(version.get(), split[split.length - 1]);
                 if (newerVersion != 0) {
                     if (!split[0].equals("zip")) {
-                        Log.info.print("MusicControl", "有新音频");
+                        Log.info.print("AudioControl", "有新音频");
                         needDownload = true;
                     } else {
-                        int i = Log.warn.showChooseDialog(null, "MusicControl", "我们已经更新了官方音频库,而您的音频似乎是使用压缩包导入的(可能为第三方),我们无法确认是否要更新,如果你已经有了相关的最新版本/想要使用官方音频库,请按\"是\",否则按\"否\"");
+                        int i = Log.warn.showChooseDialog(null, "AudioControl", "我们已经更新了官方音频库,而您的音频似乎是使用压缩包导入的(可能为第三方),我们无法确认是否要更新,如果你已经有了相关的最新版本/想要使用官方音频库,请按\"是\",否则按\"否\"");
                         if (i == CTOptionPane.YES_OPTION) {
                             needDownload = true;
                         }
@@ -138,7 +138,7 @@ public class MusicControl {
             }
             if (needDownload) {
                 if (!downloadFile(downloadURL, version)) {
-                    Log.err.print("MusicControl", "音频更新失败");
+                    Log.err.print("AudioControl", "音频更新失败");
                 }
             }
     }
@@ -146,7 +146,7 @@ public class MusicControl {
     public static boolean downloadFile(AtomicReference<String> downloadURL, AtomicReference<String> version) throws InterruptedException {
         String choose;
         if (downloadURL != null && !downloadURL.get().isEmpty()) {
-            choose = Log.info.showChooseDialog(null, "MusicControl", "音频文件不存在/存在新版,选择获取方式", "下载", "导入压缩包");
+            choose = Log.info.showChooseDialog(null, "AudioControl", "音频文件不存在/存在新版,选择获取方式", "下载", "导入压缩包");
         }else choose = "导入压缩包";
 
         String zipPath;
@@ -159,11 +159,11 @@ public class MusicControl {
             zipPath = CTInfo.TEMP_PATH + "appInfo\\music.zip";
 
         } else if (choose.equals("导入压缩包")) {
-            Log.warn.message(null, "MusicControl", "若导入的音频库为第三方,可能需要自行更新");
+            Log.warn.message(null, "AudioControl", "若导入的音频库为第三方,可能需要自行更新");
             version.set("zip:" + version.get());
             zipPath = GetPath.getFilePath(null, "导入音频", ".zip", "音频压缩包");
         } else {
-            Log.warn.message(null, "MusicControl", "若不下载/导入音频,可能造成程序异常");
+            Log.warn.message(null, "AudioControl", "若不下载/导入音频,可能造成程序异常");
             return false;
         }
         //清空文件

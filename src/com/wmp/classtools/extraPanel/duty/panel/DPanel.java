@@ -27,9 +27,9 @@ import java.util.List;
 
 public class DPanel extends CTViewPanel<DutyInfo> {
 
-    private int index; //当前日期索引
+    private int index = 0; //当前日期索引
 
-    public DPanel() throws IOException {
+    public DPanel(){
 
         this.setCtSetsPanelList(List.of(new DutyListSetsPanel(getInfoControl())));
         this.setName("值日表组件");
@@ -42,7 +42,9 @@ public class DPanel extends CTViewPanel<DutyInfo> {
 
     }
 
-    private void initContainer() throws IOException {
+    private void initContainer(){
+        index = getInfoControl().getInfo().index();
+
         JPanel InfoPanel = new JPanel();
         InfoPanel.setLayout(new GridBagLayout());
         InfoPanel.setOpaque(false);
@@ -92,7 +94,7 @@ public class DPanel extends CTViewPanel<DutyInfo> {
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至上一天");
                 if (i == 0) {
                     if (index > 0) index--;
-                    else index = getInfoControl().getInfo().index() - 1;
+                    else index = getInfoControl().getInfo().dutyDay().length - 1;
                 }
 
 
@@ -114,7 +116,7 @@ public class DPanel extends CTViewPanel<DutyInfo> {
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至下一天");
 
                 if (i == 0) {
-                    if (index < getInfoControl().getInfo().index() - 1) index++;
+                    if (index < getInfoControl().getInfo().dutyDay().length - 1) index++;
 
                     else index = 0;
                 }

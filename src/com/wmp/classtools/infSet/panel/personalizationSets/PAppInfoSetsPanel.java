@@ -13,7 +13,7 @@ import java.awt.*;
 import java.io.File;
 
 public class PAppInfoSetsPanel extends CTBasicSetsPanel {
-    private final CTSpinner SSMDWaitTimeSpinner = new CTSpinner(new SpinnerNumberModel(0, 0, 60, 1));
+    private final CTSpinner SSMDWaitTimeSpinner = new CTSpinner(new SpinnerNumberModel(5, 0, 60, 1));
 
     public PAppInfoSetsPanel() {
         super(null);

@@ -17,6 +17,7 @@ import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,6 +104,26 @@ public class Log {
     private static MouseAdapter mouseAdapter;
     private static ActionListener actionListener;
     public static void initTrayIcon() {
+        CTPopupMenu popupMenu = getCtPopupMenu();
+
+        trayIcon.removeMouseListener(mouseAdapter);
+        trayIcon.removeActionListener(actionListener);
+
+        mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                popupMenu.show(null, e.getXOnScreen() - popupMenu.getWidth(), e.getYOnScreen() - popupMenu.getHeight());
+            }
+        };
+        actionListener = e -> {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            popupMenu.show(null, (screenSize.width - popupMenu.getWidth())/2, (screenSize.height - popupMenu.getHeight())/2);
+        };
+        trayIcon.addMouseListener(mouseAdapter);
+        trayIcon.addActionListener(actionListener);
+    }
+
+    public static @NotNull CTPopupMenu getCtPopupMenu() {
         CTPopupMenu popupMenu = new CTPopupMenu();
 
         CTRoundTextButton refresh = new CTRoundTextButton("刷新");
@@ -134,22 +155,7 @@ public class Log {
         hide.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         hide.addActionListener(e -> popupMenu.setVisible(false));
         popupMenu.add(hide);
-
-        trayIcon.removeMouseListener(mouseAdapter);
-        trayIcon.removeActionListener(actionListener);
-
-        mouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                popupMenu.show(null, e.getXOnScreen() - popupMenu.getWidth(), e.getYOnScreen() - popupMenu.getHeight());
-            }
-        };
-        actionListener = e -> {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            popupMenu.show(null, (screenSize.width - popupMenu.getWidth())/2, (screenSize.height - popupMenu.getHeight())/2);
-        };
-        trayIcon.addMouseListener(mouseAdapter);
-        trayIcon.addActionListener(actionListener);
+        return popupMenu;
     }
 
     public static void exit(int status) {
@@ -304,7 +310,7 @@ public class Log {
     }
 
     public static void showLogDialog(boolean happenSystemErr) {
-        if (Main.isHasTheArg("screenProduct:show")) {
+        if (!happenSystemErr && Main.isHasTheArg("screenProduct:show")) {
             Log.err.print(null, "系统", "屏保状态无法打开日志");
             return;
         }

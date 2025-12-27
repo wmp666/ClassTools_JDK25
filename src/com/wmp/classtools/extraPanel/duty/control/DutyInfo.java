@@ -1,5 +1,10 @@
 package com.wmp.classTools.extraPanel.duty.control;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public record DutyInfo(DutyDay[] dutyDay, int index) {
     /**
      * 转换为表格数据
@@ -30,5 +35,10 @@ public record DutyInfo(DutyDay[] dutyDay, int index) {
             }
         }
         return list;
+    }
+
+    @Override
+    public @NotNull String toString() {
+        return  "值日生列表:" + Arrays.toString(dutyDay)  + "|索引:" + index;
     }
 }
