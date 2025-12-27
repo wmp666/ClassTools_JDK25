@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact name="ClassTools_libLocal:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ClassTools_libLocal_jar</output-path>
+    <root id="root">
+      <element id="archive" name="ClassTools.jar">
+        <element id="module-output" name="ClassTools" />
+      </element>
+      <element id="library" level="project" name="jsoup-1.19.1" />
+      <element id="library" level="project" name="atlassian.commonmark" />
+      <element id="library" level="project" name="cn.6tail.lunar" />
+      <element id="library" level="project" name="formdev.flatlaf" />
+      <element id="library" level="project" name="json-20210307" />
+      <element id="file-copy" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/26.0.2/annotations-26.0.2.jar" />
+      <element id="library" level="project" name="googlecode.soundlibs.jlayer" />
+    </root>
+  </artifact>
+</component>
