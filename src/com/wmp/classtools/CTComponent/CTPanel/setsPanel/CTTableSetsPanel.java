@@ -108,7 +108,10 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
             buttonPanel.add(removeBtn);
         }
 
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        JScrollPane scrollPane1 = new JScrollPane(buttonPanel);
+        scrollPane1.setOpaque(false);
+        scrollPane1.getViewport().setOpaque(false);
+        this.add(scrollPane1, BorderLayout.SOUTH);
     }
 
     public String[] addToTable(){

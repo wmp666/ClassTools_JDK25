@@ -49,7 +49,6 @@ public class NewsTextPanel extends CTViewPanel<String> {
                     false);
         } catch (Exception e) {
             Log.warn.print(getClass().getName(), "获取新闻失败");
-            throw new RuntimeException(e);
         }
 
         Timer refreshTimer = new Timer(2 * 60 * 60 * 1000, e -> {
@@ -58,7 +57,6 @@ public class NewsTextPanel extends CTViewPanel<String> {
                         false);
             } catch (Exception ex) {
                 Log.warn.print(getClass().getName(), "获取新闻失败");
-                throw new RuntimeException(ex);
             }
         });
         refreshTimer.start();
@@ -130,27 +128,31 @@ public class NewsTextPanel extends CTViewPanel<String> {
                     textArea.setForeground(CTColor.mainColor);
                     textArea.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
                     textArea.removeMouseListener(textArea.getMouseListeners()[textArea.getMouseListeners().length - 1]);
-                    if (!Main.isHasTheArg("screenProduct:show")) {
+
                         textArea.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 if (e.getButton() == MouseEvent.BUTTON1) {
-                                    try {
-                                        Desktop.getDesktop().browse(URI.create(itemObject.getString("url")));
-                                    } catch (Exception ex) {
-                                        Log.err.print(getClass(), "无法打开网页", ex);
-                                    }
-                                } else if (e.getButton() == MouseEvent.BUTTON3) {
-                                    CTPopupMenu popupMenu = new CTPopupMenu();
-                                    CTRoundTextButton openURL = new CTRoundTextButton("查看详情");
-                                    openURL.addActionListener(e1 -> {
+                                    if (!Main.isHasTheArg("screenProduct:show")) {
                                         try {
                                             Desktop.getDesktop().browse(URI.create(itemObject.getString("url")));
                                         } catch (Exception ex) {
                                             Log.err.print(getClass(), "无法打开网页", ex);
                                         }
-                                    });
-                                    popupMenu.add(openURL);
+                                    }
+                                } else if (e.getButton() == MouseEvent.BUTTON3) {
+                                    CTPopupMenu popupMenu = new CTPopupMenu();
+                                    if (!Main.isHasTheArg("screenProduct:show")) {
+                                        CTRoundTextButton openURL = new CTRoundTextButton("查看详情");
+                                        openURL.addActionListener(e1 -> {
+                                            try {
+                                                Desktop.getDesktop().browse(URI.create(itemObject.getString("url")));
+                                            } catch (Exception ex) {
+                                                Log.err.print(getClass(), "无法打开网页", ex);
+                                            }
+                                        });
+                                        popupMenu.add(openURL);
+                                    }
 
                                     CTRoundTextButton next = new CTRoundTextButton("下一个");
                                     next.addActionListener(e1 -> {
@@ -180,7 +182,6 @@ public class NewsTextPanel extends CTViewPanel<String> {
                                 }
                             }
                         });
-                    }
                 }
 
 

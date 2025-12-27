@@ -253,6 +253,8 @@ public class Log {
         DateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm:ss");
         String dateStr = dateFormat.format(date);
 
+        logInfo = logInfo.toString().replace("\n", "[\\n]");
+
         String info;
         switch (style) {
             case INFO -> {

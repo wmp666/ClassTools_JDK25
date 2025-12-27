@@ -291,7 +291,11 @@ public class ScreenProduct extends JDialog {
         this.setSize(screenWidth, screenHeight);
         this.setLocation(0, 0);
 
-        c.setLayout(new BorderLayout());
+        //设置主要显示区域
+
+
+        BorderLayout layout = new BorderLayout();
+        c.setLayout(layout);
     }
 
     private void initBackground(int index) throws IOException {

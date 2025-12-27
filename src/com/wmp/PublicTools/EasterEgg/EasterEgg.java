@@ -16,10 +16,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.desktop.SystemEventListener;
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,7 +40,19 @@ public class EasterEgg {
 
         if (Main.isHasTheArg("screenProduct:show")) return false;
 
-        if (Main.isHasTheArg("CTInfo:isError")) return true;
+        if (DateTools.dayIsNow("12-31") ||
+            DateTools.dayIsNow("01-01") ||
+            DateTools.dayIsNow("01-02")){
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.bilibili.com/video/BV1ad4y1V7wb"));
+                } catch (IOException _) {
+                    Log.info.print(null, EasterEgg.class.toString(), "浏览器打开失败");
+                }
+            }
+        }
+
+        if (style == STYLE_ERROR && Main.isHasTheArg("CTInfo:isError")) return true;
 
         switch (style) {
             case STYLE_IMPORT_DAY -> {
@@ -50,7 +66,8 @@ public class EasterEgg {
 
                 if (DateTools.dayIsNow("09-18") ||
                         DateTools.dayIsNow("10-01") ||
-                        DateTools.dayIsNow("05-01")) {
+                        DateTools.dayIsNow("05-01") ||
+                        DateTools.dayIsNow("12-26")) {
                     CTColor.setAllColor(CTColor.MAIN_COLOR_RED, CTColor.STYLE_LIGHT);
                 }
 
@@ -198,6 +215,8 @@ public class EasterEgg {
 
     public static void showEasterEgg(int style, String name, String url) {
         Log.info.print("EasterEgg-显示", "正在准备...");
+
+
 
         new SwingWorker<Void, Void>() {
             @Override

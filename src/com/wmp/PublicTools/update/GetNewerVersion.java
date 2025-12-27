@@ -8,6 +8,8 @@ import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.PublicTools.web.SslUtils;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -174,11 +176,6 @@ public class GetNewerVersion {
                             updateThread.start();
 
                         }
-                    } else if (i == 2) {
-                        Log.info.message(dialog, "发现新版本",
-                                "发现新版本 " + latestVersion + "，是否下载？\n" + versionContent);
-
-                        updateThread.start();
                     } else {
                         if (showMessage) {
                             Log.info.message(dialog, "获取新版本", "当前已是最新版本");

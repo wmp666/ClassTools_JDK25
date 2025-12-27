@@ -8,6 +8,10 @@ import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfo;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfoControl;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfo;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfoControl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +21,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CTInfo {
     //禁用的组件和按钮
@@ -48,7 +53,6 @@ public class CTInfo {
      * e:测试版本号
      */
     public static String version = "1.48.2.0.1";
-    private static JSONObject jsonObject;
 
     static {
         init();
@@ -120,61 +124,29 @@ public class CTInfo {
     }
 
     private static void initCTInfo() {
-        boolean exists = new File(CTInfo.DATA_PATH + "setUp.json").exists();
-        if (exists) {
-            IOForInfo sets = new IOForInfo(new File(CTInfo.DATA_PATH + "setUp.json"));
 
-            try {
-                jsonObject = new JSONObject(sets.getInfos());
-            } catch (Exception e) {
-                jsonObject = new JSONObject();
-                Log.err.print(CTFont.class, "数据获取发生错误", e);
-            }
+        PBasicInfo basicInfo = new PBasicInfoControl().getInfo();
+        PPanelInfo panelInfo = new PPanelInfoControl().getInfo();
 
-            //设置颜色
-            if (jsonObject.has("mainColor")) {
-                CTColor.setMainColor(jsonObject.getString("mainColor"));
-            }
-            //设置主题
-            if (jsonObject.has("mainTheme")) {
-                CTColor.setMainTheme(jsonObject.getString("mainTheme"));
-            }
-            //设置按钮颜色
-            if (jsonObject.has("buttonColor")) {
-                isButtonUseMainColor = jsonObject.getBoolean("buttonColor");
-            }
-            //设置字体
-            if (jsonObject.has("FontName")) {
-                CTFont.setFontName(jsonObject.getString("FontName"));
-            }
-            //设置隐藏内容
-            if (jsonObject.has("disposeButton")) {
-                JSONArray disButtonList = jsonObject.getJSONArray("disposeButton");
-                disButtonList.forEach(object -> disButList.add(object.toString()));
-            }
-            if (jsonObject.has("disposePanel")) {
-                JSONArray disButtonList = jsonObject.getJSONArray("disposePanel");
-                disButtonList.forEach(object -> disPanelList.add(object.toString()));
-            }
-            //设置是否可以退出
-            if (CTInfo.version.split("\\.").length < 5) {
-                if (jsonObject.has("canExit")) {
-                    canExit = jsonObject.getBoolean("canExit");
-                }
-            }else canExit = true;
-            //设置是否可以更新
-            if (jsonObject.has("StartUpdate")) {
-                StartUpdate = jsonObject.getBoolean("StartUpdate");
-            }
-            //设置DPI
-            if (jsonObject.has("DPI")) {
-                dpi = jsonObject.getDouble("DPI");
-            }
-            //设置日志
-            if (jsonObject.has("isSaveLog")) {
-                boolean b = jsonObject.getBoolean("isSaveLog");
-                Log.isSaveLog(b);
-            }
+        //基础数据
+
+        //颜色数据
+        CTColor.setMainColor(basicInfo.mainColor());
+        CTColor.setMainTheme(basicInfo.mainTheme());
+        isButtonUseMainColor = basicInfo.buttonColor();
+        //字体数据
+        CTFont.setFontName(basicInfo.fontName());
+        //界面数据
+        disButList.addAll(List.of(basicInfo.disposeButton()));
+        canExit = basicInfo.canExit();
+        StartUpdate = basicInfo.startUpdate();
+        if (basicInfo.isSaveLog()) {
+            Log.isSaveLog(true);
         }
+
+        //组件数据
+        disPanelList.addAll(List.of(panelInfo.disPanelList()));
+        dpi = panelInfo.dpi();
+
     }
 }

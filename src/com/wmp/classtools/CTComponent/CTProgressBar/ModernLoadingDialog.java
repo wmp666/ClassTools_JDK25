@@ -14,7 +14,7 @@ public class ModernLoadingDialog extends JDialog {
 
         setLayout(new BorderLayout(20, 20));
         setUndecorated(true); // 无边框
-        setBackground(new Color(255, 255, 255, 240));
+        setBackground(new Color(255, 255, 255, 0));
 
         // 创建圆角面板
         JPanel mainPanel = new JPanel() {

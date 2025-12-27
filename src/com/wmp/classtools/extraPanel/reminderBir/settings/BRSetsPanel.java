@@ -31,8 +31,8 @@ public class BRSetsPanel extends CTTableSetsPanel<BRInfo[]> {
         if (style == null || style.trim().isEmpty()) return null;
 
         int[] times = Log.info.showTimeChooseDialog(this, "BRSetsPanel-新建", "请输入时间", CTOptionPane.MONTH_DAY);
-        if (times.length != 2) return null;
-        String date = (style.equals("农历") ? "lunar" : "") + times[0] + "-" + times[1];
+        if (times.length != 3) return null;
+        String date = (style.equals("农历") ? "lunar" : "") + times[1] + "-" + times[2];
 
         return new String[]{name, date};
     }
@@ -74,7 +74,7 @@ public class BRSetsPanel extends CTTableSetsPanel<BRInfo[]> {
             oldTimes[1] = Integer.parseInt(split[1]);
         }
         int[] times = Log.info.showTimeChooseDialog(this, "BRSetsPanel-修改", "请输入时间", CTOptionPane.MONTH_DAY, oldTimes);
-        String date = (style.equals("农历") ? "lunar" : "") + times[0] + "-" + times[1];
+        String date = (style.equals("农历") ? "lunar" : "") + times[1] + "-" + times[2];
 
         return new String[]{name, date};
     }

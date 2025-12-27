@@ -341,8 +341,6 @@ public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
     @Override
     public void save() {
 
-
-
         //设置主题色
         String tempMainColor = switch (Objects.requireNonNull(mainColorComboBox.getSelectedItem()).toString()) {
             case "黑色" -> "black";
@@ -356,7 +354,8 @@ public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
             default -> "light";
         };
 
-        ScreenProductInfo info = getInfoControl().getInfo().getNewSPInfo(tempMainColor, tempMainThemeColor, null, null, Integer.parseInt(repaintTimerTextField.getText()));
+        ScreenProductInfo info = getInfoControl().getInfo().getNewSPInfo(tempMainColor, tempMainThemeColor,
+                null, null, Integer.parseInt(repaintTimerTextField.getText()));
         getInfoControl().setInfo(info);
     }
 

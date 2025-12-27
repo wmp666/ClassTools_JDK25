@@ -17,7 +17,7 @@ public record ScreenProductInfo(String mainColor, String mainTheme, String BGBas
         mainTheme = mainTheme == null ? this.mainTheme : mainTheme;
         BGBasicPath = BGBasicPath == null ? this.BGBasicPath : BGBasicPath;
         BGImagePathList = BGImagePathList == null ? this.BGImagePathList : BGImagePathList;
-        repaintTimer = repaintTimer == -1 ? this.repaintTimer : repaintTimer;
+        repaintTimer = repaintTimer == 0 ? this.repaintTimer : repaintTimer;
         return new ScreenProductInfo(mainColor, mainTheme, BGBasicPath, BGImagePathList, repaintTimer);
     }
 }

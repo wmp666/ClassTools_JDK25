@@ -111,11 +111,16 @@ public class InfoLogStyle extends PrintLogStyle {
 
     public int[] showTimeChooseDialog(Container c, String owner, String logInfo, int style) {
         Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
-        return CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true);
+        int[] times = CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true);
+        Log.print(getStyle(), owner, "输入信息->" + Arrays.toString(times), c);
+        return times;
     }
 
-    public int[] showTimeChooseDialog(Container c, String owner, String logInfo, int style, int[] times) {
+    public int[] showTimeChooseDialog(Container c, String owner, String logInfo, int style, int[] oldTimes) {
         Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
-        return CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true, times);
+        Log.print(getStyle(), owner, "旧的时间->" + Arrays.toString(oldTimes), c);
+        int[] times = CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true, oldTimes);
+        Log.print(getStyle(), owner, "输入信息->" + Arrays.toString(times), c);
+        return times;
     }
 }

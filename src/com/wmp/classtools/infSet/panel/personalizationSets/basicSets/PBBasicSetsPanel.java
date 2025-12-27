@@ -4,6 +4,7 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
@@ -14,6 +15,7 @@ import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
 import com.wmp.classTools.infSet.panel.personalizationSets.PersonalizationPanel;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfo;
 import com.wmp.classTools.infSet.tools.SetStartUp;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public class PBBasicSetsPanel extends CTBasicSetsPanel {
+public class PBBasicSetsPanel extends CTBasicSetsPanel<PBasicInfo> {
     //颜色 数据
     private final CTComboBox mainColorComboBox = new CTComboBox();
     private final CTComboBox mainThemeComboBox = new CTComboBox();
@@ -42,8 +44,8 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
     private final CTCheckBox startUp = new CTCheckBox("开机自启动");
     private final CTCheckBox isSaveLog = new CTCheckBox("是否保存日志");
 
-    public PBBasicSetsPanel() {
-        super(null);
+    public PBBasicSetsPanel(CTInfoControl<PBasicInfo> infoControl) {
+        super(infoControl);
 
         setName("个性化设置");
 
@@ -259,19 +261,11 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
 
     private void initData() {
         //显示数据
-
-        IOForInfo io = new IOForInfo(new File(CTInfo.DATA_PATH + "setUp.json"));
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(io.getInfos());
-        } catch (Exception e) {
-            Log.err.print(getClass(), "读取设置文件失败: " + e.getMessage());
-            jsonObject = new JSONObject();
-        }
+        PBasicInfo info = getInfoControl().getInfo();
 
         //主题色设置
-        if (jsonObject.has("mainColor")) {
-            switch (jsonObject.getString("mainColor")) {
+
+            switch (info.mainColor()) {
                 case "black" -> mainColorComboBox.setSelectedItem("黑色");
                 case "white" -> mainColorComboBox.setSelectedItem("白色");
                 case "green" -> mainColorComboBox.setSelectedItem("绿色");
@@ -279,61 +273,40 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
                 case "system" -> mainColorComboBox.setSelectedItem("跟随系统(仅Windows)");
                 default -> mainColorComboBox.setSelectedItem("蓝色");
             }
-        }
         //主题设置
-        if (jsonObject.has("mainTheme")) {
-            switch (jsonObject.getString("mainTheme")) {
+            switch (info.mainTheme()) {
                 case "dark" -> mainThemeComboBox.setSelectedItem("深色");
                 case "system" -> mainThemeComboBox.setSelectedItem("跟随系统(仅Windows)");
                 default -> mainThemeComboBox.setSelectedItem("浅色");
             }
-        }
         // 按钮颜色行为
-        if (jsonObject.has("buttonColor")) {
-            buttonColorCheckBox.setSelected(jsonObject.getBoolean("buttonColor"));
-        }
+        buttonColorCheckBox.setSelected(info.buttonColor());
         //字体设置
         FontNameComboBox.setSelectedItem(CTFont.getFontName());
         //
-        if (jsonObject.has("disposeButton")) {
-            JSONArray JSONArrdisButton = jsonObject.getJSONArray("disposeButton");
-            for (int i = 0; i < JSONArrdisButton.length(); i++) {
-                String s = JSONArrdisButton.getString(i);
+
+            for (int i = 0; i < info.disposeButton().length; i++) {
+                String s = info.disposeButton()[i];
                 if (disposeButton.containsKey(s)) {
                     disposeButton.get(s).setSelected(true);
                 }
             }
-        }
         //是否可关闭
-        if (jsonObject.has("canExit")) {
-            canExit.setSelected(!jsonObject.getBoolean("canExit"));
-
-        }
+        canExit.setSelected(!info.canExit());
         //是否自动更新
-        if (jsonObject.has("StartUpdate")) {
-            StartUpdate.setSelected(jsonObject.getBoolean("StartUpdate"));
-        }
+
+            StartUpdate.setSelected(info.startUpdate());
+
         //是否自动启动
         startUp.setSelected(SetStartUp.isAutoStartEnabled());
         //是否保存日志
-        if (jsonObject.has("isSaveLog")) {
-            isSaveLog.setSelected(jsonObject.getBoolean("isSaveLog"));
-        }
+        isSaveLog.setSelected(info.isSaveLog());
+
 
     }
 
     @Override
     public void save() {
-
-        //保存数据-个性化
-
-        IOForInfo io = new IOForInfo(new File(CTInfo.DATA_PATH + "setUp.json"));
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(io.getInfos());
-        } catch (Exception e) {
-            jsonObject = new JSONObject();
-        }
 
         //设置主题色
         String tempMainColor = switch (Objects.requireNonNull(mainColorComboBox.getSelectedItem()).toString()) {
@@ -344,7 +317,6 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
             case "跟随系统(仅Windows)" -> "system";
             default -> "blue";
         };
-        jsonObject.put("mainColor", tempMainColor);
 
         //设置主题
         String tempMainThemeColor = switch (Objects.requireNonNull(mainThemeComboBox.getSelectedItem()).toString()) {
@@ -352,35 +324,19 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
             case "跟随系统(仅Windows)" -> "system";
             default -> "light";
         };
-        jsonObject.put("mainTheme", tempMainThemeColor);
-
-        //按钮颜色
-        jsonObject.put("buttonColor", buttonColorCheckBox.isSelected());
 
         //设置字体
         String tempFontName = Objects.requireNonNull(FontNameComboBox.getSelectedItem(), "微软雅黑").toString();
-        jsonObject.put("FontName", tempFontName);
         //设置隐藏按钮
-        {
-            ArrayList<String> tempList = new ArrayList<>();
+
+            ArrayList<String> disposeButtonList = new ArrayList<>();
             disposeButton.forEach((key, value) -> {
                 if (value.isSelected()) {
-                    tempList.add(key);
+                    disposeButtonList.add(key);
                 }
             });
-            jsonObject.put("disposeButton", tempList);
-        }
-        //设置是否可退出
-        jsonObject.put("canExit", !canExit.isSelected());
-
-        //设置启动时是否更新
-        jsonObject.put("StartUpdate", StartUpdate.isSelected());
-
-        //设置启动时是否更新
-        jsonObject.put("isSaveLog", isSaveLog.isSelected());
 
         //设置是否自动启动
-        jsonObject.put("isAutoStart", startUp.isSelected());
         String Path = SetStartUp.getFilePath();
         if (!startUp.isSelected()) {
             SetStartUp.disableAutoStart();// 移除自启动
@@ -394,18 +350,17 @@ public class PBBasicSetsPanel extends CTBasicSetsPanel {
             }
 
         }
-
-        Log.info.print("InfSetDialog", "保存数据: " + jsonObject);
-        try {
-            io.setInfo(jsonObject.toString(2));
-
-        } catch (Exception e) {
-            Log.err.print(PersonalizationPanel.class, "保存数据失败", e);
-        }
+        getInfoControl().setInfo(
+                new PBasicInfo(!canExit.isSelected(), StartUpdate.isSelected(), isSaveLog.isSelected(),
+                        tempMainColor, tempMainThemeColor, buttonColorCheckBox.isSelected(),
+                        tempFontName, disposeButtonList.toArray(new String[0])));
     }
 
     @Override
     public void refresh() {
+
+        getInfoControl().refresh();
+
         initUI();
 
         this.revalidate();

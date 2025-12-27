@@ -4,6 +4,7 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
@@ -12,6 +13,7 @@ import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.infSet.panel.personalizationSets.PersonalizationPanel;
+import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,16 +22,19 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
-public class PBPanelSetsPanel extends CTBasicSetsPanel {
+public class PBPanelSetsPanel extends CTBasicSetsPanel<PPanelInfo> {
     //隐藏面板 数据
     private final TreeMap<String, CTCheckBox> disposePanel = new TreeMap<>();
+    //后台运行组件列表
+    private final TreeMap<String, CTCheckBox> runInBackgroundPanel = new TreeMap<>();
     //兼容数据
     private final CTTextField dpi = new CTTextField();
 
-    public PBPanelSetsPanel() {
-        super(null);
+    public PBPanelSetsPanel(CTInfoControl<PPanelInfo> infoControl) {
+        super(infoControl);
 
         setName("组件设置");
 
@@ -39,70 +44,95 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
     private void initUI() {
         this.removeAll();
 
-
         JPanel SetsPanel = new JPanel();
         SetsPanel.setOpaque(false);
+
         JScrollPane mainPanelScroll = new JScrollPane(SetsPanel);
         mainPanelScroll.setOpaque(false);
         mainPanelScroll.getViewport().setOpaque(false);
-        //调整滚动灵敏度
         mainPanelScroll.getVerticalScrollBar().setUnitIncrement(16);
         mainPanelScroll.setSize(400, 400);
 
         SetsPanel.setLayout(new GridBagLayout());//new GridLayout(0,1)
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JPanel disPanPanel = new JPanel();
-        disPanPanel.setOpaque(false);
-        disPanPanel.setLayout(new GridLayout(0, 2));
         //设置组件隐藏
-        disPanPanel.setBorder(CTBorderFactory.createTitledBorder("隐藏部分组件"));
+        JPanel disPanPanel = new JPanel();
         {
 
-            MainWindow.allPanelList.forEach(panel -> {
+            disPanPanel.setOpaque(false);
+            disPanPanel.setLayout(new GridLayout(0, 2));
 
-                if (panel.getID().equals("TimeViewPanel") ||
-                        //panel.getID().equals("NewsTextPanel") ||
-                        panel.getID().equals("FinalPanel")) {
-                    return;
+            disPanPanel.setBorder(CTBorderFactory.createTitledBorder("隐藏部分组件"));
+            {
+
+                MainWindow.allPanelList.forEach(panel -> {
+
+                    CTCheckBox checkBox = new CTCheckBox(panel.getName());
+                    checkBox.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
+                    checkBox.setBackground(CTColor.backColor);
+                    checkBox.setForeground(CTColor.textColor);
+                    disposePanel.put(panel.getID(), checkBox);
+                });
+
+                disposePanel.forEach((key, value) -> disPanPanel.add(value));
+            }
+        }
+
+        //是否允许在后台运行
+        JPanel canRunInBackgroundPanel = new JPanel();
+        {
+
+            canRunInBackgroundPanel.setOpaque(false);
+            canRunInBackgroundPanel.setLayout(new GridLayout(0, 2));
+            //设置组件是否可以后台运行
+            canRunInBackgroundPanel.setBorder(CTBorderFactory.createTitledBorder("允许在后台运行的组件"));
+            {
+
+                MainWindow.allPanelList.forEach(panel -> {
+
+                    CTCheckBox checkBox = new CTCheckBox(panel.getName());
+                    checkBox.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
+                    checkBox.setBackground(CTColor.backColor);
+                    checkBox.setForeground(CTColor.textColor);
+                    runInBackgroundPanel.put(panel.getID(), checkBox);
+                });
+
+                runInBackgroundPanel.forEach((_, value) -> canRunInBackgroundPanel.add(value));
+            }
+        }
+
+        //其他设置
+        JPanel compatiblePanel = new JPanel();
+        {
+
+            compatiblePanel.setOpaque(false);
+            compatiblePanel.setLayout(new GridLayout(0, 2));
+            compatiblePanel.setBorder(CTBorderFactory.createTitledBorder("其他设置"));
+
+            {
+                JPanel dpiPanel = new JPanel();
+                dpiPanel.setOpaque(false);
+                dpiPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                {
+                    JLabel dpiLabel = new JLabel("组件放大倍率:");
+                    dpiLabel.setForeground(CTColor.textColor);
+                    dpiLabel.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
+
+                    dpi.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
+                    dpi.setText(String.valueOf(CTInfo.dpi));
+
+
+                    dpiPanel.add(dpiLabel);
+                    dpiPanel.add(dpi);
                 }
 
-                CTCheckBox checkBox = new CTCheckBox(panel.getName());
-                checkBox.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
-                checkBox.setBackground(CTColor.backColor);
-                checkBox.setForeground(CTColor.textColor);
-                disposePanel.put(panel.getID(), checkBox);
-            });
-
-            disposePanel.forEach((key, value) -> disPanPanel.add(value));
-        }
-
-        JPanel compatiblePanel = new JPanel();
-        compatiblePanel.setOpaque(false);
-        compatiblePanel.setLayout(new GridLayout(0, 2));
-        compatiblePanel.setBorder(CTBorderFactory.createTitledBorder("其他设置"));
-        //其他设置
-        {
-            JPanel dpiPanel = new JPanel();
-            dpiPanel.setOpaque(false);
-            dpiPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            {
-                JLabel dpiLabel = new JLabel("组件放大倍率:");
-                dpiLabel.setForeground(CTColor.textColor);
-                dpiLabel.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
-
-                dpi.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.SMALL));
-                dpi.setText(String.valueOf(CTInfo.dpi));
+                compatiblePanel.add(dpiPanel);
 
 
-                dpiPanel.add(dpiLabel);
-                dpiPanel.add(dpi);
             }
-
-            compatiblePanel.add(dpiPanel);
-
-
         }
+
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
@@ -118,30 +148,19 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
 
         //显示数据
         {
-            IOForInfo io = new IOForInfo(new File(CTInfo.DATA_PATH + "setUp.json"));
-            JSONObject jsonObject;
-            try {
-                jsonObject = new JSONObject(io.getInfos());
-            } catch (Exception e) {
-                Log.err.print(getClass(), "读取设置文件失败: " + e.getMessage());
-                jsonObject = new JSONObject();
-            }
+            PPanelInfo info = getInfoControl().getInfo();
 
-
-            //
-            if (jsonObject.has("disposePanel")) {
-                JSONArray JSONArrdisPanel = jsonObject.getJSONArray("disposePanel");
-                for (int i = 0; i < JSONArrdisPanel.length(); i++) {
-                    String s = JSONArrdisPanel.getString(i);
-                    if (disposePanel.containsKey(s)) {
-                        disposePanel.get(s).setSelected(true);
-                    }
+            disposePanel.forEach((key, value) -> {
+                if (List.of(info.disPanelList()).contains( key)) {
+                    value.setSelected(true);
                 }
-            }
-
-            //放大倍率
-            if (jsonObject.has("dpi"))
-                dpi.setText(String.valueOf(jsonObject.getDouble("dpi")));
+            });
+            runInBackgroundPanel.forEach((key, value) -> {
+                if (List.of(info.runInBackgroundList()).contains( key)) {
+                    value.setSelected(true);
+                }
+            });
+            dpi.setText(String.valueOf(CTInfo.dpi));
 
         }
     }
@@ -150,16 +169,10 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
     public void save() {
 
         //保存数据-个性化
-        {
-            IOForInfo io = new IOForInfo(new File(CTInfo.DATA_PATH + "setUp.json"));
-            JSONObject jsonObject = null;
 
-            try {
-                jsonObject = new JSONObject(io.getInfos());
-            } catch (Exception e) {
-                jsonObject = new JSONObject();
-            }
 
+            String[] disPanelList;
+            String[] runInBackgroundPanelList;
 
             //设置隐藏面板
             {
@@ -169,28 +182,34 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel {
                         tempList.add(key);
                     }
                 });
-                jsonObject.put("disposePanel", tempList);
+                disPanelList = tempList.toArray(new String[0]);
             }
+            //设置允许后台运行
+            {
+                ArrayList<String> tempList = new ArrayList<>();
+                runInBackgroundPanel.forEach((key, value) -> {
+                    if (value.isSelected()) {
+                        tempList.add(key);
+                    }
+                });
+                runInBackgroundPanelList = tempList.toArray(new String[0]);
+            }
+            double DDpi = 1.0;
             //设置DPI
             try {
-                jsonObject.put("DPI", Double.valueOf(dpi.getText()));
-            } catch (NumberFormatException e) {
-                jsonObject.put("DPI", 1.0);
+                DDpi =  Double.parseDouble(dpi.getText());
+            } catch (Exception _) {
+
             }
 
-            Log.info.print("InfSetDialog", "保存数据: " + jsonObject);
-            try {
-                io.setInfo(jsonObject.toString(2));
+            getInfoControl().setInfo(new PPanelInfo(disPanelList, runInBackgroundPanelList, DDpi));
 
-            } catch (Exception e) {
-                Log.err.print(PersonalizationPanel.class, "保存数据失败", e);
-            }
-
-        }
     }
 
     @Override
     public void refresh() {
+        getInfoControl().refresh();
+
         initUI();
 
         this.revalidate();
