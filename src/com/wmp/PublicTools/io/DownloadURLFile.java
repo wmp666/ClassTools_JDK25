@@ -5,7 +5,7 @@ import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTProgressBar;
+import com.wmp.classTools.CTComponent.CTProgressBar.CTProgressBar;
 
 import javax.swing.*;
 import java.awt.*;

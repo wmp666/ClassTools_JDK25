@@ -70,7 +70,7 @@ public class WeatherInfoControl extends CTInfoControl<WeatherInfo> {
     }
 
     @Override
-    public WeatherInfo refresh() {
+    protected WeatherInfo refreshInfo() {
         return new WeatherInfo(getCityCode(), getKey());
     }
 

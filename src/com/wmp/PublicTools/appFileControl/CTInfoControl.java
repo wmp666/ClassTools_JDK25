@@ -23,5 +23,9 @@ public abstract class CTInfoControl<T> {
      * 刷新缓存数据
      * @return 新的数据
      */
-    public abstract T refresh();
+    public final T refresh(){
+        return info = refreshInfo();
+    };
+
+    protected abstract T refreshInfo();
 }

@@ -32,7 +32,7 @@ public class ScreenProductInfoControl extends CTInfoControl<ScreenProductInfo> {
     }
 
     @Override
-    public ScreenProductInfo refresh() {
+    protected ScreenProductInfo refreshInfo() {
         try {
             IOForInfo ioForInfo = new IOForInfo(new File(getInfoBasicFile(), "background.json"));
             JSONObject jsonObject = new JSONObject(ioForInfo.getInfos());
@@ -42,9 +42,9 @@ public class ScreenProductInfoControl extends CTInfoControl<ScreenProductInfo> {
             if (BGPath != null && BGPath.startsWith("BingBG")) {
                 pathList = new ArrayList<>();
                 if (jsonObject.getString("path").equals("BingBG")) {
-                    pathList.addFirst("https://bing.img.run/1920x1080.php") ;
+                    pathList.addFirst("url:https://bing.img.run/1920x1080.php") ;
                 } else if (jsonObject.getString("path").equals("BingBGRandom")) {
-                    pathList.addFirst("https://bing.img.run/rand.php");
+                    pathList.addFirst("url:https://bing.img.run/rand.php");
                 }
             }else{
                 pathList = getPathList(BGPath);

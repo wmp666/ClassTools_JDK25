@@ -47,7 +47,7 @@ public class ScreenProduct extends JDialog {
 
         this.getLayeredPane().add(imageViewLabel, Integer.valueOf(Integer.MIN_VALUE));
 
-        if (!screenProductInfoControl.getInfo().BGImagePathList().isEmpty())
+        if (screenProductInfoControl.getInfo().BGImagePathList().size() != 1)
             initBackground(new Random().nextInt(screenProductInfoControl.getInfo().BGImagePathList().size() - 1));
         else initBackground(0);
         initColor();

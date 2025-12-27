@@ -33,7 +33,7 @@ public class BRInfoControl extends CTInfoControl<BRInfo[]> {
     }
 
     @Override
-    public BRInfo[] refresh() {
+    protected BRInfo[] refreshInfo() {
         if (getInfoBasicFile().exists()) {
             try {
                 String infos = IOForInfo.getInfos(getInfoBasicFile().toURI().toURL());

@@ -5,7 +5,7 @@ import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.LoadingDialog;
+import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,6 @@ public class WarnLogStyle extends PrintLogStyle {
         return title;
     }
 
-    @org.jetbrains.annotations.Nullable
     private static Icon getIcon() {
         if (CTInfo.isError) return GetIcon.getIcon("图标", IconControl.COLOR_DEFAULT, 100, 100);
         return null;

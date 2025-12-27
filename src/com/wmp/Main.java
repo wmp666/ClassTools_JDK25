@@ -1,10 +1,13 @@
 package com.wmp;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
 import com.wmp.PublicTools.StartupParameters;
 import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.printLog.Log;
+import com.wmp.classTools.CTComponent.CTProgressBar.ModernLoadingDialog;
 import com.wmp.classTools.SwingRun;
 
 import javax.swing.*;
@@ -16,7 +19,7 @@ import java.util.TreeMap;
 
 public class Main {
 
-    public static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
+    private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
 
     static {
@@ -27,31 +30,36 @@ public class Main {
         allArgs.put("screenProduct:view", StartupParameters.creative("/p", "-p"));
 
         allArgs.put("CTInfo:isError", StartupParameters.creative("/CTInfo:error", "-CTInfo:error"));
+        allArgs.put("BasicDataPath", StartupParameters.creative("/BasicDataPath", "-BasicDataPath"));
     }
 
     public static void main(String[] args) {
-        JDialog wait = new JDialog();
-        wait.setUndecorated(true);
+        if (args.length > 0) {
+            argsList = new ArrayList<>(Arrays.asList(args));
+            System.out.println("使用的启动参数:" + Arrays.toString(args));
+        }
+
+        FlatLightLaf.install();
+
+        ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
+        JOptionPane.showMessageDialog(null, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
+                imageIcon);
+
+        ModernLoadingDialog wait = new ModernLoadingDialog(null);
         wait.setAlwaysOnTop(true);
+        wait.getLoader().startAnimation();
+        wait.setIndeterminate(true);
+        SwingUtilities.invokeLater(()->wait.setVisible(true));
 
-        JLabel label = new JLabel("<html><body><font color='#29A5E3'>正在加载<br>班级工具运行所需的基础数据</font></body></html>");
-        label.setFont(new Font(null, Font.PLAIN, 40));
-        label.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        wait.add(label);
-
-        wait.pack();
-        wait.setLocationRelativeTo(null);
-        wait.setVisible(true);
 
         new CTInfo();
 
         try {
-            Log.info.loading.showDialog("程序加载", "正在启动数据...");
+            Log.info.loading.showDialog("程序加载", "正在启动...");
         } catch (Exception _) {
 
         }
-        wait.setVisible(false);
-
 
 
 
@@ -64,17 +72,10 @@ public class Main {
 
             startUpdate = CTInfo.StartUpdate;
 
-            for (int i = 0; i < args.length; i++) {
-                args[i] = args[i].replace("/", "-");
-            }
-            Log.info.print("Main", "启动参数:" + Arrays.toString(args));
-
-            if (args.length > 0) {
-                argsList = new ArrayList<>(Arrays.asList(args));
-                Log.info.print("Main", "使用的启动参数:" + Arrays.toString(args));
-            }
         } catch (Exception e) {
             Log.info.loading.closeDialog("程序加载");
+            wait.setVisible(false);
+            wait.getLoader().stopAnimation();
             Log.err.print(Main.class, "初始化失败", e);
             Log.showLogDialog(true);
         }
@@ -95,6 +96,9 @@ public class Main {
         boolean finalB = b;
 
         Log.info.loading.closeDialog("程序加载");
+
+        wait.setVisible(false);
+        wait.getLoader().stopAnimation();
         try {
             SwingRun.show(finalB, finalStartUpdate);
         } catch (Exception e) {
@@ -116,11 +120,40 @@ public class Main {
      *                           <li><code>screenProduct:show</code>
      *                           <li><code>screenProduct:view</code>
      *                           <li><code>CTInfo:isError</code>
+     *                            <li><code>BasicDataPath</code>
      *                           </ul>
      *
      * @return 是否存在
      */
     public static boolean isHasTheArg(String arg){
         return allArgs.get(arg).contains(argsList);
+    }
+
+    /**
+     * 获取当前参数下一位,若不存在传入的参数则返回null
+     * @param arg 参数 类型:
+     *                           <ul>
+     *                           <li><code>StartUpdate:false</code>
+     *                           <li><code>screenProduct:show</code>
+     *                           <li><code>screenProduct:view</code>
+     *                           <li><code>CTInfo:isError</code>
+     *                            <li><code>BasicDataPath</code>
+     *                           </ul>
+     *
+     * @return 下一位
+     */
+    public static String getTheArgNextArg(String arg){
+        if (allArgs.get(arg).contains(argsList)) {
+            ArrayList<String> parameterList = allArgs.get(arg).getParameterList();
+            int index = -1;
+            for (int i = 0; i < parameterList.size(); i++) {
+                int tempIndex = argsList.indexOf(parameterList.get(i));
+                if (tempIndex != -1) {
+                    index = tempIndex;
+                    break;
+                }
+            }
+            return argsList.get(index + 1);
+        } else return null;
     }
 }

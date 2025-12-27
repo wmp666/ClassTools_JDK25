@@ -28,12 +28,10 @@ public class SwingRun {
     //, TreeMap<String, StartupParameters> allArgs, ArrayList<String> list
     public static void show(boolean b, boolean StartUpdate) throws IOException {
 
-        Log.info.loading.showDialog("窗口加载", "正在将UI更改为系统样式...");
+        Log.info.loading.showDialog("窗口加载", "正在加载...");
 
         //更新UI
         try {
-
-            FlatLightLaf.install();
 
             //设置默认字体
             FontUIResource fontRes = new FontUIResource(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL));
@@ -161,16 +159,16 @@ public class SwingRun {
         new MainWindow(CTInfo.DATA_PATH);
         loadingWindowRef.get().setVisible(false);
 
-        if (!(Main.allArgs.get("screenProduct:show").contains(Main.argsList) ||
-                Main.allArgs.get("screenProduct:view").contains(Main.argsList))) {
+        if (!(Main.isHasTheArg("screenProduct:show") ||
+                Main.isHasTheArg("screenProduct:view"))) {
 
             EasterEgg.showHolidayBlessings(0);
         }
 
         if (StartUpdate &&
-                !(Main.allArgs.get("StartUpdate:false").contains(Main.argsList) ||
-                        Main.allArgs.get("screenProduct:show").contains(Main.argsList) ||
-                        Main.allArgs.get("screenProduct:view").contains(Main.argsList))) {
+                !(Main.isHasTheArg("StartUpdate:false") ||
+                        Main.isHasTheArg("screenProduct:show") ||
+                        Main.isHasTheArg("screenProduct:view"))) {
             Log.info.print("Main", "开始启动自动检查更新");
             GetNewerVersion.checkForUpdate(
                     loadingWindowRef.get(), null, true, false);

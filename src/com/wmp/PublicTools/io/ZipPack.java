@@ -1,7 +1,7 @@
 package com.wmp.PublicTools.io;
 
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTProgressBar;
+import com.wmp.classTools.CTComponent.CTProgressBar.CTProgressBar;
 
 import javax.swing.*;
 import java.io.File;

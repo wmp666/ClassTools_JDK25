@@ -1,5 +1,6 @@
 package com.wmp.classTools.frame;
 
+import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.printLog.Log;
@@ -77,7 +78,7 @@ public class MainWindow extends CTWindow {
         allPanelList.add(eEPanel);
         allPanelList.add(finalPanel);
 
-        if (allArgs.get("screenProduct:view").contains(argsList)) {
+        if (Main.isHasTheArg("screenProduct:view")) {
             JDialog view = new JDialog();
             view.setLocationRelativeTo(null);
             view.setLayout(new BorderLayout());
@@ -98,7 +99,7 @@ public class MainWindow extends CTWindow {
         } else {
             initFrame();
 
-            if (allArgs.get("screenProduct:show").contains(argsList)) {
+            if (Main.isHasTheArg("screenProduct:show")) {
                 CTColor.setScreenProductColor();
                 allPanelList.forEach(CTViewPanel::toScreenProductViewPanel);
 
@@ -184,7 +185,7 @@ public class MainWindow extends CTWindow {
                 } else panel.setVisible(false);
             });
 
-            if (!allArgs.get("screenProduct:show").contains(argsList)) {//showPanelList.clear();
+            if (!Main.isHasTheArg("screenProduct:show")) {//showPanelList.clear();
 
 
                 JPanel northPanel = new JPanel();

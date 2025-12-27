@@ -34,9 +34,9 @@ public class EasterEgg {
 
     public static boolean getEasterEggItem(int style) {
 
-        if (Main.allArgs.get("screenProduct:show").contains(Main.argsList)) return false;
+        if (Main.isHasTheArg("screenProduct:show")) return false;
 
-        if (Main.allArgs.get("CTInfo:isError").contains(Main.argsList)) return true;
+        if (Main.isHasTheArg("CTInfo:isError")) return true;
 
         switch (style) {
             case STYLE_IMPORT_DAY -> {

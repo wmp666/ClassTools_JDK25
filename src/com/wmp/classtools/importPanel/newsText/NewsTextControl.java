@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class NewsTextControl extends CTInfoControl<String> {
-    public String refresh() {
+    protected String refreshInfo() {
         IOForInfo io = new IOForInfo(new File(getInfoBasicFile(), "key.txt").getAbsolutePath());
         try {
             String infos = io.getInfos();

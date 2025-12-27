@@ -1,4 +1,6 @@
-package com.wmp.classTools.CTComponent;
+package com.wmp.classTools.CTComponent.CTProgressBar;
+
+import com.wmp.classTools.CTComponent.CTGradientRoundProgressBarUI;
 
 import javax.swing.*;
 import java.awt.*;

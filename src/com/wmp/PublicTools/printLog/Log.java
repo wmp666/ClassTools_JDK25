@@ -154,7 +154,7 @@ public class Log {
 
     public static void exit(int status) {
 
-        if (!Main.allArgs.get("screenProduct:show").contains(Main.argsList) && (status == -1 || !CTInfo.canExit)) {
+        if (!Main.isHasTheArg("screenProduct:show") && (status == -1 || !CTInfo.canExit)) {
             Log.err.print("系统操作", "错误行为");
             return;
         }
@@ -240,7 +240,7 @@ public class Log {
 
     public static void print(LogStyle style, String owner, Object logInfo, Container c) {
         print(style, owner, logInfo, c, true);
-    }
+     }
 
     public static void print(LogStyle style, String owner, Object logInfo, Container c, boolean showMessageDialog) {
         Date date = new Date();

@@ -28,7 +28,7 @@ public class AttInfoControl extends CTInfoControl<AttInfo> {
     }
 
     @Override
-    public AttInfo refresh() {
+    protected AttInfo refreshInfo() {
         try {
             return new AttInfo(new IOForInfo(new File(getInfoBasicFile(), "AllStu.txt")).getInfo(),
                     new IOForInfo(new File(getInfoBasicFile(), "LeaveList.txt")).getInfo());

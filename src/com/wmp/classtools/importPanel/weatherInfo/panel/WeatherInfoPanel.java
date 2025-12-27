@@ -64,8 +64,8 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
                     nowWeather.getString("city"),
                     nowWeather.getString("weather"),
                     nowWeather.getString("temperature"),
-                    (todayOtherWeather.getString("dayweather").contains("雨") ||
-                            todayOtherWeather.getString("nightweather").contains("雨")) ? "有雨" : "无雨",
+                    String.format("%s-%s", todayOtherWeather.getString("dayweather"),
+                            todayOtherWeather.getString("nightweather")),
                     todayOtherWeather.getString("nighttemp"),
                     todayOtherWeather.getString("daytemp")
             ));

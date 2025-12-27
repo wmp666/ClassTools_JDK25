@@ -237,6 +237,7 @@ public class AboutDialog extends JDialog {
 
         helpMenu.add(helpDoc);
         helpMenu.add(easterEgg);
+        helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
     }

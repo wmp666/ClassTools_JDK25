@@ -1,5 +1,6 @@
 package com.wmp.PublicTools;
 
+import com.wmp.Main;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.appFileControl.IconControl;
@@ -46,7 +47,7 @@ public class CTInfo {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static String version = "1.48.1.0.1";
+    public static String version = "1.48.1.0.2";
     private static JSONObject jsonObject;
 
     static {
@@ -73,16 +74,19 @@ public class CTInfo {
 
         //加载基础目录
         String path = System.getenv("LOCALAPPDATA");
-        if (path != null && !path.isEmpty()){
-            File file = new File(path, "\\ClassTools\\basicDataPath.txt");
-            if (file.exists() && file.isFile()) {
-                try {
-                    path = new File(Files.readString(file.toPath(), StandardCharsets.UTF_8)).getAbsolutePath();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        String s = Main.getTheArgNextArg("BasicDataPath");
+        if (s == null) {
+            if (path != null && !path.isEmpty()){
+                File file = new File(path, "\\ClassTools\\basicDataPath.txt");
+                if (file.exists() && file.isFile()) {
+                    try {
+                        path = new File(Files.readString(file.toPath(), StandardCharsets.UTF_8)).getAbsolutePath();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
-        }
+        }else path = s;
 
         APP_INFO_PATH = path + "\\ClassToolsAppFile\\";
         DATA_PATH = path + "\\ClassTools\\";
@@ -90,7 +94,7 @@ public class CTInfo {
 
         if (!isError) {
             if (version.split("\\.").length < 5) iconPath = "/image/icon/icon.png";
-            else iconPath = "/image/icon/icon_bate.png";
+            else iconPath = "/image/icon/icon_preview.png";
         } else iconPath = "/image/err/icon.png";
 
         initCTInfo();
@@ -153,9 +157,11 @@ public class CTInfo {
                 disButtonList.forEach(object -> disPanelList.add(object.toString()));
             }
             //设置是否可以退出
-            if (jsonObject.has("canExit")) {
-                canExit = jsonObject.getBoolean("canExit");
-            }
+            if (CTInfo.version.split("\\.").length < 5) {
+                if (jsonObject.has("canExit")) {
+                    canExit = jsonObject.getBoolean("canExit");
+                }
+            }else canExit = true;
             //设置是否可以更新
             if (jsonObject.has("StartUpdate")) {
                 StartUpdate = jsonObject.getBoolean("StartUpdate");

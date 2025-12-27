@@ -5,7 +5,7 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.LoadingDialog;
+import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +50,7 @@ public class InfoLogStyle extends PrintLogStyle {
      * @param waitTime    等待时间
      */
     public void adaptedMessage(String owner, String logInfo, int maxShowTime, int waitTime) {
-        if (Main.allArgs.get("screenProduct:show").contains(Main.argsList))
+        if (Main.isHasTheArg("screenProduct:show"))
             CTOptionPane.showFullScreenMessageDialog(owner, logInfo, maxShowTime, waitTime);
         else
             systemPrint(owner, logInfo);

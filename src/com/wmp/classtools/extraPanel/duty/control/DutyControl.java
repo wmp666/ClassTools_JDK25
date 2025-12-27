@@ -46,7 +46,7 @@ public class DutyControl extends CTInfoControl<DutyInfo> {
     }
 
     @Override
-    public DutyInfo refresh() {
+    protected DutyInfo refreshInfo() {
         try {
             DutyDay[] dutyDays;
             int index = 0;
@@ -59,7 +59,10 @@ public class DutyControl extends CTInfoControl<DutyInfo> {
 
                 //System.out.println(inf);
                 if (inftempList[0].equals("err")) {
-                    return null;
+                    return new DutyInfo(new DutyDay[]{
+                            new DutyDay(new ArrayList<>(List.of("无")),
+                                    new ArrayList<>(List.of("无")))
+                    }, 0);
                 }
 
 

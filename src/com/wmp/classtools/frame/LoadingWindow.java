@@ -9,7 +9,7 @@ import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTProgressBar;
+import com.wmp.classTools.CTComponent.CTProgressBar.CTProgressBar;
 import com.wmp.classTools.CTComponent.CTWindow;
 
 import javax.swing.*;
@@ -50,9 +50,11 @@ public class LoadingWindow extends CTWindow {
         this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
         this.getContentPane().setBackground(CTColor.backColor);
         this.setAlwaysOnTop(true);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(this.getPreferredSize());
         this.setLocationRelativeTo(null);
-        this.setCursor(Cursor.WAIT_CURSOR);
+        this.getContentPane().setCursor(
+                Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         Taskbar taskbar = Taskbar.getTaskbar();
         if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {

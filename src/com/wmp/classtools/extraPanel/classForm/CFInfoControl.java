@@ -114,7 +114,7 @@ public class CFInfoControl extends CTInfoControl<ClassFormInfos[]> {
     }
 
     @Override
-    public ClassFormInfos[] refresh() {
+    protected ClassFormInfos[] refreshInfo() {
         try {
             ClassFormInfos[] classFormInfos = new ClassFormInfos[7];
             for (int i = 0; i < 7; i++) {
