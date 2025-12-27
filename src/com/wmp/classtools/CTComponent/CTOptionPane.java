@@ -622,7 +622,7 @@ public class CTOptionPane {
 
     private static BasicDialog createDialog(Component owner, String title, String northTitle, Icon icon, int iconType, boolean isAlwaysOnTop) {
         JDialog dialog = new JDialog();
-        dialog.setSize((int) (380 * CTInfo.dpi), (int) (200 * CTInfo.dpi));
+        dialog.setSize((int) (420 * CTInfo.dpi), (int) (250 * CTInfo.dpi));
         dialog.setLocationRelativeTo(owner);//设置对话框的位置相对于父组件
         dialog.setModal(true);
         dialog.setAlwaysOnTop(isAlwaysOnTop);

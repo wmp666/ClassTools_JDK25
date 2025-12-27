@@ -78,7 +78,7 @@ public class CountDownPanel extends CTViewPanel<CountDownInfos> {
             Log.err.print(getClass(), "时间数据化异常", ex);
         }
         //Log.info.print("时间显示","时间差:" + time);
-        if (time < -60 * 1000) {
+        if (time < -10 * 1000) {
             CountDownInfo old = info;
             info = getInfoControl().getInfo().getLatestInfo();
             if (!old.title().equals(info.title()) && info.title().equals("数据出错")) {

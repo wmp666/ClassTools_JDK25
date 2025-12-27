@@ -6,7 +6,6 @@ import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class DutyControl extends CTInfoControl<DutyInfo> {
             if (dutyInfo.dutyDay() != null) {
                 System.out.println(dutyInfo);
                 StringBuilder sb = new StringBuilder();
-                String[][] array = dutyInfo.toStringList();
+                String[][] array = dutyInfo.toTableList();
                 for (String[] strings : array) {
 
                     //getColumnCount()-列数

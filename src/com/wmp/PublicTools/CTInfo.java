@@ -44,19 +44,9 @@ public class CTInfo {
     public static boolean isError = false;
     public static boolean canExit = true;
     public static boolean StartUpdate = true;
-    /**
-     * a.b.c.d.e 例:1.5.3.1.1<br>
-     * a:主版本号<br>
-     * b:功能更新版本号<br>
-     * c:修订版本号/小功能更新<br>
-     * d:只修复的问题,问题较少<br>
-     * e:测试版本号
-     */
-    public static String version = "1.48.3";
 
-    static {
-        init();
-    }
+    public static String version = Main.version;
+
 
     public static void  init() {
 
@@ -145,6 +135,9 @@ public class CTInfo {
         }
 
         //组件数据
+        MainWindow.allPanelList.forEach(panel ->{
+            panel.setIgnoreState(List.of(panelInfo.runInBackgroundList()).contains(panel.getID()));
+        });
         disPanelList.addAll(List.of(panelInfo.disPanelList()));
         dpi = panelInfo.dpi();
 

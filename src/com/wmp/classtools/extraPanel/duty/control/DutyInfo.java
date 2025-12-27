@@ -2,7 +2,6 @@ package com.wmp.classTools.extraPanel.duty.control;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public record DutyInfo(DutyDay[] dutyDay, int index) {
@@ -10,7 +9,7 @@ public record DutyInfo(DutyDay[] dutyDay, int index) {
      * 转换为表格数据
      * @return 表格数据, 第一列为扫地, 第二列为擦黑板
      */
-    public String[][] toStringList() {
+    public String[][] toTableList() {
         String[][] list = new String[dutyDay.length][2];
         for (int i = 0; i < dutyDay.length; i++) {
             {

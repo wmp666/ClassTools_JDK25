@@ -140,6 +140,8 @@ public class PBPanelSetsPanel extends CTBasicSetsPanel<PPanelInfo> {
         gbc.gridy = 0;
         SetsPanel.add(disPanPanel, gbc);
         gbc.gridy++;
+        SetsPanel.add(canRunInBackgroundPanel, gbc);
+        gbc.gridy++;
         SetsPanel.add(compatiblePanel, gbc);
 
         this.setLayout(new BorderLayout());

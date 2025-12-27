@@ -1,14 +1,11 @@
 package com.wmp.classTools.extraPanel.duty.settings;
 
 import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import com.wmp.classTools.extraPanel.duty.control.DutyDay;
 import com.wmp.classTools.extraPanel.duty.control.DutyInfo;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ public class DutyListSetsPanel extends CTTableSetsPanel<DutyInfo> {
     }
 
     private String[][] getDutyList() throws IOException {
-        return getInfoControl().getInfo().toStringList();
+        return getInfoControl().getInfo().toTableList();
     }
 
     @Override

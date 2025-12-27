@@ -18,6 +18,15 @@ import java.util.Arrays;
 import java.util.TreeMap;
 
 public class Main {
+    /**
+     * a.b.c.d.e 例:1.5.3.1.1<br>
+     * a:主版本号<br>
+     * b:功能更新版本号<br>
+     * c:修订版本号/小功能更新<br>
+     * d:只修复的问题,问题较少<br>
+     * e:测试版本号
+     */
+    public static final String version = "2.0.0";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -39,12 +48,14 @@ public class Main {
             System.out.println("使用的启动参数:" + Arrays.toString(args));
         }
 
-        FlatLightLaf.install();
+        FlatLightLaf.setup();
 
-        ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
-        JOptionPane.showMessageDialog(null, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
-                imageIcon);
+        if (version.split("\\.").length >= 5) {
+            ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
+            imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
+            JOptionPane.showMessageDialog(null, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
+                    imageIcon);
+        }
 
         ModernLoadingDialog wait = new ModernLoadingDialog(null);
         wait.setAlwaysOnTop(true);
@@ -52,8 +63,7 @@ public class Main {
         wait.setIndeterminate(true);
         SwingUtilities.invokeLater(()->wait.setVisible(true));
 
-
-        new CTInfo();
+        CTInfo.init();
 
         try {
             Log.info.loading.showDialog("程序加载", "正在启动...");

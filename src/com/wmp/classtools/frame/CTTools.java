@@ -11,6 +11,7 @@ import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.CTComponent.Menu.CTMenu;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 
 import javax.swing.*;
@@ -111,15 +112,12 @@ public class CTTools extends JDialog {
         });
         popupMenu.add(button);
 
-        JButton aidTools =  new JButton("急救工具");
-        aidTools.addActionListener( e -> {
-            if (style == 1) {
-                Log.getCtPopupMenu().show(aidTools, aidTools.getWidth(), 0);
-            } else if (style == 0) {
-                 Log.getCtPopupMenu().show(aidTools, -aidTools.getWidth(), 0);
-            }
-        });
-        popupMenu.add(aidTools);
+        CTMenu aidToolsMenu = new CTMenu("急救工具");
+        aidToolsMenu.setFont(CTFont.getDefaultFont( Font.BOLD, CTFontSizeStyle.BIG));
+        for (Component c : Log.getCtPopupMenu().getComponents()) {
+            aidToolsMenu.add(c);
+        }
+        popupMenu.add(aidToolsMenu);
 
         if (style == 2){
             ctRoundTextButtonArrayList.forEach(dialog::add);

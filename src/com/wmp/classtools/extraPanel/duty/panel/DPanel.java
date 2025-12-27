@@ -1,18 +1,14 @@
 package com.wmp.classTools.extraPanel.duty.panel;
 
-import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.PeoPanelProcess;
 import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.io.InfProcess;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
-import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.extraPanel.duty.control.DutyControl;
 import com.wmp.classTools.extraPanel.duty.control.DutyInfo;
 import com.wmp.classTools.extraPanel.duty.settings.DutyListSetsPanel;
@@ -20,7 +16,6 @@ import com.wmp.classTools.extraPanel.duty.control.DutyDay;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +34,7 @@ public class DPanel extends CTViewPanel<DutyInfo> {
 
         initContainer();
 
+        showDutyForm();
 
     }
 
@@ -133,7 +129,6 @@ public class DPanel extends CTViewPanel<DutyInfo> {
             buttonPanel.add(next, BorderLayout.EAST);
         }
 
-
         this.add(InfoPanel, BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.NORTH);
     }
@@ -163,9 +158,22 @@ public class DPanel extends CTViewPanel<DutyInfo> {
 
         initContainer();
 
+        showDutyForm();
+
+
         revalidate();
         repaint();
 
 
+    }
+
+    private void showDutyForm() {
+        DutyDay[] dutyList = getInfoControl().getInfo().dutyDay();
+        StringBuilder sb = new StringBuilder();
+        DutyDay todayDutyForm = dutyList[getInfoControl().getInfo().index()];
+        sb.append("值日名单:\n")
+                .append("擦黑板: ").append(List.of(todayDutyForm.getClBlackBroadList())).append("\n")
+                .append("扫地: ").append(List.of(todayDutyForm.getClFloorList())).append("\n");
+        Log.info.systemPrint("值日表", sb.toString());
     }
 }
