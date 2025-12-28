@@ -1,18 +1,32 @@
 package com.wmp.classTools.CTComponent.CTProgressBar;
 
+import com.wmp.PublicTools.UITools.CTColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 
+/**
+ * 圆形加载动画,默认处于启动状态,可以通过<code>setLoading()</code>修改;
+ * 不确定状态,可以通过<code>setIndeterminate()</code>修改
+ */
 public class CircleLoader extends JPanel {
-    private boolean isIndeterminate = false;
+    private boolean isIndeterminate = true;
+
+    private int value = 0;
 
     private float rotationAngle = 0;
     private float sweepAngle = 45; // 扇形角度
     private final Timer timer;
 
+    /**
+     * <code>true</code>-加 <code>false</code>-减
+     */
+    private boolean sweepDirection;
+
     public CircleLoader() {
-        setPreferredSize(new Dimension(120, 120));
+        setPreferredSize(new Dimension(80, 80));
+        setMinimumSize(new Dimension(80, 80));
         setOpaque(false); // 透明背景
 
         // 定时器控制动画
@@ -23,8 +37,17 @@ public class CircleLoader extends JPanel {
                     rotationAngle = 0;
                 }
 
+                if (isIndeterminate) {
+                    if (sweepDirection) sweepAngle += 3;
+                    else sweepAngle -= 3;
+
+                    if (sweepAngle >= 180) sweepDirection = false;
+                    else if (sweepAngle <= 0) sweepDirection = true;
+                }
+
             repaint();
         });
+        timer.start();
     }
 
     @Override
@@ -38,25 +61,15 @@ public class CircleLoader extends JPanel {
 
         int width = getWidth();
         int height = getHeight();
-        int size = Math.min(width, height) - 20;
+        int size = Math.min(width, height) - 10;
         int x = (width - size) / 2;
         int y = (height - size) / 2;
 
-        // 绘制外圈
-        g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_ROUND));
-        g2d.setColor(new Color(200, 200, 200, 100));
-        g2d.drawOval(x, y, size, size);
-
         // 创建渐变色
-        GradientPaint gradient = new GradientPaint(
-                x, y, new Color(0, 120, 212, 200),
-                x + size, y + size, new Color(0, 153, 255, 150)
-        );
-        g2d.setPaint(gradient);
+        g2d.setColor(CTColor.mainColor);
 
         // 绘制旋转的扇形
-        g2d.setStroke(new BasicStroke(6, BasicStroke.CAP_ROUND,
+        g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_ROUND));
 
         Arc2D arc = new Arc2D.Float(x, y, size, size,
@@ -88,8 +101,13 @@ public class CircleLoader extends JPanel {
         if (isIndeterminate) return;
         //角度0~360
         //百分比0~100
+        value = Math.max(0, Math.min(100, value));
         sweepAngle = (float) (value * 3.6);
         repaint();
+    }
+
+    public int getValue() {
+        return value;
     }
 
     public void setLoading(boolean loading) {

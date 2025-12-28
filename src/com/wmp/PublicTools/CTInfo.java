@@ -3,6 +3,7 @@ package com.wmp.PublicTools;
 import com.wmp.Main;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
+import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.io.IOForInfo;
@@ -15,12 +16,16 @@ import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfoCon
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class CTInfo {
@@ -108,6 +113,21 @@ public class CTInfo {
     }
 
     private static void initCTBasicInfo() {
+
+        //设置默认字体
+        ColorUIResource textColorUIResource = new ColorUIResource(CTColor.textColor);
+        ColorUIResource backColorUIResource = new ColorUIResource(CTColor.backColor);
+        for(Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements();){
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if(value instanceof ColorUIResource) {
+                if (key.toString().endsWith("background"))
+                    UIManager.put(key, backColorUIResource);
+                else if (key.toString().endsWith("foreground"))
+                    UIManager.put(key, textColorUIResource);
+            }
+        }
+
         IconControl.init();
         AudioControl.init();
         Log.initTrayIcon();

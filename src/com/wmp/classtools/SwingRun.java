@@ -32,7 +32,6 @@ public class SwingRun {
 
         //更新UI
         try {
-
             //设置默认字体
             FontUIResource fontRes = new FontUIResource(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL));
             for(Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements();){

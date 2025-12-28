@@ -26,7 +26,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.0.0";
+    public static final String version = "2.0.1";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -43,6 +43,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        System.out.println("版本：" +  version);
         if (args.length > 0) {
             argsList = new ArrayList<>(Arrays.asList(args));
             System.out.println("使用的启动参数:" + Arrays.toString(args));

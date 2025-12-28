@@ -18,7 +18,7 @@ public class LoadingDialog extends JFrame {
 
     private final TreeMap<String, JPanel> PanelList = new TreeMap<>();
 
-    private final TreeMap<String, CTProgressBar> progressBarPanelList = new TreeMap<>();
+    private final TreeMap<String, CircleLoader> progressBarPanelList = new TreeMap<>();
     private final TreeMap<String, JLabel> textPanelList = new TreeMap<>();
 
 
@@ -83,7 +83,7 @@ public class LoadingDialog extends JFrame {
         Log.info.print("LoadingDialog", "显示进度条" + id);
 
         JLabel textLabel = new JLabel(text);
-        textLabel.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.SMALL));
+        textLabel.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         textLabel.setForeground(CTColor.textColor);
 
         CTProgressBar progressBar = new CTProgressBar();
@@ -96,13 +96,16 @@ public class LoadingDialog extends JFrame {
         JPanel panel = new JPanel();
         panel.setBorder(CTBorderFactory.createTitledBorder(id));
         panel.setLayout(new BorderLayout(10, 0));
-        panel.add(textLabel, BorderLayout.NORTH);
-        panel.add(progressBar, BorderLayout.CENTER);
+        panel.add(textLabel, BorderLayout.CENTER);
+
+        CircleLoader circleLoader = progressBar.toCircleLoader();
+        circleLoader.setPreferredSize(new Dimension(CTFont.getSize(CTFontSizeStyle.BIG), CTFont.getSize(CTFontSizeStyle.BIG)));
+        panel.add(circleLoader, BorderLayout.WEST);
         panel.setOpaque(false);
 
         PanelList.put(id, panel);
         textPanelList.put(id, textLabel);
-        progressBarPanelList.put(id, progressBar);
+        progressBarPanelList.put(id, circleLoader);
 
         this.add(panel);
 
@@ -138,7 +141,7 @@ public class LoadingDialog extends JFrame {
             textLabel.repaint();
         }
 
-        CTProgressBar progressBar = progressBarPanelList.get(id);
+        CircleLoader progressBar = progressBarPanelList.get(id);
         if (value >= 0) {
             progressBar.setIndeterminate(false);
             progressBar.setValue(value);
@@ -157,6 +160,8 @@ public class LoadingDialog extends JFrame {
             Log.warn.print("LoadingDialog", "未找到id为" + id + "的进度条");
             return;
         }
+
+        progressBarPanelList.get(id).stopAnimation();
 
         this.remove(PanelList.get(id));
         //this.remove(PanelList.get(id));

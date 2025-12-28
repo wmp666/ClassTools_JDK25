@@ -17,6 +17,7 @@ public class CTFont {
     private static int smallSize = 15;
     private static int moreSmallSize = 12;
 
+
     public static Font getCTFont(int fontStyle, CTFontSizeStyle sizeStyle) {
         int size = 0;
         switch (sizeStyle) {

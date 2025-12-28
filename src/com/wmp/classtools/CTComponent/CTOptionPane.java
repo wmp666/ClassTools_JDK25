@@ -267,7 +267,13 @@ public class CTOptionPane {
                 messagePanel.setOpaque(false);
                 messagePanel.getViewport().setOpaque(false);
                 messagePanel.setBorder(null);
-                messageArea.setCaretPosition(0);
+
+                dialog.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowOpened(WindowEvent e) {
+                        messagePanel.getViewport().setViewPosition(new Point(0,0));
+                    }
+                });
 
                 panel.add(messagePanel, BorderLayout.CENTER);
             }
@@ -316,7 +322,6 @@ public class CTOptionPane {
 
             @Override
             public void windowOpened(WindowEvent e) {
-                dialog.getWindowListeners()[0].windowOpened(e);
             }
         });
 

@@ -20,4 +20,16 @@ public class CTProgressBar extends JProgressBar {
 
 
     }
+
+
+    public CircleLoader toCircleLoader(){
+        CircleLoader circleLoader = new CircleLoader();
+        circleLoader.setIndeterminate(isIndeterminate());
+        double value = getValue() - getMinimum();
+        double range = getMaximum() - getMinimum();
+        int result = (int) (value / range * 100);
+        circleLoader.setValue(result);
+        circleLoader.startAnimation();
+        return circleLoader;
+    }
 }

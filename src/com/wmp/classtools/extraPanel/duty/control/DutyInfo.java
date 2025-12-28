@@ -1,7 +1,5 @@
 package com.wmp.classTools.extraPanel.duty.control;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 
 public record DutyInfo(DutyDay[] dutyDay, int index) {
@@ -36,8 +34,8 @@ public record DutyInfo(DutyDay[] dutyDay, int index) {
         return list;
     }
 
-    @Override
-    public @NotNull String toString() {
+    @Override 
+    public String toString() {
         return  "值日生列表:" + Arrays.toString(dutyDay)  + "|索引:" + index;
     }
 }

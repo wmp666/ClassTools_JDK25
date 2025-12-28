@@ -43,8 +43,8 @@ public class CTColor {
 
     public static String style = STYLE_LIGHT;
     public static Color mainColor = new Color(0x29A8E3);
-    public static Color textColor = Color.BLACK;
-    public static Color backColor = Color.WHITE;
+    public static Color textColor = getParticularColor(MAIN_COLOR_BLACK);
+    public static Color backColor = getParticularColor(MAIN_COLOR_WHITE);
     private static boolean canRemove = true;
 
     public static void setScreenProductColor() {
@@ -101,26 +101,26 @@ public class CTColor {
         style = tempStyle;
         switch (tempStyle) {
             case STYLE_DARK -> {
-                textColor = Color.WHITE;
-                backColor = new Color(0x282C34);
-                FlatDarculaLaf.install();
+                textColor = getParticularColor(MAIN_COLOR_WHITE);
+                backColor = getParticularColor(STYLE_DARK);
+                FlatDarculaLaf.setup();
             }
             case STYLE_LIGHT -> {
                 textColor = Color.BLACK;
-                backColor = new Color(0xFFFFFF);
-                FlatIntelliJLaf.install();
+                backColor = getParticularColor(STYLE_LIGHT);
+                FlatIntelliJLaf.setup();
             }
             case STYLE_SYSTEM -> {
                 if (SystemColor.checkDarkMode()) {
                     style = STYLE_DARK;
-                    textColor = Color.WHITE;
-                    backColor = new Color(0x282C34);
-                    FlatDarculaLaf.install();
+                    textColor = getParticularColor(MAIN_COLOR_WHITE);
+                    backColor = getParticularColor(STYLE_DARK);
+                    FlatDarculaLaf.setup();
                 }else{
                     style = STYLE_LIGHT;
                     textColor = Color.BLACK;
-                    backColor = new Color(0xFFFFFF);
-                    FlatIntelliJLaf.install();
+                    backColor = getParticularColor(STYLE_LIGHT);
+                    FlatIntelliJLaf.setup();
                 }
             }
         }
@@ -138,15 +138,19 @@ public class CTColor {
      * @see #MAIN_COLOR_GREEN
      * @see #MAIN_COLOR_RED
      * @see #MAIN_COLOR_BLACK
+     * @see #STYLE_DARK
+     * @see #STYLE_LIGHT
      *
      */
     public static Color getParticularColor(String colorStyle) {
         return switch (colorStyle) {
-            case MAIN_COLOR_WHITE -> Color.WHITE;
+            case MAIN_COLOR_WHITE -> new Color(0xF0F0F0);
             case MAIN_COLOR_BLUE -> new Color(0x29A8E3);
             case MAIN_COLOR_GREEN -> new Color(0x05E666);
             case MAIN_COLOR_RED -> new Color(0xFF0000);
             case MAIN_COLOR_BLACK -> new Color(0x282C34);
+            case STYLE_DARK -> getParticularColor(MAIN_COLOR_BLACK);
+            case STYLE_LIGHT -> getParticularColor(MAIN_COLOR_WHITE);
             case STYLE_SYSTEM -> SystemColor.getAccentColor();
             default -> new Color(0x29A8E3);
         };
