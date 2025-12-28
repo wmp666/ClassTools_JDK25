@@ -253,8 +253,6 @@ public class Log {
         DateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm:ss");
         String dateStr = dateFormat.format(date);
 
-        logInfo = logInfo.toString().replace("\n", "[\\n]");
-
         String info;
         switch (style) {
             case INFO -> {
@@ -262,7 +260,7 @@ public class Log {
                 info = "[" + dateStr + "]" +
                         "[info]" +
                         "[" + owner + "]: " +
-                        logInfo;
+                        logInfo.toString().replace("\n", "[\\n]");
                 System.out.println(info);
                 logInfList.addLast(info);
             }
@@ -272,7 +270,7 @@ public class Log {
                 info = "[" + dateStr + "]" +
                         "[warn]" +
                         "[" + owner + "] :" +
-                        logInfo;
+                        logInfo.toString().replace("\n", "[\\n]");
                 CTOptionPane.showSystemStyleMessageDialog(TrayIcon.MessageType.WARNING, owner, logInfo.toString());
                 System.err.println(info);
 
@@ -285,7 +283,7 @@ public class Log {
                 info = "[" + dateStr + "]" +
                         "[error]" +
                         "[" + owner + "] :" +
-                        logInfo;
+                        logInfo.toString().replace("\n", "[\\n]");
                 CTOptionPane.showSystemStyleMessageDialog(TrayIcon.MessageType.ERROR, owner, logInfo.toString());
                 System.err.println(info);
                 logInfList.addLast(info);
