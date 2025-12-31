@@ -1,5 +1,6 @@
 package com.wmp.classTools.CTComponent.CTProgressBar;
 
+import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
@@ -99,7 +100,7 @@ public class LoadingDialog extends JFrame {
         panel.add(textLabel, BorderLayout.CENTER);
 
         CircleLoader circleLoader = progressBar.toCircleLoader();
-        circleLoader.setPreferredSize(new Dimension(CTFont.getSize(CTFontSizeStyle.MORE_BIG), CTFont.getSize(CTFontSizeStyle.MORE_BIG)));
+        circleLoader.setPreferredSize(new Dimension(CTFont.getSize(CTFontSizeStyle.BIG) + (int)(10* CTInfo.dpi), CTFont.getSize(CTFontSizeStyle.BIG) + (int)(10* CTInfo.dpi)));
         panel.add(circleLoader, BorderLayout.WEST);
         panel.setOpaque(false);
 
