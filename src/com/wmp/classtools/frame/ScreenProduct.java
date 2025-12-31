@@ -215,11 +215,10 @@ public class ScreenProduct extends JDialog {
         shutdownButton.addActionListener(e -> {
             int i = CTOptionPane.showConfirmDialog(dialog, "关闭选择", "是否关闭电脑(仅限Windows)？", null, CTOptionPane.YES_OPTION, true);
             if (i == CTOptionPane.NO_OPTION) return;
-            screenProduct.setVisible(false);
-            synchronized (Log.getLogInfList()) {
-                ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command( "cmd.exe", "/c", "shutdown -s -t 0");
-
+            try {
+                Runtime.getRuntime().exec(new String[]{"shutdown", "-s", "-t", "0"});
+            } catch (IOException ex) {
+                Log.err.print(ScreenProduct.class, "关机错误", ex);
             }
         });
 
@@ -229,12 +228,10 @@ public class ScreenProduct extends JDialog {
         restartButton.addActionListener(e -> {
             int i = CTOptionPane.showConfirmDialog(dialog, "关闭选择", "是否重启电脑(仅限Windows)？", null, CTOptionPane.YES_OPTION, true);
             if (i == CTOptionPane.NO_OPTION) return;
-            screenProduct.setVisible(false);
-            synchronized (Log.getLogInfList()) {
-
-                    ProcessBuilder processBuilder = new ProcessBuilder();
-                    processBuilder.command( "cmd.exe", "/c", "shutdown -r -t 0");
-
+            try {
+                Runtime.getRuntime().exec(new String[]{"shutdown", "-r", "-t", "0"});
+            } catch (IOException ex) {
+                Log.err.print(ScreenProduct.class, "重启错误", ex);
             }
         });
 

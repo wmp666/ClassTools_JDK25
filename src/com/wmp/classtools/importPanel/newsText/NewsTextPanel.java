@@ -111,6 +111,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
 
                 if (item instanceof JSONObject itemObject) {
                     String s = itemObject.getString("title");
+                    s = s.replaceAll("%quot;", "\"");
                     StringBuilder sb = new StringBuilder();
                     for (char c : s.toCharArray()) {
                         String s1 = "？！。 ?!;；:：";

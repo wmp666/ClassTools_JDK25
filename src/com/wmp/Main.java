@@ -26,7 +26,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.0.1.1";
+    public static final String version = "2.0.2";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -40,6 +40,7 @@ public class Main {
 
         allArgs.put("CTInfo:isError", StartupParameters.creative("/CTInfo:error", "-CTInfo:error"));
         allArgs.put("BasicDataPath", StartupParameters.creative("/BasicDataPath", "-BasicDataPath"));
+        allArgs.put("EasterEgg:notShow", StartupParameters.creative("/EasterEgg:notShow", "-EasterEgg:notShow"));
     }
 
     public static void main(String[] args) {
@@ -126,13 +127,14 @@ public class Main {
     /**
      * 判断是否存在参数
      * @param arg 参数 类型:
-     *                           <ul>
-     *                           <li><code>StartUpdate:false</code>
-     *                           <li><code>screenProduct:show</code>
-     *                           <li><code>screenProduct:view</code>
-     *                           <li><code>CTInfo:isError</code>
-     *                            <li><code>BasicDataPath</code>
-     *                           </ul>
+     *            <ul>
+     *                <li><code>StartUpdate:false</code>
+     *                <li><code>screenProduct:show</code>
+     *                <li><code>screenProduct:view</code>
+     *                <li><code>CTInfo:isError</code>
+     *                <li><code>BasicDataPath</code>
+     *            <li><code>EasterEgg:notShow</code></li>
+     *            </ul>
      *
      * @return 是否存在
      */
@@ -143,13 +145,14 @@ public class Main {
     /**
      * 获取当前参数下一位,若不存在传入的参数则返回null
      * @param arg 参数 类型:
-     *                           <ul>
-     *                           <li><code>StartUpdate:false</code>
-     *                           <li><code>screenProduct:show</code>
-     *                           <li><code>screenProduct:view</code>
-     *                           <li><code>CTInfo:isError</code>
-     *                            <li><code>BasicDataPath</code>
-     *                           </ul>
+     *            <ul>
+     *                <li><code>StartUpdate:false</code>
+     *                <li><code>screenProduct:show</code>
+     *                <li><code>screenProduct:view</code>
+     *                <li><code>CTInfo:isError</code>
+     *                <li><code>BasicDataPath</code>
+     *            <li><code>EasterEgg:notShow</code></li>
+     *            </ul>
      *
      * @return 下一位
      */

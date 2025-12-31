@@ -99,7 +99,7 @@ public class LoadingDialog extends JFrame {
         panel.add(textLabel, BorderLayout.CENTER);
 
         CircleLoader circleLoader = progressBar.toCircleLoader();
-        circleLoader.setPreferredSize(new Dimension(CTFont.getSize(CTFontSizeStyle.BIG), CTFont.getSize(CTFontSizeStyle.BIG)));
+        circleLoader.setPreferredSize(new Dimension(CTFont.getSize(CTFontSizeStyle.MORE_BIG), CTFont.getSize(CTFontSizeStyle.MORE_BIG)));
         panel.add(circleLoader, BorderLayout.WEST);
         panel.setOpaque(false);
 

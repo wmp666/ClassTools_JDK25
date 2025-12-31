@@ -32,9 +32,9 @@ public class CircleLoader extends JPanel {
         // 定时器控制动画
         timer = new Timer(20, _ -> {
 
-                rotationAngle += 5;
-                if (rotationAngle >= 360) {
-                    rotationAngle = 0;
+                rotationAngle -= 5;
+                if (rotationAngle <= 0) {
+                    rotationAngle = 360;
                 }
 
                 if (isIndeterminate) {
@@ -61,7 +61,9 @@ public class CircleLoader extends JPanel {
 
         int width = getWidth();
         int height = getHeight();
-        int size = Math.min(width, height) - 10;
+        int size = Math.min(width, height);
+        int depth = size/5;
+        size -= depth;
         int x = (width - size) / 2;
         int y = (height - size) / 2;
 
@@ -69,7 +71,7 @@ public class CircleLoader extends JPanel {
         g2d.setColor(CTColor.mainColor);
 
         // 绘制旋转的扇形
-        g2d.setStroke(new BasicStroke(5, BasicStroke.CAP_ROUND,
+        g2d.setStroke(new BasicStroke(depth, BasicStroke.CAP_ROUND,
                 BasicStroke.JOIN_ROUND));
 
         Arc2D arc = new Arc2D.Float(x, y, size, size,

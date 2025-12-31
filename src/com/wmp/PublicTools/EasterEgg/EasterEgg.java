@@ -38,6 +38,8 @@ public class EasterEgg {
 
     public static boolean getEasterEggItem(int style) {
 
+        if (Main.isHasTheArg("EasterEgg:notShow")) return false;
+
         if (Main.isHasTheArg("screenProduct:show")) return false;
 
         if (DateTools.dayIsNow("12-31") ||
@@ -309,6 +311,8 @@ public class EasterEgg {
     }
 
     public static void showHolidayBlessings(int style) {
+
+        if (Main.isHasTheArg("EasterEgg:notShow")) return;
 
         Log.info.print("EasterEgg", "搜索今日是否需要祝福");
 

@@ -14,6 +14,7 @@ import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.CTComponent.Menu.CTMenu;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
@@ -123,7 +124,7 @@ public class Log {
         trayIcon.addActionListener(actionListener);
     }
 
-    public static @NotNull CTPopupMenu getCtPopupMenu() {
+    public static CTPopupMenu getCtPopupMenu() {
         CTPopupMenu popupMenu = new CTPopupMenu();
 
         CTRoundTextButton refresh = new CTRoundTextButton("刷新");
@@ -132,15 +133,10 @@ public class Log {
         refresh.addActionListener(e -> MainWindow.refreshPanel());
         popupMenu.add(refresh);
 
-        CTRoundTextButton more = new CTRoundTextButton("更多");
+        CTMenu more = new CTMenu("更多");
         more.setIcon(GetIcon.getImageIcon("更多", IconControl.COLOR_COLORFUL, 20, 20));
         more.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
-        more.addActionListener(e -> {
-            CTPopupMenu moreMenu = new CTPopupMenu();
-            FinalPanel.allButList.forEach(but -> moreMenu.add(but.toRoundTextButton()));
-
-            moreMenu.show(more,more.getWidth(), 0);
-        });
+        FinalPanel.allButList.forEach(but -> more.add(but.toRoundTextButton()));
 
         popupMenu.add(more);
 
