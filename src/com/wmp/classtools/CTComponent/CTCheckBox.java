@@ -120,6 +120,7 @@ public class CTCheckBox extends JCheckBox implements MouseListener, ChangeListen
         g2.setColor(getForeground());
         g2.fill(new RoundRectangle2D.Float(roundX, startY + (getFont().getSize() * interval)/2, roundSize, roundSize, roundSize, roundSize));
 
+        int fontWidth = 0;
         // 绘制文本
         if (getText() != null && !getText().isEmpty()) {
             FontMetrics fm = g2.getFontMetrics();
@@ -127,8 +128,11 @@ public class CTCheckBox extends JCheckBox implements MouseListener, ChangeListen
             textY = (height + fm.getAscent() - fm.getDescent()) / 2;
             g2.setColor(getForeground());
             g2.setFont(getFont());
+            fontWidth = fm.stringWidth(getText());
             g2.drawString(getText(), textX, textY);
         }
+
+        setPreferredSize(new Dimension(getFont().getSize()*2 + fontWidth + getIconTextGap()*2, getFont().getSize() + getIconTextGap()*2));
 
         g2.dispose();
     }

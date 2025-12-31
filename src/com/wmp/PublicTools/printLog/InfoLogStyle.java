@@ -109,6 +109,23 @@ public class InfoLogStyle extends PrintLogStyle {
         return s;
     }
 
+    /**
+     * 显示多选对话框
+     *
+     * @param owner   对话框的父组件
+     * @param logInfo 显示的消息
+     * @param choices 显示的选项
+     * @return 选中的选项, 取消返回null
+     */
+    public String[] showChoicesDialog(Container c, String owner, String logInfo, String... choices) {
+        Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
+        String title = getTitle(owner);
+        String[] ss = CTOptionPane.showChoicesDialog(c, title, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, true, choices);
+        Log.print(getStyle(), owner, "输入信息->" + Arrays.toString(ss), c);
+        if (ss.length == 0) return null;
+        return ss;
+    }
+
     public int[] showTimeChooseDialog(Container c, String owner, String logInfo, int style) {
         Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
         int[] times = CTOptionPane.showTimeChooseDialog(c, logInfo, getIcon(), CTOptionPane.INFORMATION_MESSAGE, style, true);

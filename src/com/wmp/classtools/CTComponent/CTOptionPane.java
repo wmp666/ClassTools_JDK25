@@ -565,6 +565,17 @@ public class CTOptionPane {
         return times;
     }
 
+    /**
+     *  显示选择对话框
+     * @param owner 主窗口
+     * @param title 标题
+     * @param message 信息
+     * @param icon 图标
+     * @param iconType 图标类型
+     * @param isAlwaysOnTop 是否置顶
+     * @param choices 选项
+     * @return 选择的选项,未选择返回<code>new String[0]</code>
+     */
     public static String[] showChoicesDialog(Component owner, String title, String message, Icon icon, int iconType, boolean isAlwaysOnTop, String... choices) {
         BasicDialog basicDialog = createDialog(owner, title, message, icon, iconType, isAlwaysOnTop);
         JDialog dialog = basicDialog.dialog;
@@ -576,13 +587,11 @@ public class CTOptionPane {
         CTCheckBox[] checkBoxes = new CTCheckBox[choices.length];
         for (int i = 0; i < choices.length; i++) {
             CTCheckBox choice = new CTCheckBox(choices[i]);
-            choice.setFont(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.NORMAL));
+            choice.setFont(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL));
             checkBoxes[i] = choice;
-            System.err.println(choices[i]);
         }
 
         for (int i = 0; i < choices.length; i++) {
-            System.err.println(checkBoxes[i]);
             choicesPanel.add(checkBoxes[i]);
         }
 
