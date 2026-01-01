@@ -172,8 +172,8 @@ public class DPanel extends CTViewPanel<DutyInfo> {
         StringBuilder sb = new StringBuilder();
         DutyDay todayDutyForm = dutyList[getInfoControl().getInfo().index()];
         sb.append("值日名单:\n")
-                .append("擦黑板: ").append(List.of(todayDutyForm.getClBlackBroadList())).append("\n")
-                .append("扫地: ").append(List.of(todayDutyForm.getClFloorList())).append("\n");
+                .append("擦黑板: ").append(todayDutyForm.getClBlackBroadList()).append("\n")
+                .append("扫地: ").append(todayDutyForm.getClFloorList()).append("\n");
         Log.info.systemPrint("值日表", sb.toString());
     }
 }

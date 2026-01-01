@@ -8,8 +8,6 @@ import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.PublicTools.web.SslUtils;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -20,6 +18,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class GetNewerVersion {
@@ -30,31 +29,32 @@ public class GetNewerVersion {
     public static int newerVersion = 1;
     public static int importUpdate = 2;
     private static JPanel view;
-    //private static JDialog dialog;
-    private static String versionContent = "";//更新说明
-    private static String downloadUrl = "null";
-    private static String sha256 = null;
     //https://github.com/wmp666/ClassTools_JDK25/releases/download/1.6.4/ClassTools.jar
 
-    private static String getLatestVersion(int updateMode) {
+    /**
+     *
+     * @param updateMode 更新模式
+     * @return [版本,下载地址,sha265,更新提示]
+     */
+    private static String[] getLatestVersion(int updateMode) {
         try {
-            String version = null;
+            String[] info = new String[4];
             if (updateMode == NEW_VERSION) {
                 // 获取原始JSON响应
                 String json = GetWebInf.getWebInf(NewVerFileUrl);
 
                 // 使用JSONObject解析
                 JSONObject release = new JSONObject(json);
-                version = release.getString("tag_name");
-                versionContent = release.getString("body").replace("\\r\\n", "\n");
+                info[0] = release.getString("tag_name");
+                info[3] = release.getString("body").replace("\\r\\n", "\n");
 
                 // 获取准确下载地址
                 JSONArray assets = release.getJSONArray("assets");
                 for (int i = 0; i < assets.length(); i++) {
                     JSONObject asset = assets.getJSONObject(i);
                     if (asset.getString("name").endsWith(".jar")) {
-                        downloadUrl = asset.getString("browser_download_url");
-                        sha256 = asset.getString("digest").split(":")[1];
+                        info[1] = asset.getString("browser_download_url");
+                        info[2] = asset.getString("digest").split(":")[1];
                         break;
                     }
                 }
@@ -77,31 +77,31 @@ public class GetNewerVersion {
                     }
                 });
 
-                version = newBate.get();
-                versionContent = newRelease.get().getString("body").replace("\\r\\n", "\n");
+                info[0] = newBate.get();
+                info[3] = newRelease.get().getString("body").replace("\\r\\n", "\n");
 
                 // 获取准确下载地址
                 JSONArray assets = newRelease.get().getJSONArray("assets");
                 for (int i = 0; i < assets.length(); i++) {
                     JSONObject asset = assets.getJSONObject(i);
                     if (asset.getString("name").endsWith(".jar")) {
-                        sha256 = asset.getString("digest").split(":")[1];
-                        downloadUrl = asset.getString("browser_download_url");
+                        info[2] = asset.getString("digest").split(":")[1];
+                        info[1] = asset.getString("browser_download_url");
                         break;
                     }
                 }
-                if (downloadUrl.equals("null")) {
-                    Log.err.print(null, GetNewerVersion.class, "无法获取下载地址");
-                } else {
-                    Log.info.print(null, "获取新版本", "获取下载地址成功");
-                }
-            }
 
-            return version;
+            }
+            if (info[1].equals("null")) {
+                Log.err.print(null, GetNewerVersion.class, "无法获取下载地址");
+            } else {
+                Log.info.print(null, "获取新版本", "获取下载地址成功");
+            }
+            return info;
         } catch (Exception e) {
             Log.err.systemPrint(GetNewerVersion.class, "版本获取失败", e);
         }
-        return "";
+        return new String[]{"", "", "", ""};
     }
 
     public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage) {
@@ -136,31 +136,31 @@ public class GetNewerVersion {
         }
 
         new SwingWorker<Void, Void>() {
-            String latestVersion;
+            String[] latestInfo;
 
             protected Void doInBackground() {
-                String temp = getLatestVersion(NEW_VERSION);
+                String[] temp = getLatestVersion(NEW_VERSION);
                 if (CTInfo.appInfo.joinInsiderProgram() || updateMode == TEST_VERSION){
-                        String testLatestVersion = getLatestVersion(TEST_VERSION);
-                        if (isNewerVersion(testLatestVersion, temp) != 0)
-                            latestVersion = testLatestVersion;
-                        else latestVersion = temp;
-                }else latestVersion = temp;
+                        String[] testLatestInfo = getLatestVersion(TEST_VERSION);
+                        if (isNewerVersion(testLatestInfo[0], temp[0]) != 0)
+                            latestInfo = testLatestInfo;
+                        else latestInfo = temp;
+                }else latestInfo = temp;
                 return null;
             }
 
             protected void done() {
-                if (latestVersion == null) {
+                if (latestInfo == null) {
                     return;
                 }
-                int i = isNewerVersion(latestVersion, CTInfo.version);
+                int i = isNewerVersion(latestInfo[0], CTInfo.version);
 
                 Thread updateThread = new Thread(() -> {
-                    Log.warn.message(dialog, "更新至 " + latestVersion, "即将开始更新, 无论更新是否完成都将关闭程序, 没有提醒");
+                    Log.warn.message(dialog, "更新至 " + latestInfo[0], "即将开始更新, 无论更新是否完成都将关闭程序, 没有提醒");
 
                     IOForInfo.deleteDirectoryRecursively(Path.of(CTInfo.TEMP_PATH + "UpdateFile\\"));
 
-                    DownloadURLFile.downloadWebFile(dialog, panel, downloadUrl, CTInfo.TEMP_PATH + "UpdateFile\\", sha256);
+                    DownloadURLFile.downloadWebFile(dialog, panel, latestInfo[1], CTInfo.TEMP_PATH + "UpdateFile\\", latestInfo[2]);
 
                     try {
                         IOForInfo.copyFile(Path.of(CTInfo.TEMP_PATH, "UpdateFile", "ClassTools.jar"), Path.of(GetPath.getAppPath(GetPath.SOURCE_FILE_PATH), "ClassTools.jar"));
@@ -173,9 +173,9 @@ public class GetNewerVersion {
 
                 if (updateMode == NEW_VERSION) {
                     if (i == 1) {
-                        Log.info.print("发现新版本", "发现新版本 " + latestVersion);
+                        Log.info.print("发现新版本", "发现新版本 " + latestInfo[0]);
                         int result = Log.info.showChooseDialog(dialog, "发现新版本",
-                                "发现新版本 " + latestVersion + "，是否下载？\n" + versionContent);
+                                "发现新版本 " + latestInfo[0] + "，是否下载？\n" + latestInfo[3]);
 
 
                         if (result == JOptionPane.YES_OPTION) {
@@ -194,7 +194,7 @@ public class GetNewerVersion {
                 } else {
                     if (i != 0) {
                         int result = Log.info.showChooseDialog(dialog, "发现测试版本",
-                                "发现测试版本 " + latestVersion + "，是否下载？\n" + versionContent);
+                                "发现测试版本 " + latestInfo[0] + "，是否下载？\n" + latestInfo[3]);
 
 
                         if (result == JOptionPane.YES_OPTION) {
@@ -228,21 +228,20 @@ public class GetNewerVersion {
         // 实现版本号比较逻辑（需根据你的版本号格式调整）
         String[] remoteParts = remote.split("\\.");
         String[] localParts = local.split("\\.");
-        for (int i = 0; i < Math.min(remoteParts.length, localParts.length); i++) {
-            int remotePart = Integer.parseInt(remoteParts[i]);
-            int localPart = Integer.parseInt(localParts[i]);
+        int maxSize = Math.max(remoteParts.length, localParts.length);
+        remoteParts = Arrays.copyOf(remoteParts, maxSize);
+        localParts = Arrays.copyOf(localParts, maxSize);
+
+        for (int i = 0; i < maxSize; i++) {
+            int remotePart = Integer.parseInt(remoteParts[i] == null?"0":remoteParts[i]);
+            int localPart = Integer.parseInt(localParts[i] == null?"0":localParts[i]);
             if (remotePart > localPart) {//有最新版
                 return newerVersion;
             } else if (remotePart < localPart) {
                 return 0;
             }
         }
-        // 如果版本号相同，则比较长度
-        if (remoteParts.length > localParts.length) {
-            return newerVersion;
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
 
@@ -295,10 +294,9 @@ public class GetNewerVersion {
             JSONObject release = new JSONObject(json);
 
             // 获取准确下载地址
-            String sourceURL = release.getString("zipball_url");
 
 
-            return sourceURL;
+            return release.getString("zipball_url");
         } catch (Exception e) {
             Log.err.print(GetNewerVersion.class, "信息解析失败", e);
         }

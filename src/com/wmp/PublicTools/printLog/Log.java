@@ -266,7 +266,7 @@ public class Log {
                 info = "[" + dateStr + "]" +
                         "[warn]" +
                         "[" + owner + "] :" +
-                        logInfo.toString().replace("\n", "[\\n]");
+                        logInfo;
                 CTOptionPane.showSystemStyleMessageDialog(TrayIcon.MessageType.WARNING, owner, logInfo.toString());
                 System.err.println(info);
 
@@ -279,7 +279,7 @@ public class Log {
                 info = "[" + dateStr + "]" +
                         "[error]" +
                         "[" + owner + "] :" +
-                        logInfo.toString().replace("\n", "[\\n]");
+                        logInfo;
                 CTOptionPane.showSystemStyleMessageDialog(TrayIcon.MessageType.ERROR, owner, logInfo.toString());
                 System.err.println(info);
                 logInfList.addLast(info);

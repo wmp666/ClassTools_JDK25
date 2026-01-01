@@ -18,8 +18,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewsTextPanel extends CTViewPanel<String> {
@@ -28,7 +31,11 @@ public class NewsTextPanel extends CTViewPanel<String> {
 
     //private final JPanel showPanel;
     private final JTextArea textArea = new JTextArea();
-    private final AtomicInteger i = new AtomicInteger(-1);
+    private JLabel imageLabel = new JLabel();
+
+    /**
+     * 显示的索引
+     */
     private int index = 0;
     private String webInf = "";
 
@@ -93,24 +100,20 @@ public class NewsTextPanel extends CTViewPanel<String> {
             JSONObject jsonObject = new JSONObject(webInf);
 
 
-            jsonObject.getJSONObject("result").getJSONArray("newslist").forEach(item -> {
+            List<Object> list = jsonObject.getJSONObject("result").getJSONArray("newslist").toList();
 
+                if (list.get(index) instanceof Map<?,?> map) {
+                    //初始化内容
 
-                if (index >= jsonObject.getJSONObject("result").getInt("allnum")) {
-                    i.set(-1);
-                }
-                if (i.get() >= jsonObject.getJSONObject("result").getInt("allnum")) {
-                    i.set(-1);
-                }
+                    //图片部分
+                    try {
+                        imageLabel = new JLabel(new ImageIcon(URI.create(map.get("picUrl").toString()).toURL()));
+                    } catch (Exception _) {
 
-                i.getAndIncrement();
+                    }
 
-                if (i.get() != index) {
-                    return;
-                }
-
-                if (item instanceof JSONObject itemObject) {
-                    String s = itemObject.getString("title");
+                    //文字部分
+                    String s = map.get("title").toString();
                     s = s.replaceAll("%quot;", "\"");
                     StringBuilder sb = new StringBuilder();
                     for (char c : s.toCharArray()) {
@@ -121,6 +124,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
                         }
 
                     }
+
                     textArea.setText(sb.toString());
                     textArea.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     textArea.setEditable(false);
@@ -135,7 +139,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
                             if (e.getButton() == MouseEvent.BUTTON1) {
                                 if (!Main.isHasTheArg("screenProduct:show")) {
                                     try {
-                                        Desktop.getDesktop().browse(URI.create(itemObject.getString("url")));
+                                        Desktop.getDesktop().browse(URI.create(map.get("url").toString()));
                                     } catch (Exception ex) {
                                         Log.err.print(getClass(), "无法打开网页", ex);
                                     }
@@ -146,7 +150,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
                                     CTRoundTextButton openURL = new CTRoundTextButton("查看详情");
                                     openURL.addActionListener(e1 -> {
                                         try {
-                                            Desktop.getDesktop().browse(URI.create(itemObject.getString("url")));
+                                            Desktop.getDesktop().browse(URI.create(map.get("url").toString()));
                                         } catch (Exception ex) {
                                             Log.err.print(getClass(), "无法打开网页", ex);
                                         }
@@ -183,9 +187,6 @@ public class NewsTextPanel extends CTViewPanel<String> {
                         }
                     });
                 }
-
-
-            });
             FontMetrics fm = textArea.getFontMetrics(textArea.getFont());
             // 根据文字数量调整窗口大小
             int lineCount = GetMaxSize.getLine(textArea.getText(), GetMaxSize.STYLE_HTML);// 行数
@@ -200,14 +201,26 @@ public class NewsTextPanel extends CTViewPanel<String> {
                 newHeight = maxShowHeight;
             }
 
+
+            //文字部分
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.getViewport().setOpaque(false);
             scrollPane.setOpaque(false);
             scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-
             this.add(scrollPane, BorderLayout.CENTER);
             scrollPane.setPreferredSize(new Dimension(this.isScreenProductViewPanel() ? Toolkit.getDefaultToolkit().getScreenSize().width : newWidth, newHeight + 20));
+
+            //图片部分
+            int size = Math.min(scrollPane.getPreferredSize().width, scrollPane.getPreferredSize().height);
+            try {
+                imageLabel.setIcon(new ImageIcon(
+                        ((ImageIcon)imageLabel.getIcon()).getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+            } catch (Exception _) {
+            }
+
+            imageLabel.setPreferredSize(new Dimension(size, size));
+            this.add(imageLabel, BorderLayout.WEST);
 
             // 添加以下两行代码使滚动条回到顶部
             textArea.setCaretPosition(0);
@@ -215,7 +228,6 @@ public class NewsTextPanel extends CTViewPanel<String> {
             Log.info.systemPrint("新闻", textArea.getText());
         } catch (Exception e) {
             Log.warn.print(getClass().getName(), "获取新闻失败");
-            throw e;
         }
 
 
