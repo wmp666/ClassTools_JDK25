@@ -101,7 +101,7 @@ public class GetNewerVersion {
         } catch (Exception e) {
             Log.err.systemPrint(GetNewerVersion.class, "版本获取失败", e);
         }
-        return null;
+        return "";
     }
 
     public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage) {
@@ -139,7 +139,13 @@ public class GetNewerVersion {
             String latestVersion;
 
             protected Void doInBackground() {
-                latestVersion = getLatestVersion(updateMode == NEW_VERSION ? NEW_VERSION : TEST_VERSION);
+                String temp = getLatestVersion(NEW_VERSION);
+                if (CTInfo.appInfo.joinInsiderProgram() || updateMode == TEST_VERSION){
+                        String testLatestVersion = getLatestVersion(TEST_VERSION);
+                        if (isNewerVersion(testLatestVersion, temp) != 0)
+                            latestVersion = testLatestVersion;
+                        else latestVersion = temp;
+                }else latestVersion = temp;
                 return null;
             }
 

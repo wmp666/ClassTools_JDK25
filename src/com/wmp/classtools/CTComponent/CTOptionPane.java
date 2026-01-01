@@ -852,18 +852,8 @@ public class CTOptionPane {
 
     private static final LinkedList<CTWindow> SSMDialogs = new LinkedList<>();
     public static void showSystemStyleMessageDialog(TrayIcon.MessageType iconType, String owner, String logInfo){
-        int waitTime = 5;
+        int waitTime = CTInfo.appInfo.messageShowTime();
 
-        try {
-            File dataFile = new File(CTInfo.DATA_PATH, "appFileInfo.json");
-            JSONObject jsonObject = new JSONObject(IOForInfo.getInfos(dataFile.getAbsolutePath()));
-            if (jsonObject.has("SSMDWaitTime")) {
-                waitTime = jsonObject.getInt("SSMDWaitTime");
-            }
-        } catch (Exception _) {
-        }
-
-        int finalWaitTime = waitTime;
         new Thread(() ->{
             synchronized (SSMDialogs){
                 while (!SSMDialogs.isEmpty()) {
@@ -880,7 +870,7 @@ public class CTOptionPane {
                 dialog.setLayout(new BorderLayout());
                 dialog.getContentPane().setBackground(CTColor.backColor);
 
-                Timer t = new Timer(finalWaitTime * 1000, ex -> {
+                Timer t = new Timer(waitTime * 1000, ex -> {
                     if (dialog.isVisible()) {
                         SSMDialogs.remove(dialog);
                         dialog.dispose();

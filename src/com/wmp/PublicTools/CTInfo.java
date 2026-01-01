@@ -6,6 +6,8 @@ import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.appFileControl.AudioControl;
+import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfo;
+import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfoControl;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -52,6 +55,7 @@ public class CTInfo {
 
     public static String version = Main.version;
 
+    public static AppInfo appInfo = new AppInfo(5, false);
 
     public static void  init() {
 
@@ -113,6 +117,20 @@ public class CTInfo {
     }
 
     private static void initCTBasicInfo() {
+
+        appInfo = new AppInfoControl().getInfo();
+
+        if (appInfo.joinInsiderProgram()){
+            int[] versionArr = new int[5];
+            String[] versionStr = version.split("\\.");
+            for (int i = 0; i < versionStr.length; i++) {
+                versionArr[i] = Integer.parseInt(versionStr[i]);
+            }
+            int[] result = Arrays.copyOf(versionArr, 5);
+            version = String.format("%d.%d.%d.%d.%d", result[0], result[1], result[2], result[3], result[4]);
+
+            Log.trayIcon.displayMessage("提示", "您加入了测试计划,可能遇到大量为未经验证的更新,请关注", TrayIcon.MessageType.WARNING);
+        }
 
         //设置默认字体
         ColorUIResource textColorUIResource = new ColorUIResource(CTColor.textColor);

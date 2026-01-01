@@ -15,18 +15,6 @@ public class CTWindow extends JFrame implements WindowStateListener {
     public CTWindow() throws HeadlessException {
         this.setUndecorated(true);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), CTInfo.arcw - 10, CTInfo.arch -10));
-        this.setBackground(new Color(0, 0, 0, 0));
-
-        Container contentPane = new JPanel(){
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-                g2.setColor(getBackground());
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), CTInfo.arcw, CTInfo.arch);
-                g2.dispose();
-            }
-        };
-        this.setContentPane(contentPane);
 
         this.addWindowStateListener(this);
     }
