@@ -100,7 +100,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
         imageSetsPanel.setBorder(CTBorderFactory.createTitledBorder("图片设置"));
         imageSetsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        CTTextButton downloadButton = new CTTextButton("下载音频");
+        CTTextButton downloadButton = new CTTextButton("导入");
         downloadButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
         downloadButton.setIcon("导入", IconControl.COLOR_COLORFUL,
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
@@ -137,6 +137,15 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
         });
         imageSetsPanel.add(downloadButton);
 
+        CTTextButton controlButton = new CTTextButton("管理");
+        controlButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
+        controlButton.setIcon("设置", IconControl.COLOR_COLORFUL,
+                controlButton.getFont().getSize(), controlButton.getFont().getSize());
+        controlButton.addActionListener(e -> {
+            IconControl.showControlDialog();
+        });
+        imageSetsPanel.add(controlButton);
+
         CTTextButton helpButton = new CTTextButton("使用帮助");
         helpButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
         helpButton.addActionListener(e -> ShowHelpDoc.openWebHelpDoc("imageCreativeHelp"));
@@ -151,7 +160,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
         musicSetsPanel.setBorder(CTBorderFactory.createTitledBorder("音频设置"));
         musicSetsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        CTTextButton downloadButton = new CTTextButton("下载音频");
+        CTTextButton downloadButton = new CTTextButton("导入");
         downloadButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
         downloadButton.setIcon("导入", IconControl.COLOR_COLORFUL,
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
@@ -187,6 +196,15 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
             }
         });
         musicSetsPanel.add(downloadButton);
+
+        CTTextButton controlButton = new CTTextButton("管理");
+        controlButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
+        controlButton.setIcon("设置", IconControl.COLOR_COLORFUL,
+                controlButton.getFont().getSize(), controlButton.getFont().getSize());
+        controlButton.addActionListener(e -> {
+            AudioControl.showControlDialog();
+        });
+        musicSetsPanel.add(controlButton);
 
         CTTextButton helpButton = new CTTextButton("使用帮助");
         helpButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));

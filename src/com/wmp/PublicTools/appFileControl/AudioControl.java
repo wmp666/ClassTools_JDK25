@@ -1,6 +1,9 @@
 package com.wmp.PublicTools.appFileControl;
 
 import com.wmp.PublicTools.CTInfo;
+import com.wmp.PublicTools.UITools.CTFont;
+import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.appFileControl.tools.GetShowTreePanel;
 import com.wmp.PublicTools.io.DownloadURLFile;
 import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.io.IOForInfo;
@@ -8,16 +11,30 @@ import com.wmp.PublicTools.io.ZipPack;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.update.GetNewerVersion;
 import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.classTools.CTComponent.CTBorderFactory;
+import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.CTComponent.CTTextField;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,6 +42,10 @@ public class AudioControl {
 
     private static final Map<String, Player> PLAYER_MAP = new HashMap<>();
 
+    private static final String[] ALL_AUDIO_KEY = {
+            "系统.错误", "系统.警告", "系统.通知",
+            "课程表.上课", "课程表.下课"
+    };
     public static void init() {
 
         PLAYER_MAP.forEach((key, player) -> {
@@ -49,7 +70,7 @@ public class AudioControl {
                     Log.warn.print("AudioControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
                 } else {
                     PLAYER_MAP.put(jsonObject.getString("name"),
-                            getPlayer(AudioControl.class.getResourceAsStream(pathStr)));
+                            getPlayer(jsonObject.getString("name"), AudioControl.class.getResourceAsStream(pathStr)));
                 }
             });
 
@@ -79,7 +100,7 @@ public class AudioControl {
                         Log.warn.print("AudioControl", String.format("音频文件%s不存在", jsonObject.getString("path")));
                     } else {
                         PLAYER_MAP.put(jsonObject.getString("name"),
-                                getPlayer(new FileInputStream(file)));
+                                getPlayer(jsonObject.getString("name"), new FileInputStream(file)));
                     }
 
                 } catch (Exception e) {
@@ -94,6 +115,84 @@ public class AudioControl {
             Log.warn.message(null, AudioControl.class.getName(), "本地音频加载失败:\n" + e);
         }
 
+    }
+
+    public static void showControlDialog(){
+        JDialog controlDialog = new JDialog();
+        controlDialog.setTitle("音频控制");
+        controlDialog.setModal(true);
+        controlDialog.getContentPane().setLayout(new BorderLayout());
+
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        controlPanel.setOpaque(false);
+        controlPanel.setBorder(CTBorderFactory.createTitledBorder("音频管理"));
+
+        CTTextField selectAudio = new CTTextField();
+        selectAudio.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
+        selectAudio.setEditable(false);
+        controlPanel.add(selectAudio);
+
+        final Player[] player = {null};
+        CTTextButton playerButton = new CTTextButton("播放");
+        playerButton.addActionListener(e -> {
+            if(player[0] != null){
+
+                    try {
+                        player[0].play();
+                    } catch (JavaLayerException ex) {
+                        Log.err.print(AudioControl.class, "音频播放失败", ex);
+                    }
+                    return;
+            }
+            Log.err.print(AudioControl.class.toString(), "音频异常失败");
+        });
+        controlPanel.add(playerButton);
+
+        JTree showTree = GetShowTreePanel.getShowTreePanel(ALL_AUDIO_KEY, "音频");
+        showTree.addTreeExpansionListener(new TreeExpansionListener() {
+            @Override
+            public void treeExpanded(TreeExpansionEvent event) {
+                controlDialog.pack();
+            }
+
+            @Override
+            public void treeCollapsed(TreeExpansionEvent event) {
+                controlDialog.pack();
+            }
+        });
+        showTree.addTreeSelectionListener(e-> {
+            if(showTree.getLastSelectedPathComponent() != null &&
+            showTree.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode){
+                //获取Key
+                Object[] path = e.getPath().getPath();
+                StringBuilder key = new StringBuilder();
+                for (int i = 1; i < path.length; i++) {
+                    key.append(path[i]);
+                    if(i != path.length-1){
+                        key.append(".");
+                    }
+                }
+
+                player[0] = getPlayer(key.toString());
+                selectAudio.setText(key.toString());
+
+                controlDialog.pack();
+                controlDialog.repaint();
+            }
+        });
+
+        JPanel showPanel = new JPanel();
+        showPanel.setLayout(new BorderLayout());
+        showPanel.setBorder(CTBorderFactory.createTitledBorder("音频列表"));
+        showPanel.add(showTree);
+
+        controlDialog.getContentPane().add(new JScrollPane(showPanel), BorderLayout.CENTER);
+        controlDialog.getContentPane().add(new JScrollPane(controlPanel), BorderLayout.SOUTH);
+
+        controlDialog.pack();
+        controlDialog.setLocationRelativeTo(null);
+        controlDialog.setVisible(true);
     }
 
     public static Player getPlayer(String key) {
@@ -184,12 +283,12 @@ public class AudioControl {
         return true;
     }
 
-    private static Player getPlayer(InputStream inputStream) {
+    private static Player getPlayer(String key, InputStream inputStream) {
+        if (!List.of(ALL_AUDIO_KEY).contains(key)) return null;
         if (inputStream != null) {
             try {
                 return new Player(inputStream);
-            } catch (JavaLayerException e) {
-                throw new RuntimeException(e);
+            } catch (JavaLayerException _) {
             }
         }
         return null;

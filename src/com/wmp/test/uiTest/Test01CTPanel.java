@@ -1,4 +1,4 @@
-package com.wmp.classTools.test.uiTest;
+package com.wmp.test.uiTest;
 
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.classTools.extraPanel.attendance.panel.ATPanel;
@@ -10,7 +10,6 @@ import com.wmp.classTools.importPanel.timeView.TimeViewPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 

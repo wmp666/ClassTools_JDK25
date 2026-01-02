@@ -1,6 +1,8 @@
 package com.wmp.PublicTools.UITools;
 
 import com.formdev.flatlaf.*;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
@@ -103,24 +105,24 @@ public class CTColor {
             case STYLE_DARK -> {
                 textColor = getParticularColor(MAIN_COLOR_WHITE);
                 backColor = getParticularColor(STYLE_DARK);
-                FlatDarculaLaf.setup();
+                FlatMacDarkLaf.setup();
             }
             case STYLE_LIGHT -> {
                 textColor = Color.BLACK;
                 backColor = getParticularColor(STYLE_LIGHT);
-                FlatIntelliJLaf.setup();
+                FlatMacLightLaf.setup();
             }
             case STYLE_SYSTEM -> {
                 if (SystemColor.checkDarkMode()) {
                     style = STYLE_DARK;
                     textColor = getParticularColor(MAIN_COLOR_WHITE);
                     backColor = getParticularColor(STYLE_DARK);
-                    FlatDarculaLaf.setup();
+                    FlatMacDarkLaf.setup();
                 }else{
                     style = STYLE_LIGHT;
                     textColor = Color.BLACK;
                     backColor = getParticularColor(STYLE_LIGHT);
-                    FlatIntelliJLaf.setup();
+                    FlatMacLightLaf.setup();
                 }
             }
         }

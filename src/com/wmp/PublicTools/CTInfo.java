@@ -1,5 +1,7 @@
 package com.wmp.PublicTools;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.util.SystemInfo;
 import com.wmp.Main;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;

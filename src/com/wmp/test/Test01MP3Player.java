@@ -1,4 +1,4 @@
-package com.wmp.classTools.test;
+package com.wmp.test;
 
 import com.wmp.PublicTools.printLog.Log;
 import javazoom.jl.decoder.JavaLayerException;

@@ -2,7 +2,10 @@ package com.wmp.PublicTools.appFileControl;
 
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.PublicTools.UITools.CTFont;
+import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.ColorConverter;
+import com.wmp.PublicTools.appFileControl.tools.GetShowTreePanel;
 import com.wmp.PublicTools.io.DownloadURLFile;
 import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.io.IOForInfo;
@@ -10,11 +13,17 @@ import com.wmp.PublicTools.io.ZipPack;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.update.GetNewerVersion;
 import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.classTools.CTComponent.CTBorderFactory;
+import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.CTComponent.CTTextField;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -30,6 +39,9 @@ public class IconControl {
     public static final int COLOR_DEFAULT = 0;
     public static final int COLOR_COLORFUL = 1;
 
+    private static final String[] ALL_ICON_KEY = {
+            "关闭"
+    };
 
     private static final Map<String, ImageIcon> DEFAULT_IMAGE_MAP = new HashMap<>();
     private static final Map<String, Map<String, ImageIcon>> COLORFUL_IMAGE_MAP = new HashMap<>();
@@ -265,5 +277,9 @@ public class IconControl {
             return new ImageIcon(IconControl.class.getResource("/image/default.png"));
         }
         return imageIcon;
+    }
+
+    public static void showControlDialog(){
+        Log.info.message( null, "前面的区域以后再来探索吧", "正在加急制作图标库管理界面");
     }
 }

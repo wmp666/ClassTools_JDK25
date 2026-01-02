@@ -167,8 +167,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
             Thread thread = ZipPack.unzip(filePath, CTInfo.DATA_PATH);
             try {
                 thread.join();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
+            } catch (InterruptedException _) {
             }
             //刷新数据
             this.setVisible(false);

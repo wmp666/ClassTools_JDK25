@@ -1,4 +1,4 @@
-package com.wmp.classTools.test;
+package com.wmp.test;
 
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;

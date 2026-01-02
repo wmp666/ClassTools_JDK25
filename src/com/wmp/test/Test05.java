@@ -1,4 +1,4 @@
-package com.wmp.classTools.test;
+package com.wmp.test;
 
 import javax.swing.*;
 import java.awt.*;

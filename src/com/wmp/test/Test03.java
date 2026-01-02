@@ -1,4 +1,4 @@
-package com.wmp.classTools.test;
+package com.wmp.test;
 
 import java.io.BufferedReader;
 import java.io.File;

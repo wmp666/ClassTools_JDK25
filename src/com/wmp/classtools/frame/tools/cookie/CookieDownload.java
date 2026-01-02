@@ -6,6 +6,7 @@ import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.DownloadURLFile;
+import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
@@ -108,21 +109,20 @@ public class CookieDownload {
                     Log.err.print(getClass(), "该快速启动单元暂无下载地址");
                 } else {
 
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogTitle("选择下载目录");
-                    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    fileChooser.setFileHidingEnabled(false); // 显示隐藏文件
-                    fileChooser.setMultiSelectionEnabled(false); // 只允许选择一个文件
-                    fileChooser.showOpenDialog(dialog);
-                    File selectedFile = fileChooser.getSelectedFile();// 选择文件
-                    new SwingWorker<>() {
-                        @Override
-                        protected Void doInBackground() {
-                            DownloadURLFile.downloadWebFile(dialog, null,
-                                    cookieInfoMap.get(ref.openedButtonKey).getDownloadUrl(), selectedFile.getPath());
-                            return null;
-                        }
-                    }.execute();
+                    String path = GetPath.getDirectoryPath(dialog, "选择下载目录");
+                    File selectedFile = null;
+                    if (path != null) {
+                        selectedFile = new File(path);
+                        new SwingWorker<>() {
+                            @Override
+                            protected Void doInBackground() {
+                                DownloadURLFile.downloadWebFile(dialog, null,
+                                        cookieInfoMap.get(ref.openedButtonKey).getDownloadUrl(), path);
+                                return null;
+                            }
+                        }.execute();
+                    }
+
                 }
             }
         });

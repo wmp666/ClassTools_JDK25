@@ -1,4 +1,4 @@
-package com.wmp.classTools.test.weatherTest;
+package com.wmp.test.weatherTest;
 
 import org.json.JSONObject;
 

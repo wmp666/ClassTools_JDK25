@@ -1,9 +1,9 @@
 package com.wmp.PublicTools.io;
 
+import com.formdev.flatlaf.util.SystemFileChooser;
 import com.wmp.PublicTools.printLog.Log;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.File;
 import java.net.URISyntaxException;
@@ -51,34 +51,12 @@ public class GetPath {
     }
 
     public static String getFilePath(Component c, String title, String fileType, String fileName) throws RuntimeException {
-        JFileChooser chooser = new JFileChooser();
+        SystemFileChooser chooser = new SystemFileChooser();
         chooser.setDialogTitle(title);
 
         //将文件过滤器设置为只显示.fileType 或 文件夹
-        chooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                } else {
-                    String fileName = f.getName();
-                    int dotIndex = fileName.lastIndexOf(".");
-                    if (dotIndex == -1) {
-                        return false;
-                    }
-                    String fileSuffix = fileName.substring(dotIndex);
-                    for (String s : fileType.split("\\|")) {
-                        if (fileSuffix.equalsIgnoreCase(s)) return true;
-                    }
-                    return false;
-                }
-            }
-
-            @Override
-            public String getDescription() {
-                return fileName + "文件(*" + fileType + ")";
-            }
-        });
+        String[] fileTypes = fileType.replace(".", "").split("\\|");
+        chooser.addChoosableFileFilter(new SystemFileChooser.FileNameExtensionFilter(fileName, fileTypes));
 
         //获取文件路径
         if (chooser.showOpenDialog(c) == JFileChooser.APPROVE_OPTION) {
@@ -101,7 +79,7 @@ public class GetPath {
     }
 
     public static String getDirectoryPath(Component c, String title) {
-        JFileChooser chooser = new JFileChooser();
+        SystemFileChooser chooser = new SystemFileChooser();
         chooser.setDialogTitle(title);
         chooser.setFileHidingEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
