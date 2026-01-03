@@ -28,7 +28,7 @@ public class GetWeatherInfo {
         Log.info.print("GetWeatherInfo", "获取天气成功: " + jsonResponse);
         if (jsonResponse.getInt("status") == 1) { // 假设1000为成功状态码
             JSONArray lives = jsonResponse.getJSONArray("lives");
-            if (!lives.isEmpty()) return lives.getJSONObject(0);
+            if (!lives.isEmpty()) return lives.optJSONObject(0);
         } else {
             errCode = jsonResponse.getString("info");
         }

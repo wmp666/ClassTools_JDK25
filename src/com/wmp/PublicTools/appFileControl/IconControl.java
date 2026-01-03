@@ -404,10 +404,6 @@ public class IconControl {
         controlPanel.setOpaque(false);
         controlPanel.setBorder(CTBorderFactory.createTitledBorder("图标预览"));
 
-        JLabel selectIcon = new JLabel();
-        selectIcon.setPreferredSize(new Dimension(32, 32)); // 设置图标显示区域大小
-        controlPanel.add(selectIcon);
-
         JLabel iconInfo = new JLabel("请选择图标");
         controlPanel.add(iconInfo);
 
@@ -452,9 +448,7 @@ public class IconControl {
                     }
                 }
 
-                ImageIcon icon = getIcon(sb.toString(), COLOR_DEFAULT);
                 key.set( sb.toString());
-                selectIcon.setIcon(icon);
                 iconInfo.setText(sb.toString());
                 previewButton.setEnabled(true); // 选中图标后启用预览按钮
 

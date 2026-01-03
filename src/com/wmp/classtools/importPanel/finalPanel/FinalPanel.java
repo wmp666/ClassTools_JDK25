@@ -111,7 +111,7 @@ public class FinalPanel extends CTViewPanel<Object> {
         allButList.add(CTTools);
 
         CTIconButton update = new CTIconButton("检查更新",
-                "通用.更新", IconControl.COLOR_COLORFUL, () -> GetNewerVersion.checkForUpdate(null, null, true));
+                "通用.网络.更新", IconControl.COLOR_COLORFUL, () -> GetNewerVersion.checkForUpdate(null, null, true));
         allButList.add(update);
 
         // 自定义刷新方法

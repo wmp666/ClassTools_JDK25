@@ -58,8 +58,8 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
             JSONObject nowWeather = GetWeatherInfo.getNowWeather(getInfoControl().getInfo());
             JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
             if (nowWeather == null || weatherForecasts == null) {
-                icon.setIcon(GetIcon.getIcon("天气.未知", weather.getHeight(), weather.getHeight()));
                 weather.setText(String.format("<html>获取天气数据失败<br>%s<br>点击查看详情</html>", GetWeatherInfo.errCode));
+                icon.setIcon(GetIcon.getIcon("天气.未知", weather.getHeight(), weather.getHeight()));
                 return;
             }
 
