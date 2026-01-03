@@ -4,6 +4,7 @@ import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.CTInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
 
     private final JLabel weather = new JLabel();
+    private final JLabel icon = new JLabel();
     private String format = "<html>%s %s, %s℃<br>%s %s℃-%s℃</html>";
     private String cityCode;
 
@@ -56,9 +58,12 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
             JSONObject nowWeather = GetWeatherInfo.getNowWeather(getInfoControl().getInfo());
             JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
             if (nowWeather == null || weatherForecasts == null) {
+                icon.setIcon(GetIcon.getIcon("天气.未知", weather.getHeight(), weather.getHeight()));
                 weather.setText(String.format("<html>获取天气数据失败<br>%s<br>点击查看详情</html>", GetWeatherInfo.errCode));
                 return;
             }
+
+            //设置文字提示
             JSONObject todayOtherWeather = weatherForecasts.getJSONObject(0);
             weather.setText(String.format(format,
                     nowWeather.getString("city"),
@@ -70,6 +75,10 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
                     todayOtherWeather.getString("daytemp")
             ));
             weather.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            //设置图标提示
+            icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getHeight(), weather.getHeight()));
+
             StringBuilder sb = new StringBuilder();
             sb.append("今日天气: ")
                     .append(nowWeather.getString("weather")).append(" ")
@@ -113,7 +122,14 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
 
         weather.setFont(CTFont.getCTFont(Font.BOLD, size));
         weather.setForeground(CTColor.mainColor);
-        this.add(weather, BorderLayout.SOUTH);
+
+        JScrollPane jScrollPane = new JScrollPane(weather);
+        jScrollPane.setOpaque(false);
+        jScrollPane.getViewport().setOpaque(false);
+        jScrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        this.add(icon, BorderLayout.WEST);
+        this.add(jScrollPane, BorderLayout.CENTER);
 
     }
 

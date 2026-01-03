@@ -13,7 +13,7 @@ import java.util.Map;
 public class GetCityCode {
     public static String getCityCode(WeatherInfo weatherInfo) {
         try {
-            Map<String, String> map = getCityCodes(weatherInfo);
+            Map<String, String> map = getCityCodes(new WeatherInfo("360000", weatherInfo.key()));
             Map<String, String> oldMap = new HashMap<>();
 
             String s = Log.info.showChooseDialog(null, "请选择城市", "请选择城市", map.keySet().toArray(new String[0]));
