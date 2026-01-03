@@ -415,7 +415,7 @@ public class IconControl {
         JDialog previewDialog = new JDialog();
         previewDialog.setTitle("预览图标 - " + iconName);
         previewDialog.setAlwaysOnTop(true);
-        previewDialog.setModal(false); // 设置为非模态，允许返回主窗口
+        previewDialog.setModal(true); // 设置为非模态，允许返回主窗口
         previewDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         // 创建标签显示图标，保持原始比例
