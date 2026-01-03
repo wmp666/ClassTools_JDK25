@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -175,7 +176,7 @@ public class ScreenProduct extends JDialog {
 
             //添加退出按钮 - 左侧
             CTIconButton exitButton = new CTIconButton(
-                    "关闭", IconControl.COLOR_COLORFUL, ScreenProduct::exit);
+                    "通用.关闭", IconControl.COLOR_COLORFUL, ScreenProduct::exit);
             exitButton.setBackground(CTColor.getParticularColor(CTColor.MAIN_COLOR_BLACK));
             screenProduct.getContentPane().add(exitButton, BorderLayout.WEST);
         }
@@ -198,7 +199,7 @@ public class ScreenProduct extends JDialog {
         closeButton.addActionListener(e -> dialog.dispose());
 
         CTRoundTextButton exitButton = new CTRoundTextButton("关闭程序");
-        exitButton.setIcon("关闭", IconControl.COLOR_COLORFUL, 90, 90);
+        exitButton.setIcon("通用.关闭", IconControl.COLOR_COLORFUL, 90, 90);
         exitButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG_BIG));
         exitButton.addActionListener(e -> {
 
@@ -210,7 +211,7 @@ public class ScreenProduct extends JDialog {
         });
 
         CTRoundTextButton shutdownButton = new CTRoundTextButton("关闭电脑");
-        shutdownButton.setIcon("关机", IconControl.COLOR_COLORFUL, 90, 90);
+        shutdownButton.setIcon("屏保.关闭页.关机", IconControl.COLOR_COLORFUL, 90, 90);
         shutdownButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG_BIG));
         shutdownButton.addActionListener(e -> {
             int i = CTOptionPane.showConfirmDialog(dialog, "关闭选择", "是否关闭电脑(仅限Windows)？", null, CTOptionPane.YES_OPTION, true);
@@ -223,7 +224,7 @@ public class ScreenProduct extends JDialog {
         });
 
         CTRoundTextButton restartButton = new CTRoundTextButton("重启电脑");
-        restartButton.setIcon("刷新", IconControl.COLOR_COLORFUL, 90, 90);
+        restartButton.setIcon("通用.刷新", IconControl.COLOR_COLORFUL, 90, 90);
         restartButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG_BIG));
         restartButton.addActionListener(e -> {
             int i = CTOptionPane.showConfirmDialog(dialog, "关闭选择", "是否重启电脑(仅限Windows)？", null, CTOptionPane.YES_OPTION, true);
@@ -314,7 +315,7 @@ public class ScreenProduct extends JDialog {
 
                 Image image;
                 if (bgImagePath.startsWith("url:")) {
-                    image = ImageIO.read(new URL(bgImagePath));
+                    image = ImageIO.read(URI.create(bgImagePath).toURL());
                 } else {
                     // 使用ImageIO避免缓存并支持更多格式
                     File imageFile = new File(bgImagePath);

@@ -50,7 +50,7 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
         {
 
             CTTextButton newBtn = new CTTextButton("添加");
-            newBtn.setIcon("添加", IconControl.COLOR_COLORFUL, 30, 30);
+            newBtn.setIcon("通用.添加", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel = model;
             newBtn.addActionListener(e -> {
                 try {
@@ -69,7 +69,7 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
         // 删除
         {
             CTTextButton deleteBtn = new CTTextButton("删除");
-            deleteBtn.setIcon("删除", IconControl.COLOR_COLORFUL, 30, 30);
+            deleteBtn.setIcon("通用.删除", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel1 = model;
             deleteBtn.addActionListener(_ -> deleteToTable(finalModel1));
 
@@ -80,7 +80,7 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
         // 修改
         {
             CTTextButton removeBtn = new CTTextButton("修改");
-            removeBtn.setIcon("刷新", IconControl.COLOR_COLORFUL, 30, 30);
+            removeBtn.setIcon("通用.刷新", IconControl.COLOR_COLORFUL, 30, 30);
             DefaultTableModel finalModel1 = model;
             removeBtn.addActionListener(_ -> {
                 try {
@@ -91,7 +91,7 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
                         for (int i = 0; i < finalModel1.getColumnCount(); i++) {
                             strings[i] = finalModel1.getValueAt(selectedRow, i).toString();
                         }
-                        String[] newArray = removeToTable(strings);
+                        String[] newArray = modifyToTable(strings);
                         if (newArray != null) {
                             for (int i = 0; i < finalModel1.getColumnCount(); i++) {
                                 finalModel1.setValueAt(newArray[i], selectedRow, i);
@@ -137,7 +137,7 @@ public abstract class CTTableSetsPanel<T> extends CTBasicSetsPanel<T>{
         }
     }
 
-    public String[] removeToTable(String[] oldArray){
+    public String[] modifyToTable(String[] oldArray){
         ArrayList<String> arrays = new ArrayList<>();
 
         for (int i = 0; i < titleArray.length; i++) {

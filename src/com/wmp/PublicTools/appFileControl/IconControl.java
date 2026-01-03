@@ -2,8 +2,6 @@ package com.wmp.PublicTools.appFileControl;
 
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.UITools.ColorConverter;
 import com.wmp.PublicTools.appFileControl.tools.GetShowTreePanel;
 import com.wmp.PublicTools.io.DownloadURLFile;
@@ -16,13 +14,12 @@ import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.CTTextField;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,7 +37,47 @@ public class IconControl {
     public static final int COLOR_COLORFUL = 1;
 
     private static final String[] ALL_ICON_KEY = {
-            "关闭"
+            "关于.哔哩哔哩",
+            "关于.Github",
+            "关于.QQ",
+            "关于.微信",
+
+            "系统.关闭页.明天见",
+            "系统.关闭页.我们终将重逢",
+            "系统.关闭页.愿此行，终抵群星",
+            "系统.关闭页.为了与你重逢愿倾尽所有",
+            "系统.关闭页.<html>生命从夜中醒来<br>却在触碰到光明的瞬间坠入永眠</html>",
+            "系统.关闭页.一起走向明天，我们不曾分离",
+
+            "通用.保存",
+
+            "通用.网络.更新",
+            "通用.网络.下载",
+
+            "通用.设置",
+            "通用.快速启动",
+            "通用.快捷工具",
+            "通用.刷新",
+            "通用.关于",
+            "通用.日志",
+            "通用.关闭",
+            "通用.更多",
+            "通用.添加",
+            "通用.删除",
+
+            "值日表.上一天",
+            "值日表.下一天",
+
+            "通用.文件.文件夹",
+            "通用.文件.导入",
+            "通用.文件.导出",
+
+            "通用.祈愿",
+            "通用.编辑",
+            "通用.文档",
+            "通用.进度",
+
+            "屏保.关闭页.关机"
     };
 
     private static final Map<String, ImageIcon> DEFAULT_IMAGE_MAP = new HashMap<>();
@@ -49,7 +86,7 @@ public class IconControl {
     private static final Map<String, String> ICON_STYLE_MAP = new HashMap<>();
 
     static{
-        DEFAULT_IMAGE_MAP.put("图标", new ImageIcon(IconControl.class.getResource(CTInfo.iconPath)));
+        DEFAULT_IMAGE_MAP.put("系统.图标", new ImageIcon(IconControl.class.getResource(CTInfo.iconPath)));
         COLORFUL_IMAGE_MAP.put("light", DEFAULT_IMAGE_MAP);
         COLORFUL_IMAGE_MAP.put("dark",
                 getColorfulImageMap(DEFAULT_IMAGE_MAP, CTColor.getParticularColor("white")));
@@ -62,7 +99,7 @@ public class IconControl {
             DEFAULT_IMAGE_MAP.clear();
             COLORFUL_IMAGE_MAP.clear();
 
-            DEFAULT_IMAGE_MAP.put("图标", new ImageIcon(IconControl.class.getResource(CTInfo.iconPath)));
+            DEFAULT_IMAGE_MAP.put("系统.图标", new ImageIcon(IconControl.class.getResource(CTInfo.iconPath)));
 
             //获取基础图标
             String resourceInfos = IOForInfo.getInfos(IconControl.class.getResource("imagePath.json"));
@@ -256,18 +293,16 @@ public class IconControl {
     }
 
     public static ImageIcon getDefaultIcon(String name) {
-        ImageIcon icon = DEFAULT_IMAGE_MAP.getOrDefault(name,
+        return DEFAULT_IMAGE_MAP.getOrDefault(name,
                 DEFAULT_IMAGE_MAP.get("default"));
-        return icon;
     }
 
     public static ImageIcon getColorfulIcon(String name) {
 
         HashMap<String, ImageIcon> defaultMap = new HashMap<>();
         defaultMap.put("default", DEFAULT_IMAGE_MAP.get("default"));
-        ImageIcon icon = COLORFUL_IMAGE_MAP.getOrDefault(CTColor.style, defaultMap)
+        return COLORFUL_IMAGE_MAP.getOrDefault(CTColor.style, defaultMap)
                 .getOrDefault(name, DEFAULT_IMAGE_MAP.get("default"));
-        return icon;
     }
 
 
@@ -280,6 +315,125 @@ public class IconControl {
     }
 
     public static void showControlDialog(){
-        Log.info.message( null, "前面的区域以后再来探索吧", "正在加急制作图标库管理界面");
+        JDialog controlDialog = new JDialog(){
+            @Override
+            public void pack() {
+                Dimension preferredSize = super.getPreferredSize();
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                preferredSize.height = (int) Math.min(preferredSize.height, screenSize.height * 0.75);
+                preferredSize.width = (int) Math.min(preferredSize.width, screenSize.width * 0.5);
+                super.setSize(preferredSize);
+            }
+        };
+        controlDialog.setTitle("图标控制");
+        controlDialog.setModal(true);
+        controlDialog.getContentPane().setLayout(new BorderLayout());
+
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        controlPanel.setOpaque(false);
+        controlPanel.setBorder(CTBorderFactory.createTitledBorder("图标预览"));
+
+        JLabel selectIcon = new JLabel();
+        selectIcon.setPreferredSize(new Dimension(32, 32)); // 设置图标显示区域大小
+        controlPanel.add(selectIcon);
+
+        JLabel iconInfo = new JLabel("请选择图标");
+        controlPanel.add(iconInfo);
+
+        AtomicReference<String> key= new AtomicReference<>("");
+        // 添加预览按钮
+        CTTextButton previewButton = new CTTextButton("预览");
+        previewButton.setEnabled(false); // 初始时禁用，当选中图标后启用
+        previewButton.addActionListener(e -> {
+            // 获取当前选中的图标
+            if (key.get() != null) {
+
+
+                // 获取图标并显示在新窗口中
+                ImageIcon icon = getIcon(key.toString(), COLOR_DEFAULT);
+                showIconPreviewDialog(key.toString(), icon);
+            }
+        });
+        controlPanel.add(previewButton);
+
+        JTree showTree = GetShowTreePanel.getShowTreePanel(ALL_ICON_KEY, "图标");
+        showTree.addTreeExpansionListener(new TreeExpansionListener() {
+            @Override
+            public void treeExpanded(TreeExpansionEvent event) {
+                controlDialog.pack();
+            }
+
+            @Override
+            public void treeCollapsed(TreeExpansionEvent event) {
+                controlDialog.pack();
+            }
+        });
+        showTree.addTreeSelectionListener(e-> {
+            if(showTree.getLastSelectedPathComponent() != null &&
+                    showTree.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode){
+                //获取Key
+                Object[] path = e.getPath().getPath();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < path.length; i++) {
+                    sb.append(path[i]);
+                    if(i != path.length-1){
+                        sb.append(".");
+                    }
+                }
+
+                ImageIcon icon = getIcon(sb.toString(), COLOR_DEFAULT);
+                key.set( sb.toString());
+                selectIcon.setIcon(icon);
+                iconInfo.setText(sb.toString());
+                previewButton.setEnabled(true); // 选中图标后启用预览按钮
+
+                controlDialog.pack();
+                controlDialog.repaint();
+            }
+        });
+
+        JPanel showPanel = new JPanel();
+        showPanel.setLayout(new BorderLayout());
+        showPanel.setBorder(CTBorderFactory.createTitledBorder("图标列表"));
+        showPanel.add(showTree);
+
+        controlDialog.getContentPane().add(new JScrollPane(showPanel), BorderLayout.CENTER);
+        controlDialog.getContentPane().add(new JScrollPane(controlPanel), BorderLayout.SOUTH);
+
+        controlDialog.pack();
+        controlDialog.setLocationRelativeTo(null);
+        controlDialog.setVisible(true);
     }
+
+    /**
+     * 显示图标预览弹窗
+     * @param iconName 图标名称
+     * @param icon 要预览的图标
+     */
+    private static void showIconPreviewDialog(String iconName, ImageIcon icon) {
+        JDialog previewDialog = new JDialog();
+        previewDialog.setTitle("预览图标 - " + iconName);
+        previewDialog.setAlwaysOnTop(true);
+        previewDialog.setModal(false); // 设置为非模态，允许返回主窗口
+        previewDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+        // 创建标签显示图标，保持原始比例
+        JLabel iconLabel = new JLabel(icon);
+        iconLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        // 创建滚动面板以支持大图标
+        JScrollPane scrollPane = new JScrollPane(iconLabel);
+        scrollPane.setPreferredSize(new Dimension(
+                Math.min(icon.getIconWidth() + 20, 800),
+                Math.min(icon.getIconHeight() + 50, 600)
+        ));
+
+        previewDialog.add(scrollPane);
+        previewDialog.pack();
+        previewDialog.setLocationRelativeTo(null);
+        previewDialog.setVisible(true);
+    }
+
+
 }

@@ -101,7 +101,7 @@ public class CTTools extends JDialog {
         });
 
         CTRoundTextButton button = new CTRoundTextButton("打开更多工具(快捷启动单元)");
-        button.setIcon("快捷工具", IconControl.COLOR_COLORFUL, 24, 24);
+        button.setIcon("通用.快捷工具", IconControl.COLOR_COLORFUL, 24, 24);
         button.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
         button.addActionListener(ex -> {
             try {

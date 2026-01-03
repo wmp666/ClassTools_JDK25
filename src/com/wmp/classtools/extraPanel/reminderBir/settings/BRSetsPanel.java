@@ -56,7 +56,7 @@ public class BRSetsPanel extends CTTableSetsPanel<BRInfo[]> {
     }
 
     @Override
-    public String[] removeToTable(String[] oldArray) {
+    public String[] modifyToTable(String[] oldArray) {
         String name = Log.info.showInputDialog(this, "BRSetsPanel-修改",
                 String.format("原数据:%s\n请输入姓名\n注:若不修改不用输入内容", oldArray[0]));
         if (name == null || name.trim().isEmpty()) name = oldArray[0];

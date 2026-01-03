@@ -242,13 +242,13 @@ public class CTOptionPane {
                             CTPopupMenu ETPopupMenu = new CTPopupMenu();
 
                             CTRoundTextButton edit = new CTRoundTextButton("编辑");
-                            edit.setIcon(GetIcon.getIcon("编辑", 20, 20));
+                            edit.setIcon(GetIcon.getIcon("通用.编辑", 20, 20));
                             edit.addActionListener(event -> EasterEgg.errorAction());
 
                             ETPopupMenu.add(edit);
 
                             CTRoundTextButton copy = new CTRoundTextButton("复制");
-                            copy.setIcon(GetIcon.getIcon("编辑", 20, 20));
+                            copy.setIcon(GetIcon.getIcon("通用.编辑", 20, 20));
                             copy.addActionListener(event -> {
 
                                 //将字符串复制到剪切板。
@@ -317,7 +317,7 @@ public class CTOptionPane {
             public void windowClosing(WindowEvent e) {
                 if (title.equals("doge")) return;
 
-                CTOptionPane.showMessageDialog(dialog, "doge", "请认真看窗口内容!!!\n请不要尝试跳过选择过程(按下关闭键),\n请认真选择", GetIcon.getIcon("茜特菈莉", IconControl.COLOR_DEFAULT, 100, 100), CTOptionPane.INFORMATION_MESSAGE, true);
+                CTOptionPane.showMessageDialog(dialog, "doge", "请认真看窗口内容!!!\n请不要尝试跳过选择过程(按下关闭键),\n请认真选择", GetIcon.getIcon("彩蛋.茜特菈莉", IconControl.COLOR_DEFAULT, 100, 100), CTOptionPane.INFORMATION_MESSAGE, true);
             }
 
             @Override
@@ -651,10 +651,10 @@ public class CTOptionPane {
         {
             if (icon == null) {
                 Icon tempIcon = switch (iconType) {
-                    case ERROR_MESSAGE -> GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 50, 50);
-                    case INFORMATION_MESSAGE -> GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
-                    case WARNING_MESSAGE -> GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 50, 50);
-                    default -> GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 50, 50);
+                    case ERROR_MESSAGE -> GetIcon.getIcon("系统.提示.错误", IconControl.COLOR_COLORFUL, 50, 50);
+                    case INFORMATION_MESSAGE -> GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 50, 50);
+                    case WARNING_MESSAGE -> GetIcon.getIcon("系统.提示.警告", IconControl.COLOR_COLORFUL, 50, 50);
+                    default -> GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 50, 50);
                 };
                 iconLabel = new JLabel(tempIcon);
                 dialog.setIconImage(((ImageIcon)tempIcon).getImage());
@@ -802,7 +802,7 @@ public class CTOptionPane {
         southPanel.add(progressBar, BorderLayout.NORTH);
 
         CTTextButton exitButton = new CTTextButton("关闭(" + waitTime + "s)", false);
-        exitButton.setIcon("关闭", IconControl.COLOR_DEFAULT, 100, 100);
+        exitButton.setIcon("通用.关闭", IconControl.COLOR_DEFAULT, 100, 100);
         exitButton.setFont(CTFont.getCTFont(Font.PLAIN, CTFontSizeStyle.MORE_BIG));
         exitButton.setEnabled(false);
         southPanel.add(exitButton, BorderLayout.CENTER);
@@ -880,12 +880,12 @@ public class CTOptionPane {
                 JLabel iconLabel = new JLabel();
                 if (!CTInfo.isError) {
                     switch (iconType) {
-                        case ERROR -> iconLabel.setIcon(GetIcon.getIcon("错误", IconControl.COLOR_COLORFUL, 70, 70));
-                        case WARNING -> iconLabel.setIcon(GetIcon.getIcon("警告", IconControl.COLOR_COLORFUL, 70, 70));
-                        case INFO -> iconLabel.setIcon(GetIcon.getIcon("提示", IconControl.COLOR_COLORFUL, 70, 70));
+                        case ERROR -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.错误", IconControl.COLOR_COLORFUL, 70, 70));
+                        case WARNING -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.警告", IconControl.COLOR_COLORFUL, 70, 70));
+                        case INFO -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 70, 70));
                     }
                 }else {
-                    iconLabel.setIcon(GetIcon.getIcon("图标", IconControl.COLOR_COLORFUL, 70, 70));
+                    iconLabel.setIcon(GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70));
                 }
                 iconLabel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -946,13 +946,13 @@ public class CTOptionPane {
                             CTPopupMenu ETPopupMenu = new CTPopupMenu();
 
                             CTRoundTextButton edit = new CTRoundTextButton("编辑");
-                            edit.setIcon(GetIcon.getIcon("编辑", 20, 20));
+                            edit.setIcon(GetIcon.getIcon("通用.编辑", 20, 20));
                             edit.addActionListener(event -> EasterEgg.errorAction());
 
                             ETPopupMenu.add(edit);
 
                             CTRoundTextButton copy = new CTRoundTextButton("复制");
-                            copy.setIcon(GetIcon.getIcon("编辑", 20, 20));
+                            copy.setIcon(GetIcon.getIcon("通用.编辑", 20, 20));
                             copy.addActionListener(event -> {
 
                                 //将字符串复制到剪切板。

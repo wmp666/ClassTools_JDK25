@@ -26,7 +26,7 @@ public class LoadingDialog extends JFrame {
     public LoadingDialog() {
         //生成弹窗
         this.setTitle("进度显示");
-        this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
+        this.setIconImage(GetIcon.getImageIcon("通用.进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         //this.setModal(true);
         this.setLocationRelativeTo(null);
@@ -39,7 +39,7 @@ public class LoadingDialog extends JFrame {
     private void resetDialog() {
         updateTaskBar();
 
-        this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48, false).getImage());
+        this.setIconImage(GetIcon.getImageIcon("通用.进度", IconControl.COLOR_COLORFUL, 48, 48, false).getImage());
         this.getContentPane().setBackground(CTColor.backColor);
         this.revalidate();
         this.repaint();

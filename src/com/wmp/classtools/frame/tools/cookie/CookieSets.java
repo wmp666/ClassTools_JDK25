@@ -116,7 +116,7 @@ public class CookieSets {
             helloLabel.setFont(CTFont.getCTFont(-1, CTFontSizeStyle.BIG));
             helloPanel.add(helloLabel, BorderLayout.CENTER);
 
-            JLabel iconLabel = new JLabel(GetIcon.getIcon("关于", IconControl.COLOR_DEFAULT, 100, 100));
+            JLabel iconLabel = new JLabel(GetIcon.getIcon("通用.关于", IconControl.COLOR_DEFAULT, 100, 100));
             helloPanel.add(iconLabel, BorderLayout.WEST);
 
             setsPanelList.add(helloPanel);
@@ -194,7 +194,7 @@ public class CookieSets {
                 step2Panel.add(label, BorderLayout.NORTH);
 
                 CTTextButton openDirButton = new CTTextButton("打开启动单元目录");
-                openDirButton.setIcon("文件夹", IconControl.COLOR_DEFAULT, 30, 30);
+                openDirButton.setIcon("通用.文件.文件夹", IconControl.COLOR_DEFAULT, 30, 30);
                 openDirButton.addActionListener(e -> {
                     File cookiePath = cookie.getCookiePath();
                     if (cookiePath == null || !cookiePath.exists()) {

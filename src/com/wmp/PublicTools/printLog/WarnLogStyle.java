@@ -26,7 +26,7 @@ public class WarnLogStyle extends PrintLogStyle {
     }
 
     private static Icon getIcon() {
-        if (CTInfo.isError) return GetIcon.getIcon("图标", IconControl.COLOR_DEFAULT, 100, 100);
+        if (CTInfo.isError) return GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100);
         return null;
     }
 

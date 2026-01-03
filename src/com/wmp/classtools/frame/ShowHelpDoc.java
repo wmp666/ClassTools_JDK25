@@ -250,7 +250,7 @@ public class ShowHelpDoc extends JFrame {
         this.setTitle("帮助");
         this.getContentPane().setLayout(new BorderLayout());// 设置布局为边界布局
         this.setSize(800, 600);
-        this.setIconImage(GetIcon.getImageIcon("文档", IconControl.COLOR_DEFAULT,
+        this.setIconImage(GetIcon.getImageIcon("通用.文档", IconControl.COLOR_DEFAULT,
                 32, 32).getImage());
         //居中显示
         this.setLocationRelativeTo(null);

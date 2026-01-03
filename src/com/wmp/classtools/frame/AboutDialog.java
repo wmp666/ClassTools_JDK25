@@ -50,7 +50,7 @@ public class AboutDialog extends JDialog {
         this.getContentPane().setBackground(CTColor.backColor);
 
 
-        JLabel icon = new JLabel(GetIcon.getIcon("图标", IconControl.COLOR_DEFAULT, 100, 100));
+        JLabel icon = new JLabel(GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100));
 
 
         JLabel info = new JLabel("<html>"
@@ -68,7 +68,7 @@ public class AboutDialog extends JDialog {
                     CTPopupMenu ETPopupMenu = new CTPopupMenu();
 
                     CTTextButton edit = new CTTextButton("编辑");
-                    edit.setIcon(GetIcon.getIcon("编辑", IconControl.COLOR_DEFAULT, 20, 20));
+                    edit.setIcon(GetIcon.getIcon("通用.编辑", IconControl.COLOR_DEFAULT, 20, 20));
                     edit.addActionListener(event -> EasterEgg.errorAction());
 
                     ETPopupMenu.add(edit);
@@ -86,7 +86,7 @@ public class AboutDialog extends JDialog {
         infos.add(info, BorderLayout.CENTER);
 
         CTIconButton getNew = new CTIconButton("检查更新",
-                "更新", IconControl.COLOR_COLORFUL,
+                "通用.更新", IconControl.COLOR_COLORFUL,
                 () -> GetNewerVersion.checkForUpdate(this, view, true));
         getNew.setBackground(CTColor.backColor);
 
@@ -121,18 +121,18 @@ public class AboutDialog extends JDialog {
         CTMenu chat = new CTMenu("社交");
 
         CTMenuItem weChat = new CTMenuItem("微信");
-        weChat.setIcon(GetIcon.getIcon("微信", IconControl.COLOR_DEFAULT, 20, 20));
+        weChat.setIcon(GetIcon.getIcon("关于.微信", IconControl.COLOR_DEFAULT, 20, 20));
         weChat.addActionListener(e ->
                 Log.info.message(this, "关于-个人信息", "微信: w13607088913")
         );
 
         CTMenuItem qq = new CTMenuItem("QQ");
-        qq.setIcon(GetIcon.getIcon("QQ", 20, 20));
+        qq.setIcon(GetIcon.getIcon("关于.QQ", 20, 20));
         qq.addActionListener(e ->
                 Log.info.message(this, "关于-个人信息", "QQ: 2134868121"));
 
         CTMenuItem bilibili = new CTMenuItem("哔哩哔哩");
-        bilibili.setIcon(GetIcon.getIcon("哔哩哔哩", 20, 20));
+        bilibili.setIcon(GetIcon.getIcon("关于.哔哩哔哩", 20, 20));
         bilibili.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://space.bilibili.com/1075810224/"));
@@ -146,10 +146,10 @@ public class AboutDialog extends JDialog {
         chat.add(bilibili);
 
         CTMenu github = new CTMenu("Github");
-        github.setIcon(GetIcon.getIcon("Github", 20, 20));
+        github.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
 
         CTMenuItem authorGithub = new CTMenuItem("作者");
-        authorGithub.setIcon(GetIcon.getIcon("Github", 20, 20));
+        authorGithub.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
         authorGithub.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/wmp666"));
@@ -159,7 +159,7 @@ public class AboutDialog extends JDialog {
         });
 
         CTMenuItem repo = new CTMenuItem("仓库");
-        repo.setIcon(GetIcon.getIcon("Github", 20, 20));
+        repo.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
         repo.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/wmp666/ClassTools"));
@@ -172,11 +172,11 @@ public class AboutDialog extends JDialog {
         github.add(repo);
 
         CTMenuItem appPath = new CTMenuItem("程序路径");
-        appPath.setIcon(GetIcon.getIcon("文件夹", 20, 20));
+        appPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20));
         appPath.addActionListener(e -> OpenInExp.open(GetPath.getAppPath(GetPath.APPLICATION_PATH)));
 
         CTMenuItem dataPath = new CTMenuItem("数据路径");
-        dataPath.setIcon(GetIcon.getIcon("文件夹", 20, 20));
+        dataPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20));
         dataPath.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH));
 
         menu.add(chat);
@@ -196,7 +196,7 @@ public class AboutDialog extends JDialog {
         getSource.addActionListener(e -> GetNewerVersion.getSource(this, view));
 
         CTMenuItem checkUpdate = new CTMenuItem("检查更新");
-        checkUpdate.setIcon(GetIcon.getIcon("更新", 20, 20));
+        checkUpdate.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20));
         checkUpdate.addActionListener(e -> GetNewerVersion.checkForUpdate(this, view, true));
 
         downloadMenu.add(getSource);
@@ -207,7 +207,7 @@ public class AboutDialog extends JDialog {
         CTMenu helpMenu = new CTMenu("帮助");
 
         CTMenuItem helpDoc = new CTMenuItem("帮助文档");
-        helpDoc.setIcon(GetIcon.getIcon("文档", 20, 20));
+        helpDoc.setIcon(GetIcon.getIcon("通用.文档", 20, 20));
         helpDoc.addActionListener(e -> {
             try {
                 new ShowHelpDoc();
@@ -218,7 +218,7 @@ public class AboutDialog extends JDialog {
         });
 
         CTMenuItem aboutMenuItem = new CTMenuItem("关于");
-        aboutMenuItem.setIcon(GetIcon.getIcon("文档", 20, 20));
+        aboutMenuItem.setIcon(GetIcon.getIcon("通用.文档", 20, 20));
         aboutMenuItem.addActionListener(e -> {
             String info = "1.开源仓库: \n1.Open JDK\n" +
                                         "2.Jsoup(org.jsoup)\n" +
@@ -227,11 +227,11 @@ public class AboutDialog extends JDialog {
                                         "5.Flatlaf(com.formdev.flatlaf)...\n" +
                     "2.作者: " + CTInfo.author + "\n" +
                     "3.支持人员: 作者的初中,高中同学与好友";
-            CTOptionPane.showConfirmDialog(this, "关于", info, GetIcon.getIcon("图标", 48, 48), CTOptionPane.INFORMATION_MESSAGE, true);
+            CTOptionPane.showConfirmDialog(this, "关于", info, GetIcon.getIcon("通用.图标", IconControl.COLOR_DEFAULT, 48, 48), CTOptionPane.INFORMATION_MESSAGE, true);
         });
 
         CTMenuItem easterEgg = new CTMenuItem("■■");
-        easterEgg.setIcon(GetIcon.getIcon("祈愿", 20, 20));
+        easterEgg.setIcon(GetIcon.getIcon("通用.祈愿", 20, 20));
         easterEgg.addActionListener(e ->
                 EasterEgg.getPin());
 

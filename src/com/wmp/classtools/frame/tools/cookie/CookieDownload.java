@@ -135,7 +135,7 @@ public class CookieDownload {
                 Log.err.print(getClass(), "请选择一个快速启动单元");
             } else {
                 JDialog infoDialog = new JDialog();
-                infoDialog.setIconImage(GetIcon.getImageIcon("关于", IconControl.COLOR_DEFAULT, 300, 300).getImage());
+                infoDialog.setIconImage(GetIcon.getImageIcon("通用.关于", IconControl.COLOR_DEFAULT, 300, 300).getImage());
                 infoDialog.setSize(450, 300);
                 infoDialog.setLocationRelativeTo(null);
                 infoDialog.setModal(true);
@@ -174,7 +174,7 @@ public class CookieDownload {
     }
 
     private void initDialog(JDialog dialog) {
-        dialog.setIconImage(GetIcon.getImageIcon("导入", IconControl.COLOR_DEFAULT, 300, 300).getImage());
+        dialog.setIconImage(GetIcon.getImageIcon("通用.文件.导入", IconControl.COLOR_DEFAULT, 300, 300).getImage());
         dialog.setSize(400, 350);
         dialog.setLocationRelativeTo(null);
         //dialog.setResizable(false);

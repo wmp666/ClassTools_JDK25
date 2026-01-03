@@ -95,7 +95,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
     private void initDialog() {
         c.setBackground(CTColor.backColor);
-        this.setIconImage(GetIcon.getImageIcon("设置", IconControl.COLOR_DEFAULT, 32, 32).getImage());
+        this.setIconImage(GetIcon.getImageIcon("通用.设置", IconControl.COLOR_DEFAULT, 32, 32).getImage());
         this.setTitle("设置");
         this.setSize(400, 550);
         this.setLocationRelativeTo(null);
@@ -144,24 +144,24 @@ public class InfSetDialog extends JDialog implements WindowListener {
         //fileMenu.setIcon(getClass().getResource("/image/file.png"));
 
         CTMenu openFile = new CTMenu("打开文件");
-        openFile.setIcon(GetIcon.getIcon("文件夹", 16, 16));
+        openFile.setIcon(GetIcon.getIcon("通用.文件.文件夹", 16, 16));
 
         CTMenuItem openAppList = new CTMenuItem("软件位置");
-        openAppList.setIcon(GetIcon.getIcon("文件夹", 16, 16));
+        openAppList.setIcon(GetIcon.getIcon("通用.文件.文件夹", 16, 16));
         openAppList.addActionListener(e -> OpenInExp.open(System.getProperty("user.dir")));
 
         CTMenuItem openSetsList = new CTMenuItem("数据位置");
-        openSetsList.setIcon(GetIcon.getIcon("文件夹", 16, 16));
+        openSetsList.setIcon(GetIcon.getIcon("通用.文件.文件夹", 16, 16));
         openSetsList.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH));
 
         CTMenu InfSets = new CTMenu("数据设置");
-        InfSets.setIcon(GetIcon.getIcon("设置", 16, 16));
+        InfSets.setIcon(GetIcon.getIcon("通用.设置", 16, 16));
 
         CTMenu getInf = new CTMenu("导入数据");
-        getInf.setIcon(GetIcon.getIcon("导入", 16, 16));
+        getInf.setIcon(GetIcon.getIcon("通用.文件.导入", 16, 16));
 
         CTMenuItem getAllInf = new CTMenuItem("导入所有数据(.ctdatas)");
-        getAllInf.setIcon(GetIcon.getIcon("导入", 16, 16));
+        getAllInf.setIcon(GetIcon.getIcon("通用.文件.导入", 16, 16));
         getAllInf.addActionListener(e -> {
             String filePath = GetPath.getFilePath(this, "请选择所有数据", ".ctdatas", "ClassTools");
             Thread thread = ZipPack.unzip(filePath, CTInfo.DATA_PATH);
@@ -175,10 +175,10 @@ public class InfSetDialog extends JDialog implements WindowListener {
         });
 
         CTMenu inputInf = new CTMenu("导出数据");
-        inputInf.setIcon(GetIcon.getIcon("更新", 16, 16));
+        inputInf.setIcon(GetIcon.getIcon("通用.文件.导出", 16, 16));
 
         CTMenuItem inputAllInf = new CTMenuItem("导出所有数据(.ctdatas)");
-        inputAllInf.setIcon(GetIcon.getIcon("更新", 16, 16));
+        inputAllInf.setIcon(GetIcon.getIcon("通用.文件.导出", 16, 16));
         inputAllInf.addActionListener(e -> {
             File file = new File(CTInfo.DATA_PATH);
             if (!file.exists() || !file.isDirectory()) {
@@ -212,7 +212,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
 
 
         CTMenuItem exitMenuItem = new CTMenuItem("退出");
-        exitMenuItem.setIcon(GetIcon.getIcon("关闭", 16, 16));
+        exitMenuItem.setIcon(GetIcon.getIcon("通用.关闭", 16, 16));
         exitMenuItem.addActionListener(e -> {
             save();
             this.setVisible(false);
@@ -239,7 +239,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
         CTMenu editMenu = new CTMenu("编辑");
 
         CTMenu setMenu = new CTMenu("设置界面");
-        setMenu.setIcon(GetIcon.getIcon("设置", 16, 16));
+        setMenu.setIcon(GetIcon.getIcon("通用.设置", 16, 16));
 
         ctSetsPanelList.forEach(ctSetsPanel -> {
             if (ctSetsPanel instanceof CTListSetsPanel) {
@@ -250,7 +250,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
         });
 
         CTMenuItem saveMenuItem = new CTMenuItem("保存");
-        saveMenuItem.setIcon(GetIcon.getIcon("保存", 16, 16));
+        saveMenuItem.setIcon(GetIcon.getIcon("通用.保存", 16, 16));
         saveMenuItem.addActionListener(e -> save());
 
 
@@ -294,7 +294,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
     private void initSaveButton() {
 
         CTTextButton saveButton = new CTTextButton("保存数据", false);
-        saveButton.setIcon("保存", IconControl.COLOR_COLORFUL, 35, 35);
+        saveButton.setIcon("通用.保存", IconControl.COLOR_COLORFUL, 35, 35);
         saveButton.addActionListener(e -> save());
 
 

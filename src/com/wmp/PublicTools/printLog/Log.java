@@ -128,26 +128,26 @@ public class Log {
         CTPopupMenu popupMenu = new CTPopupMenu();
 
         CTRoundTextButton refresh = new CTRoundTextButton("刷新");
-        refresh.setIcon(GetIcon.getImageIcon("刷新", IconControl.COLOR_COLORFUL, 20, 20));
+        refresh.setIcon(GetIcon.getImageIcon("通用.刷新", IconControl.COLOR_COLORFUL, 20, 20));
         refresh.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         refresh.addActionListener(e -> MainWindow.refreshPanel());
         popupMenu.add(refresh);
 
         CTMenu more = new CTMenu("更多");
-        more.setIcon(GetIcon.getImageIcon("更多", IconControl.COLOR_COLORFUL, 20, 20));
+        more.setIcon(GetIcon.getImageIcon("通用.更多", IconControl.COLOR_COLORFUL, 20, 20));
         more.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         FinalPanel.allButList.forEach(but -> more.add(but.toRoundTextButton()));
 
         popupMenu.add(more);
 
         CTRoundTextButton exit = new CTRoundTextButton("关闭");
-        exit.setIcon(GetIcon.getImageIcon("关闭", IconControl.COLOR_COLORFUL, 20, 20));
+        exit.setIcon(GetIcon.getImageIcon("通用.关闭", IconControl.COLOR_COLORFUL, 20, 20));
         exit.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         exit.addActionListener(e -> Log.exit(0));
         popupMenu.add(exit);
 
         CTRoundTextButton hide = new CTRoundTextButton("隐藏");
-        hide.setIcon(GetIcon.getImageIcon("删除", IconControl.COLOR_COLORFUL, 20, 20));
+        hide.setIcon(GetIcon.getImageIcon("通用.删除", IconControl.COLOR_COLORFUL, 20, 20));
         hide.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         hide.addActionListener(e -> popupMenu.setVisible(false));
         popupMenu.add(hide);
@@ -221,7 +221,7 @@ public class Log {
 
                 viewLabel.setBounds(0, 0, screenSize.width, screenSize.height);
 
-                viewLabel.setIcon(GetIcon.getIcon(exitStr, IconControl.COLOR_DEFAULT, screenSize.width, screenSize.height, false));
+                viewLabel.setIcon(GetIcon.getIcon("系统.关闭页." + exitStr, IconControl.COLOR_DEFAULT, screenSize.width, screenSize.height, false));
 
 
             }
@@ -288,7 +288,7 @@ public class Log {
 
                 if (showMessageDialog) {
                     Icon icon = null;
-                    if (CTInfo.isError) icon = GetIcon.getIcon("图标", IconControl.COLOR_DEFAULT, 100, 100);
+                    if (CTInfo.isError) icon = GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100);
                     CTOptionPane.showMessageDialog(c, owner, logInfo.toString(), icon, CTOptionPane.ERROR_MESSAGE, true);
                 }
 

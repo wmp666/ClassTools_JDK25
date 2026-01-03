@@ -86,7 +86,7 @@ public class DPanel extends CTViewPanel<DutyInfo> {
         {
 
             CTIconButton last = new CTIconButton("上一天",
-                    "上一天", IconControl.COLOR_COLORFUL, () -> {
+                    "值日表.上一天", IconControl.COLOR_COLORFUL, () -> {
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至上一天");
                 if (i == 0) {
                     if (index > 0) index--;
@@ -107,7 +107,7 @@ public class DPanel extends CTViewPanel<DutyInfo> {
         {
 
             CTIconButton next = new CTIconButton("下一天",
-                    "下一天", IconControl.COLOR_COLORFUL, () -> {
+                    "值日表.下一天", IconControl.COLOR_COLORFUL, () -> {
 
                 int i = Log.info.showChooseDialog(this, "CTViewPanel-DutyPanel-日期切换", "确认切换至下一天");
 

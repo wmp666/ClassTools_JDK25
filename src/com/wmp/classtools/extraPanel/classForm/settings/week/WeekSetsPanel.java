@@ -48,7 +48,7 @@ public class WeekSetsPanel extends CTTableSetsPanel<ClassFormInfos[]> {
     }
 
     @Override
-    public String[] removeToTable(String[] oldArray) {
+    public String[] modifyToTable(String[] oldArray) {
         //对数据解码
         String oldName = oldArray[0];
         String[] oldDate = oldArray[1].split("-");

@@ -47,7 +47,7 @@ public class LoadingWindow extends CTWindow {
         time = initUI(width, height, text, time);
 
         this.setTitle("正在加载班级工具");
-        this.setIconImage(GetIcon.getImageIcon("进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
+        this.setIconImage(GetIcon.getImageIcon("通用.进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
         this.getContentPane().setBackground(CTColor.backColor);
         this.setAlwaysOnTop(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -87,7 +87,7 @@ public class LoadingWindow extends CTWindow {
         // 计算新的窗口尺寸（基础尺寸 + 动态调整）
         time = Math.max(time, plainText.length() * 90L);
 
-        ImageIcon easterEgg = GetIcon.getImageIcon(text.equals("EasterEgg") ? "胡桃" : "图标", IconControl.COLOR_DEFAULT, width, height);
+        ImageIcon easterEgg = GetIcon.getImageIcon(text.equals("EasterEgg") ? "系统.加载.胡桃" : "系统.图标", IconControl.COLOR_DEFAULT, width, height);
 
         JLabel label = new JLabel(showText, easterEgg, SwingConstants.CENTER);
         easterEgg.setImageObserver(label);

@@ -102,7 +102,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton downloadButton = new CTTextButton("导入");
         downloadButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        downloadButton.setIcon("导入", IconControl.COLOR_COLORFUL,
+        downloadButton.setIcon("通用.文件.导入", IconControl.COLOR_COLORFUL,
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
         downloadButton.addActionListener(e -> {
             try {
@@ -139,7 +139,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton controlButton = new CTTextButton("管理");
         controlButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        controlButton.setIcon("设置", IconControl.COLOR_COLORFUL,
+        controlButton.setIcon("通用.设置", IconControl.COLOR_COLORFUL,
                 controlButton.getFont().getSize(), controlButton.getFont().getSize());
         controlButton.addActionListener(e -> {
             IconControl.showControlDialog();
@@ -162,7 +162,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton downloadButton = new CTTextButton("导入");
         downloadButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        downloadButton.setIcon("导入", IconControl.COLOR_COLORFUL,
+        downloadButton.setIcon("通用.文件.导入", IconControl.COLOR_COLORFUL,
                 downloadButton.getFont().getSize(), downloadButton.getFont().getSize());
         downloadButton.addActionListener(e -> {
             try {
@@ -199,7 +199,7 @@ public class PAppFileSetsPanel extends CTBasicSetsPanel {
 
         CTTextButton controlButton = new CTTextButton("管理");
         controlButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        controlButton.setIcon("设置", IconControl.COLOR_COLORFUL,
+        controlButton.setIcon("通用.设置", IconControl.COLOR_COLORFUL,
                 controlButton.getFont().getSize(), controlButton.getFont().getSize());
         controlButton.addActionListener(e -> {
             AudioControl.showControlDialog();
