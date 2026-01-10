@@ -239,10 +239,11 @@ public class DownloadURLFile {
                     }
                     return false;
                 }
-                Log.info.message(parent, "DownloadURLFile-下载", "下载完成！");
+                Log.info.systemPrint("下载", "下载完成！");
 
             }
         } catch (Exception ex) {
+            Log.info.loading.closeDialog("文件下载" + id);
             Log.err.print(DownloadURLFile.class, "下载失败", ex);
             return false;
         }

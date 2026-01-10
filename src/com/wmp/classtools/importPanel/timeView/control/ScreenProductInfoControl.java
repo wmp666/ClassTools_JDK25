@@ -25,7 +25,9 @@ public class ScreenProductInfoControl extends CTInfoControl<ScreenProductInfo> {
             jsonObject.put("mainColor", screenProductInfo.mainColor());
             jsonObject.put("mainTheme", screenProductInfo.mainTheme());
             jsonObject.put("path", screenProductInfo.BGBasicPath());
-            jsonObject.put("repaintTimer", screenProductInfo.repaintTimer());
+            if(screenProductInfo.repaintTimer() > 0){
+                jsonObject.put("repaintTimer", screenProductInfo.repaintTimer());
+            }
 
             ioForInfo.setInfo(jsonObject.toString());
         } catch (IOException e) {

@@ -16,6 +16,8 @@ import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -137,6 +139,13 @@ public class CTTools extends JDialog {
         this.setAlwaysOnTop(true);
         this.setSize(500, 500);
         this.setLayout(new BorderLayout());
+
+        this.addWindowListener( new WindowAdapter(){
+            @Override
+            public void windowOpened(WindowEvent e) {
+                CTTools.this.repaint();
+            }
+        });
 
         this.getContentPane().setBackground(CTColor.backColor);
     }

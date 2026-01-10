@@ -86,7 +86,7 @@ public class AboutDialog extends JDialog {
         infos.add(info, BorderLayout.CENTER);
 
         CTIconButton getNew = new CTIconButton("检查更新",
-                "通用.更新", IconControl.COLOR_COLORFUL,
+                "通用.网络.更新", IconControl.COLOR_COLORFUL,
                 () -> GetNewerVersion.checkForUpdate(this, view, true));
         getNew.setBackground(CTColor.backColor);
 

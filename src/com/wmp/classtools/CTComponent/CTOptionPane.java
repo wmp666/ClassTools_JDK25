@@ -813,6 +813,8 @@ public class CTOptionPane {
             @Override
             public void windowOpened(WindowEvent e) {
 
+                messageDialog.repaint();
+
                 new Thread(() -> {
                     try {
                         for (int i = 0; i < waitTime * 100; i++) {
@@ -824,6 +826,7 @@ public class CTOptionPane {
                         Log.err.print(CTOptionPane.class, "发生异常", ex);
                     }
 
+                    progressBar.setVisible(false);
                     exitButton.setText("关闭");
                     exitButton.setEnabled(true);
                     exitButton.addActionListener(ev -> messageDialog.dispose());

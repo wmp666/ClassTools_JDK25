@@ -57,6 +57,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
             Log.warn.print(getClass().getName(), "获取新闻失败");
         }
 
+        //数据集刷新
         Timer refreshTimer = new Timer(2 * 60 * 60 * 1000, e -> {
             try {
                 webInf = GetWebInf.getWebInf(String.format(url, getInfoControl().getInfo()),
@@ -67,7 +68,8 @@ public class NewsTextPanel extends CTViewPanel<String> {
         });
         refreshTimer.start();
 
-        Timer indexRefreshTimer = new Timer(2 * 60 * 60 * 1000, e -> index++);
+        //索引刷新
+        Timer indexRefreshTimer = new Timer(20 * 60 * 1000, e -> index++);
         indexRefreshTimer.start();
 
         Timer controlTimer = new Timer(60 * 1000, e -> {
