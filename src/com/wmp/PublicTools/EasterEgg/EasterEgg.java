@@ -143,7 +143,7 @@ public class EasterEgg {
 
         if (Main.isHasTheArg("screenProduct:show")) return CTInfo.easterEggModeMap;
 
-        //铭记过去
+        //铭记
 
         //骇客入侵
         {
@@ -166,11 +166,12 @@ public class EasterEgg {
         //新年
         if (DateTools.dayIsNow("12-31") ||
                 DateTools.dayIsNow("01-01") ||
-                DateTools.dayIsNow("01-02")) {
+                DateTools.dayIsNow("01-02") ||
+        (DateTools.getRemainderDay("lunar01-15") <= 30)) {
 
             return new EasterEggModeMap("999.01.01", "刘德华", "恭喜发财",
-                    "image/icon/icon_red.png", "恭喜发财", true,
-                    new Color(255, 214, 214), Color.RED, Color.RED, "light",
+                    "/image/icon/icon_red.png", "恭喜发财", true,
+                    new Color(248, 217, 217), Color.RED, Color.RED, "light",
                     true, ()->{
                 if (Desktop.isDesktopSupported()) {
                     try {
@@ -188,7 +189,7 @@ public class EasterEgg {
                 DateTools.dayIsNow("05-01") ||
                 DateTools.dayIsNow("12-26")) {
             return new EasterEggModeMap("999.10.01", "中国人民", "中华人民共和国",
-                    "image/icon/icon_red.png", "祖国万岁", true,
+                    "/image/icon/icon_red.png", "祖国万岁", true,
                     new Color(255, 214, 214), Color.RED, Color.RED, "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog("祖国万岁", "中华人民共和国万岁!", 60, 1);
@@ -201,7 +202,7 @@ public class EasterEgg {
                 DateTools.dayIsNow("09-03") ||//mc
                 DateTools.dayIsNow("04-25")) {//崩铁
             return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
-                    "image/icon/icon_red.png", "欸嘿", true,
+                    "/image/icon/icon_red.png", "欸嘿", true,
                     new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);
@@ -212,7 +213,7 @@ public class EasterEgg {
         // 茜特菈莉
         if(DateTools.dayIsNow("01-20")){
             return new EasterEggModeMap("999.01.20", "茜特菈莉", "烟谜主",
-                    "image/err/xtll.png", "茜特菈莉", true,
+                    "/image/err/xtll.png", "茜特菈莉", true,
                     new Color(217, 208, 229), new Color(0x9A93DD), new Color(0x6F65C7), "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
@@ -221,7 +222,7 @@ public class EasterEgg {
         //温迪
         if(DateTools.dayIsNow("06-16")){
             return new EasterEggModeMap("999.06.16", "温迪", "蒙德",
-                    "image/err/xtll.png", "温迪", true,
+                    "/image/err/xtll.png", "温迪", true,
                     new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
@@ -230,7 +231,7 @@ public class EasterEgg {
         //散兵
         if( DateTools.dayIsNow("01-03")) {
             return new EasterEggModeMap("999.01.03", "散兵", "稻妻",
-                    "image/err/xtll.png", "散兵", true,
+                    "/image/err/xtll.png", "散兵", true,
                     new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
@@ -243,7 +244,7 @@ public class EasterEgg {
         boolean b = DateTools.dayIsNow("04-01");
         if (b) {
             return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
-                    "image/icon/icon_red.png", "欸嘿", true,
+                    "/image/err/icon.png", "欸嘿", true,
                     new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
                     true, ()->{
                 CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);

@@ -15,6 +15,7 @@ import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.Menu.CTMenu;
+import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
@@ -111,7 +112,7 @@ public class Log {
     public static CTPopupMenu getCtPopupMenu() {
         CTPopupMenu popupMenu = new CTPopupMenu();
 
-        CTRoundTextButton refresh = new CTRoundTextButton("刷新");
+        CTMenuItem refresh = new CTMenuItem("刷新");
         refresh.setIcon(GetIcon.getImageIcon("通用.刷新", IconControl.COLOR_COLORFUL, 20, 20));
         refresh.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         refresh.addActionListener(e -> MainWindow.refreshPanel());
@@ -124,19 +125,20 @@ public class Log {
 
         popupMenu.add(more);
 
-        CTRoundTextButton exit = new CTRoundTextButton("关闭");
+        CTMenuItem exit = new CTMenuItem("关闭");
         exit.setIcon(GetIcon.getImageIcon("通用.关闭", IconControl.COLOR_COLORFUL, 20, 20));
         exit.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         exit.addActionListener(e -> Log.exit(0));
         popupMenu.add(exit);
 
-        CTRoundTextButton hide = new CTRoundTextButton("隐藏");
+        CTMenuItem hide = new CTMenuItem("隐藏");
         hide.setIcon(GetIcon.getImageIcon("通用.删除", IconControl.COLOR_COLORFUL, 20, 20));
         hide.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         hide.addActionListener(e -> popupMenu.setVisible(false));
         popupMenu.add(hide);
         return popupMenu;
     }
+
 
     public static void exit(int status) {
 
