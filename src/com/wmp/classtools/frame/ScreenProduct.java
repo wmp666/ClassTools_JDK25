@@ -44,8 +44,6 @@ public class ScreenProduct extends JDialog {
 
         initWindow();
 
-        refreshScreenProductPanel();
-
         this.getLayeredPane().add(imageViewLabel, Integer.valueOf(Integer.MIN_VALUE));
 
         if (screenProductInfoControl.getInfo().BGImagePathList().size() != 1)
@@ -72,6 +70,8 @@ public class ScreenProduct extends JDialog {
 
 
         //刷新组件内容
+
+        refreshScreenProductPanel();
 
         //强刷新
         Timer strongRepaint = new Timer(60 * 60 * 1000, e -> refreshScreenProductPanel());

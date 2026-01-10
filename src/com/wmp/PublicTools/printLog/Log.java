@@ -105,23 +105,7 @@ public class Log {
     private static MouseAdapter mouseAdapter;
     private static ActionListener actionListener;
     public static void initTrayIcon() {
-        CTPopupMenu popupMenu = getCtPopupMenu();
-
-        trayIcon.removeMouseListener(mouseAdapter);
-        trayIcon.removeActionListener(actionListener);
-
-        mouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                popupMenu.show(null, e.getXOnScreen() - popupMenu.getWidth(), e.getYOnScreen() - popupMenu.getHeight());
-            }
-        };
-        actionListener = e -> {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            popupMenu.show(null, (screenSize.width - popupMenu.getWidth())/2, (screenSize.height - popupMenu.getHeight())/2);
-        };
-        trayIcon.addMouseListener(mouseAdapter);
-        trayIcon.addActionListener(actionListener);
+        getCtPopupMenu();
     }
 
     public static CTPopupMenu getCtPopupMenu() {
@@ -288,7 +272,9 @@ public class Log {
 
                 if (showMessageDialog) {
                     Icon icon = null;
-                    if (CTInfo.isError) icon = GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100);
+                    if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
+                        icon = GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70);
+                    }
                     CTOptionPane.showMessageDialog(c, owner, logInfo.toString(), icon, CTOptionPane.ERROR_MESSAGE, true);
                 }
 

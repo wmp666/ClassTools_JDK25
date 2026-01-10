@@ -6,12 +6,14 @@ import com.wmp.PublicTools.CTTool.callRoll.CallRollTool;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.Menu.CTMenu;
+import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 
 import javax.swing.*;
@@ -93,26 +95,26 @@ public class CTTools extends JDialog {
 
         CTPopupMenu popupMenu = new CTPopupMenu();
 
-        ArrayList<CTRoundTextButton> ctRoundTextButtonArrayList = new ArrayList<>();
+        ArrayList<CTMenuItem> ctRoundTextButtonArrayList = new ArrayList<>();
         tools.forEach(tool -> {
-            CTRoundTextButton button = new CTRoundTextButton(tool.getName());
-            button.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-            button.addActionListener(ex -> tool.showTool());
-            ctRoundTextButtonArrayList.add(button);
-            popupMenu.add(button);
+            CTMenuItem menuItem = new CTMenuItem(tool.getName());
+             menuItem.setFont(CTFont.getDefaultFont( Font.BOLD, CTFontSizeStyle.BIG));
+            menuItem.addActionListener(ex -> tool.showTool());
+            ctRoundTextButtonArrayList.add(menuItem);
+            popupMenu.add(menuItem);
         });
 
-        CTRoundTextButton button = new CTRoundTextButton("打开更多工具(快捷启动单元)");
-        button.setIcon("通用.快捷工具", IconControl.COLOR_COLORFUL, 24, 24);
-        button.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        button.addActionListener(ex -> {
+        CTMenuItem  menuItem = new CTMenuItem("打开更多工具(快捷启动单元)");
+        menuItem.setIcon(GetIcon.getIcon( "通用.快捷工具", IconControl.COLOR_COLORFUL, 24, 24));
+        menuItem.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
+        menuItem.addActionListener(ex -> {
             try {
                 new ShowCookieDialog();
             } catch (IOException e) {
                 Log.err.print(ShowCookieDialog.class, "CookieDialog打开失败", e);
             }
         });
-        popupMenu.add(button);
+        popupMenu.add(menuItem);
 
         CTMenu aidToolsMenu = new CTMenu("急救工具");
         aidToolsMenu.setFont(CTFont.getDefaultFont( Font.BOLD, CTFontSizeStyle.BIG));
@@ -123,7 +125,7 @@ public class CTTools extends JDialog {
 
         if (style == 2){
             ctRoundTextButtonArrayList.forEach(dialog::add);
-            dialog.add(button);
+            dialog.add(menuItem);
 
             dialog.pack();
             dialog.setLocationRelativeTo(null);

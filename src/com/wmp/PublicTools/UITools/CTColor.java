@@ -1,6 +1,5 @@
 package com.wmp.PublicTools.UITools;
 
-import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.wmp.PublicTools.printLog.Log;
@@ -8,7 +7,6 @@ import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 
 import java.awt.*;
-import java.io.IOException;
 
 public class CTColor {
     /**
@@ -63,13 +61,13 @@ public class CTColor {
 
     }
 
-    public static void setErrorColor() {
+    public static void setEasterEggColor(Color mainColor, Color backColor, Color textColor, String theme) {
         canRemove = false;
 
-        mainColor = new Color(0x29A8E3);
-        textColor = new Color(0x29A8E3);
-        backColor = new Color(246, 250, 255);
-        style = "err";
+        CTColor.mainColor = mainColor;
+        CTColor.backColor = backColor;
+        CTColor.textColor = textColor;
+        style = theme;
     }
 
     public static void setAllColor(String mainColorStr, String tempStyle) {
@@ -157,6 +155,24 @@ public class CTColor {
             default -> new Color(0x29A8E3);
         };
 
+    }
+
+    /**
+     * 获取主题颜色
+     * @param theme 主题
+     * @return 主题颜色 0:背景色 1:文字色
+     */
+    public static Color[] getThemeColor(String theme){
+        return switch (theme) {
+            case STYLE_DARK -> new Color[]{
+                    getParticularColor(MAIN_COLOR_BLACK),
+                    getParticularColor(MAIN_COLOR_WHITE)
+            };
+            default ->  new Color[]{
+                    getParticularColor(MAIN_COLOR_WHITE),
+                    getParticularColor(MAIN_COLOR_BLACK)
+            };
+        };
     }
 
     @Override

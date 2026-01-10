@@ -156,7 +156,7 @@ public class FinalPanel extends CTViewPanel<Object> {
         }
 
         //设置关闭按钮
-        if (!CTInfo.isError && CTInfo.canExit && !Main.isHasTheArg("screenProduct:show")) {
+        if (CTInfo.easterEggModeMap.getBoolean("是否可以退出", true) && CTInfo.canExit && !Main.isHasTheArg("screenProduct:show")) {
             CTIconButton exit = new CTIconButton("关闭",
                     "通用.关闭", IconControl.COLOR_COLORFUL, () -> {
                 int i = Log.info.showChooseDialog(null, "CTViewPanel-按钮组", "确认退出?");

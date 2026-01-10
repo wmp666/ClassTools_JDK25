@@ -99,7 +99,7 @@ public class LoadingWindow extends CTWindow {
         progressBar.setIndeterminate(true);
         this.add(progressBar, BorderLayout.SOUTH);
 
-        JLabel loadingText = new JLabel(CTInfo.appName + "正在加载...");
+        JLabel loadingText = new JLabel(String.format("%s 版本:%s 正在加载...", CTInfo.appName, CTInfo.version));
         loadingText.setForeground(CTColor.textColor);
         loadingText.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.NORMAL));
         this.add(loadingText, BorderLayout.NORTH);

@@ -182,10 +182,8 @@ public class CTOptionPane {
     private static Object[] showDefaultDialog(Component owner, String title, String message, Icon icon, int iconType, int optionType, int messageType, boolean isAlwaysOnTop, String... choices) {
 
         BasicDialog basicDialog =
-                switch (CTInfo.isError ? 1 : 0) {
-                    case 1 -> createDialog(owner, "骇客已入侵", title, icon, iconType, isAlwaysOnTop);
-                    default -> createDialog(owner, title, "", icon, iconType, isAlwaysOnTop);
-                };
+                createDialog(owner, CTInfo.easterEggModeMap.getString("提示窗标题", title), title, icon, iconType, isAlwaysOnTop);
+
 
         JDialog dialog = basicDialog.dialog;
         JPanel toolsPanel = basicDialog.toolsPanel;
@@ -407,10 +405,7 @@ public class CTOptionPane {
     public static int[] showTimeChooseDialog(Component owner, String title, Icon icon, int iconType, int style, boolean isAlwaysOnTop, int[] times) {
 
         BasicDialog basicDialog =
-                switch (CTInfo.isError ? 1 : 0) {
-                    case 1 -> createDialog(owner, "骇客已入侵", title, icon, iconType, isAlwaysOnTop);
-                    default -> createDialog(owner, "时间选择器", title, icon, iconType, isAlwaysOnTop);
-                };
+                createDialog(owner, CTInfo.easterEggModeMap.getString("提示窗标题", "时间选择器"), title, icon, iconType, isAlwaysOnTop);
 
         JDialog dialog = basicDialog.dialog;
         JPanel toolsPanel = basicDialog.toolsPanel;
@@ -881,16 +876,15 @@ public class CTOptionPane {
                 });
 
                 JLabel iconLabel = new JLabel();
-                if (!CTInfo.isError) {
                     switch (iconType) {
                         case ERROR -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.错误", IconControl.COLOR_COLORFUL, 70, 70));
                         case WARNING -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.警告", IconControl.COLOR_COLORFUL, 70, 70));
                         case INFO -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 70, 70));
                     }
-                }else {
-                    iconLabel.setIcon(GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70));
-                }
-                iconLabel.addMouseListener(new MouseAdapter() {
+                    if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
+                        iconLabel.setIcon(GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70));
+                    }
+                    iconLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         t.stop();

@@ -1,28 +1,22 @@
 package com.wmp.PublicTools;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.util.SystemInfo;
 import com.wmp.Main;
+import com.wmp.PublicTools.EasterEgg.EasterEggModeMap;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.appFileControl.AudioControl;
 import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfo;
 import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfo;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfoControl;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfo;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfoControl;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +45,12 @@ public class CTInfo {
     public static String author = "无名牌";
     public static String iconPath = "/image/icon/icon.png";
     //其他
-    public static boolean isError = false;
+    public static EasterEggModeMap easterEggModeMap
+            = new EasterEggModeMap(null, null, null,
+            null, null, false,
+            null, null, null, "light",
+            true, null,
+            "版本","作者","软件名称","图标路径","提示窗标题","提示窗是否使用图标","背景色","文字色","主题色","主题模式","是否可以退出","彩蛋启动运行");
     public static boolean canExit = true;
     public static boolean StartUpdate = true;
 
@@ -59,6 +58,9 @@ public class CTInfo {
 
     public static AppInfo appInfo = new AppInfo(5, false);
 
+    static{
+        initCTRunImportInfo();
+    }
     public static void  init() {
 
         if (MainWindow.mainWindow != null){
@@ -73,6 +75,23 @@ public class CTInfo {
             }
         }
 
+        initCTRunImportInfo();
+
+        initCTBasicInfo();
+
+
+
+        if (MainWindow.mainWindow != null){
+            Taskbar taskbar = Taskbar.getTaskbar();
+
+            if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {
+                taskbar.setWindowProgressState(MainWindow.mainWindow, Taskbar.State.OFF);
+            }
+        }
+
+    }
+
+    private static void initCTRunImportInfo() {
         dpi = 1.0;
         disButList.clear();
         disPanelList.clear();
@@ -97,25 +116,13 @@ public class CTInfo {
         DATA_PATH = path + "\\ClassTools\\";
         TEMP_PATH = path + "\\ClassToolsTemp\\";
 
-        if (!isError) {
-            if (version.split("\\.").length < 5) iconPath = "/image/icon/icon.png";
-            else iconPath = "/image/icon/icon_preview.png";
-        } else iconPath = "/image/err/icon.png";
+        if (version.split("\\.").length < 5) iconPath = "/image/icon/icon.png";
+        else iconPath = "/image/icon/icon_preview.png";
+
+        iconPath = easterEggModeMap.getString("图标路径", iconPath);
+
 
         initCTInfo();
-
-        initCTBasicInfo();
-
-
-
-        if (MainWindow.mainWindow != null){
-            Taskbar taskbar = Taskbar.getTaskbar();
-
-            if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {
-                taskbar.setWindowProgressState(MainWindow.mainWindow, Taskbar.State.OFF);
-            }
-        }
-
     }
 
     private static void initCTBasicInfo() {
@@ -161,8 +168,13 @@ public class CTInfo {
         //基础数据
 
         //颜色数据
-        CTColor.setMainColor(basicInfo.mainColor());
-        CTColor.setMainTheme(basicInfo.mainTheme());
+        Color[] themeColor = CTColor.getThemeColor(basicInfo.mainTheme());
+        CTColor.setEasterEggColor(
+                CTInfo.easterEggModeMap.getColor("主题色", CTColor.getParticularColor(basicInfo.mainColor())),
+                CTInfo.easterEggModeMap.getColor("背景色", themeColor[0]),
+                CTInfo.easterEggModeMap.getColor("文字色", themeColor[1]),
+                CTInfo.easterEggModeMap.getString("主题模式", basicInfo.mainTheme())
+                );
         isButtonUseMainColor = basicInfo.buttonColor();
         //字体数据
         CTFont.setFontName(basicInfo.fontName());

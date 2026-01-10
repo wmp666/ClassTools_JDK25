@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SwingRun {
 
     //, TreeMap<String, StartupParameters> allArgs, ArrayList<String> list
-    public static void show(boolean b, boolean StartUpdate) throws IOException {
+    public static void show() throws IOException {
 
         Log.info.loading.showDialog("窗口加载", "正在加载...");
 
@@ -46,112 +46,14 @@ public class SwingRun {
             throw new RuntimeException(e);
         }
 
-        if(CTInfo.isError){
-            Log.info.loading.updateDialog("窗口加载", "骇客已强制介入加载过程");
-            Log.err.systemPrint(SwingRun.class, "程序加载出错!", new Exception("加载异常"));
-
-            Log.info.loading.showDialog("修复", "正在启动修复程序...");
-
-            try {
-                Log.info.loading.updateDialog("修复", "开始扫描程序文件...");
-                {
-                    AtomicInteger count = new AtomicInteger(0);
-                    Path appPath = Path.of(GetPath.getAppPath(GetPath.APPLICATION_PATH));
-                    long fileCount = Files.walk(appPath)
-                            .sorted()
-                            .map(Path::toFile)
-                            .count();
-
-                    if (fileCount > 0) {
-                        Files.walk(appPath)
-                                .sorted()
-                                .map(Path::toFile)
-                                .forEach(file -> {
-                                    int currentCount = count.incrementAndGet();
-                                    double percentage = (currentCount * 100.0) / fileCount;
-                                    int progress = (int) Math.round(percentage);
-                                    Log.info.loading.updateDialog("修复",
-                                            String.format("开始扫描程序文件%.2f%%", percentage),
-                                            progress);
-                                });
-                    }
-                }
-
-                Log.info.loading.updateDialog("修复", "正在扫描数据文件...");
-                {
-                    AtomicInteger count = new AtomicInteger(0);
-                    Path dataPath = Path.of(CTInfo.TEMP_PATH).getParent();
-                    long fileCount = Files.walk(dataPath)
-                            .sorted()
-                            .map(Path::toFile)
-                            .count();
-
-                    if (fileCount > 0) {
-                        Files.walk(dataPath)
-                                .sorted()
-                                .map(Path::toFile)
-                                .forEach(file -> {
-                                    int currentCount = count.incrementAndGet();
-                                    double percentage = (currentCount * 100.0) / fileCount;
-                                    int progress = (int) Math.round(percentage);
-                                    Log.info.loading.updateDialog("修复",
-                                            String.format("开始扫描数据文件%.2f%%", percentage),
-                                            progress);
-                                });
-                    }
-                }
-            } catch (Exception _) {}
-
-            Log.info.loading.updateDialog("修复", "正在修复文件...", -1);
-            {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException _) {
-
-                }
-                Log.info.loading.updateDialog("修复", "修复出错!");
-                Log.err.systemPrint(SwingRun.class, "修复出错", new Exception("Silver Wolf强制截停修复进程"));
-            }
-
-            Log.info.loading.updateDialog("修复", "修复出错,正在准备关闭程序", -1);
-            Log.err.systemPrint(SwingRun.class, "骇客已入侵", new Exception("关闭程序时出现错误,无法修复"));
-
-            Log.info.loading.showDialog("骇客已入侵", "正在修改修复程序");
-            {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException _) {
-
-                }
-                Log.info.loading.updateDialog("骇客已入侵", "已修改修复程序");
-                Log.info.loading.closeDialog("骇客已入侵");
-            }
-
-            Log.info.loading.updateDialog("修复", "修复成功!正在启动程序", -1);
-            {
-                for (int i = 0; i < 100; i++) {
-                    Log.info.loading.updateDialog("修复", i);
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException _) {
-
-                    }
-                }
-            }
-
-            Log.info.loading.closeDialog("修复");
-            Log.info.systemPrint("骇客已入侵", "这次能让我玩得开心点么？");
-        }
+        //播放彩蛋启动代码
+        CTInfo.easterEggModeMap.getRunnable("彩蛋启动运行", () -> {}).run();
 
         Log.info.loading.updateDialog("窗口加载", "正在显示加载界面...");
         AtomicReference<LoadingWindow> loadingWindowRef = new AtomicReference<>();
 
-        if (b) {
-            loadingWindowRef.set(new LoadingWindow(200, 200, "EasterEgg", true, 2300));
+        loadingWindowRef.set(new LoadingWindow());
 
-        } else {
-            loadingWindowRef.set(new LoadingWindow());
-        }
         Log.info.loading.closeDialog("窗口加载");
 
 
@@ -164,7 +66,7 @@ public class SwingRun {
             EasterEgg.showHolidayBlessings(0);
         }
 
-        if (StartUpdate &&
+        if (CTInfo.StartUpdate &&
                 !(Main.isHasTheArg("StartUpdate:false") ||
                         Main.isHasTheArg("screenProduct:show") ||
                         Main.isHasTheArg("screenProduct:view"))) {

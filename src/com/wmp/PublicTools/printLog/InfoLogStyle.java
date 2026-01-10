@@ -20,15 +20,13 @@ public class InfoLogStyle extends PrintLogStyle {
     }
 
     private static String getTitle(String owner) {
-        String title;
-        if (CTInfo.isError) title = "骇客已入侵";
-        else title = owner;
-        return title;
+        return CTInfo.easterEggModeMap.getString("提示窗标题", owner);
     }
 
     private static Icon getIcon() {
-        if (CTInfo.isError) return GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100);
-        return null;
+        if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
+            return GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70);
+        }else return null;
     }
 
     public void systemPrint(String owner, String logInfo) {

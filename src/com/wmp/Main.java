@@ -27,7 +27,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.0.6.1.1";
+    public static final String version = "2.0.6.1.2";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -56,7 +56,9 @@ public class Main {
         if (version.split("\\.").length >= 5) {
             ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
             imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
-            JOptionPane.showMessageDialog(null, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
+            Frame frame = new Frame();
+            frame.setAlwaysOnTop(true);
+            JOptionPane.showMessageDialog((Component) frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
                     imageIcon);
         }
 
@@ -74,46 +76,18 @@ public class Main {
 
         }
 
+        CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem();
+        CTInfo.version = CTInfo.easterEggModeMap.getString("版本", CTInfo.version);
+        CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName);
+        CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author);
 
-
-        boolean b = false;
-        boolean startUpdate = true;
-        try {
-            //GetSetsJSON setsJSON = new GetSetsJSON();
-
-            b = EasterEgg.getEasterEggItem(EasterEgg.STYLE_IMPORT_DAY);
-
-            startUpdate = CTInfo.StartUpdate;
-
-        } catch (Exception e) {
-            Log.info.loading.closeDialog("程序加载");
-            wait.setVisible(false);
-            wait.getLoader().stopAnimation();
-            Log.err.print(Main.class, "初始化失败", e);
-            Log.showLogDialog(true);
-        }
-
-        CTInfo.isError = EasterEgg.getEasterEggItem(EasterEgg.STYLE_ERROR);
-        if (CTInfo.isError) {
-
-            CTInfo.version = "999.999.999";//错误版本号(无法更新)
-            CTInfo.appName = "班级病毒";
-            CTInfo.author = "银狼";
-            CTInfo.iconPath = "/image/err/icon.png";
-            b = false;
-            CTColor.setErrorColor();//修改颜色
-        }
-
-
-        boolean finalStartUpdate = startUpdate;
-        boolean finalB = b;
 
         Log.info.loading.closeDialog("程序加载");
 
         wait.setVisible(false);
         wait.getLoader().stopAnimation();
         try {
-            SwingRun.show(finalB, finalStartUpdate);
+            SwingRun.show();
         } catch (Exception e) {
             Log.err.print(Main.class, "窗口初始化失败", e);
             Log.showLogDialog(true);

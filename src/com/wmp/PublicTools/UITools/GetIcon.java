@@ -18,6 +18,12 @@ public class GetIcon {
             height = (int) (height * CTInfo.dpi);
         }
 
+
+// 确保尺寸不为零且在合理范围内
+        width = Math.max(1, width);
+        height = Math.max(1, height);
+
+
         ImageIcon icon = new ImageIcon(path);
         // 保留对非GIF图像的缩放处理，GIF应由组件尺寸控制显示大小
         if (!path.getPath().toLowerCase().endsWith(".gif")) {

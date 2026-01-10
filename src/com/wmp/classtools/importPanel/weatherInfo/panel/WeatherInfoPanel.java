@@ -76,6 +76,8 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
             ));
             weather.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+            //设置图标提示
+            icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getHeight(), weather.getHeight()));
 
             StringBuilder sb = new StringBuilder();
             sb.append("今日天气: ")
@@ -102,10 +104,6 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
 
                 }
             }
-
-            //设置图标提示
-            icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getHeight(), weather.getHeight()));
-
             Log.info.adaptedMessage(nowWeather.getString("city") + " 天气数据", sb.toString(), 60, 5);
         } catch (Exception ex) {
             Log.err.systemPrint(getClass(), "天气数据获取出错", ex);

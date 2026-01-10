@@ -6,102 +6,251 @@ import com.wmp.PublicTools.DateTools;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
+import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.io.ResourceLocalizer;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.PublicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.SwingRun;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.desktop.SystemEventListener;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EasterEgg {
-
-    public static final int STYLE_IMPORT_DAY = 1;
-    public static final int STYLE_ERROR = 2;
 
     public static final int STYLE_EE_VIDEO = 0;
     public static final int STYLE_EE_MUSIC = 1;
     public static final int STYLE_EE_OTHER = 2;
 
-    public static boolean getEasterEggItem(int style) {
+    public static EasterEggModeMap getEasterEggItem() {
+        EasterEggModeMap errMode = new EasterEggModeMap("999.999.999", "银狼", "班级病毒",
+                "/image/err/icon.png", "骇客已入侵", true,
+                new Color(246, 250, 255), new Color(0x29A8E3), new Color(0x29A8E3), "err",
+                false, () -> {
+            Log.info.loading.updateDialog("窗口加载", "骇客已强制介入加载过程");
+            Log.err.systemPrint(SwingRun.class, "程序加载出错!", new Exception("加载异常"));
 
-        if (Main.isHasTheArg("EasterEgg:notShow")) return false;
+            Log.info.loading.showDialog("修复", "正在启动修复程序...");
 
-        if (Main.isHasTheArg("screenProduct:show")) return false;
+            try {
+                Log.info.loading.updateDialog("修复", "开始扫描程序文件...");
+                {
+                    AtomicInteger count = new AtomicInteger(0);
+                    Path appPath = Path.of(GetPath.getAppPath(GetPath.APPLICATION_PATH));
+                    long fileCount = Files.walk(appPath)
+                            .count();
 
-        if (DateTools.dayIsNow("12-31") ||
-            DateTools.dayIsNow("01-01") ||
-            DateTools.dayIsNow("01-02")){
-            if (Desktop.isDesktopSupported()) {
-                try {
-                    Desktop.getDesktop().browse(URI.create("https://www.bilibili.com/video/BV1ad4y1V7wb"));
-                } catch (IOException _) {
-                    Log.info.print(null, EasterEgg.class.toString(), "浏览器打开失败");
-                }
-            }
-        }
-
-        if (style == STYLE_ERROR && Main.isHasTheArg("CTInfo:isError")) return true;
-
-        switch (style) {
-            case STYLE_IMPORT_DAY -> {
-                //加载颜色(CTColor)数据
-                //判断当前时间是否是4月1日
-                boolean b = DateTools.dayIsNow("04-01");
-                if (b) {
-                    CTColor.setAllColor(CTColor.MAIN_COLOR_GREEN, CTColor.STYLE_LIGHT);
-                    return b;
-                }
-
-                if (DateTools.dayIsNow("09-18") ||
-                        DateTools.dayIsNow("10-01") ||
-                        DateTools.dayIsNow("05-01") ||
-                        DateTools.dayIsNow("12-26")) {
-                    CTColor.setAllColor(CTColor.MAIN_COLOR_RED, CTColor.STYLE_LIGHT);
-                }
-
-                b = DateTools.dayIsNow("09-28") ||//原神周年庆
-                        DateTools.dayIsNow("lunar9-17") ||//author birthday
-                        DateTools.dayIsNow("09-03") ||//mc
-                        DateTools.dayIsNow("04-25");//崩铁
-
-                return b;
-            }
-            case STYLE_ERROR -> {
-                // 明确指定时区
-                LocalDate currentDate = LocalDate.now(ZoneId.of("Asia/Shanghai"));
-                boolean b = DateTools.dayIsNow("04-07");
-                if (!b) {
-                    if (DateTools.dayIsNow("04-25")) {//崩铁
-                        Random r = new Random();
-                        int i = r.nextInt(5);
-                        System.out.println("崩铁:" + i);
-                        return i == 0;
+                    if (fileCount > 0) {
+                        Files.walk(appPath)
+                                .sorted()
+                                .map(Path::toFile)
+                                .forEach(file -> {
+                                    int currentCount = count.incrementAndGet();
+                                    double percentage = (currentCount * 100.0) / fileCount;
+                                    int progress = (int) Math.round(percentage);
+                                    Log.info.loading.updateDialog("修复",
+                                            String.format("开始扫描程序文件%.2f%%", percentage),
+                                            progress);
+                                });
                     }
-                    Random r = new Random();
-                    int i = r.nextInt(20);
-                    System.out.println("普通:" + i);
-                    return i == 0;
                 }
 
+                Log.info.loading.updateDialog("修复", "正在扫描数据文件...");
+                {
+                    AtomicInteger count = new AtomicInteger(0);
+                    Path dataPath = Path.of(CTInfo.TEMP_PATH).getParent();
+                    long fileCount = Files.walk(dataPath)
+                            .count();
 
-                return true;
+                    if (fileCount > 0) {
+                        Files.walk(dataPath)
+                                .sorted()
+                                .map(Path::toFile)
+                                .forEach(file -> {
+                                    int currentCount = count.incrementAndGet();
+                                    double percentage = (currentCount * 100.0) / fileCount;
+                                    int progress = (int) Math.round(percentage);
+                                    Log.info.loading.updateDialog("修复",
+                                            String.format("开始扫描数据文件%.2f%%", percentage),
+                                            progress);
+                                });
+                    }
+                }
+            } catch (Exception _) {
+            }
+
+            Log.info.loading.updateDialog("修复", "正在修复文件...", -1);
+            {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException _) {
+
+                }
+                Log.info.loading.updateDialog("修复", "修复出错!");
+                Log.err.systemPrint(SwingRun.class, "修复出错", new Exception("Silver Wolf强制截停修复进程"));
+            }
+
+            Log.info.loading.updateDialog("修复", "修复出错,正在准备关闭程序", -1);
+            Log.err.systemPrint(SwingRun.class, "骇客已入侵", new Exception("关闭程序时出现错误,无法修复"));
+
+            Log.info.loading.showDialog("骇客已入侵", "正在修改修复程序");
+            {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException _) {
+
+                }
+                Log.info.loading.updateDialog("骇客已入侵", "已修改修复程序");
+                Log.info.loading.closeDialog("骇客已入侵");
+            }
+
+            Log.info.loading.updateDialog("修复", "修复成功!正在启动程序", -1);
+            {
+                for (int i = 0; i < 100; i++) {
+                    Log.info.loading.updateDialog("修复", i);
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException _) {
+
+                    }
+                }
+            }
+
+            Log.info.loading.closeDialog("修复");
+            Log.info.systemPrint("骇客已入侵", "这次能让我玩得开心点么？");
+        });
+
+
+        //强制启动骇客入侵模式
+        if (Main.isHasTheArg("CTInfo:isError")) return errMode;
+
+        if (Main.isHasTheArg("EasterEgg:notShow")) return CTInfo.easterEggModeMap;
+
+        if (Main.isHasTheArg("screenProduct:show")) return CTInfo.easterEggModeMap;
+
+        //铭记过去
+
+        //骇客入侵
+        {
+            boolean b = DateTools.dayIsNow("04-07");
+            if (!b) {
+                if (DateTools.dayIsNow("04-25")) {//崩铁
+                    Random r = new Random();
+                    if (r.nextInt(5) == 0) {
+                        return errMode;
+                    }
+
+                }
+                Random r = new Random();
+                if (r.nextInt(20) == 0) {
+                    return errMode;
+                }
             }
         }
-        return false;
+
+        //新年
+        if (DateTools.dayIsNow("12-31") ||
+                DateTools.dayIsNow("01-01") ||
+                DateTools.dayIsNow("01-02")) {
+
+            return new EasterEggModeMap("999.01.01", "刘德华", "恭喜发财",
+                    "image/icon/icon_red.png", "恭喜发财", true,
+                    new Color(255, 214, 214), Color.RED, Color.RED, "light",
+                    true, ()->{
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(URI.create("https://www.bilibili.com/video/BV1ad4y1V7wb"));
+                    } catch (IOException _) {
+                        Log.info.print(null, EasterEgg.class.toString(), "浏览器打开失败");
+                    }
+                }
+            });
+        }
+
+        //祖国万岁
+        if (DateTools.dayIsNow("09-18") ||
+                DateTools.dayIsNow("10-01") ||
+                DateTools.dayIsNow("05-01") ||
+                DateTools.dayIsNow("12-26")) {
+            return new EasterEggModeMap("999.10.01", "中国人民", "中华人民共和国",
+                    "image/icon/icon_red.png", "祖国万岁", true,
+                    new Color(255, 214, 214), Color.RED, Color.RED, "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog("祖国万岁", "中华人民共和国万岁!", 60, 1);
+            });
+        }
+
+        //一些较特殊的纪念日
+        if( DateTools.dayIsNow("09-28") ||//原神周年庆
+                DateTools.dayIsNow("lunar9-17") ||//author birthday
+                DateTools.dayIsNow("09-03") ||//mc
+                DateTools.dayIsNow("04-25")) {//崩铁
+            return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
+                    "image/icon/icon_red.png", "欸嘿", true,
+                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);
+            });
+        }
+
+        //生日
+        // 茜特菈莉
+        if(DateTools.dayIsNow("01-20")){
+            return new EasterEggModeMap("999.01.20", "茜特菈莉", "烟谜主",
+                    "image/err/xtll.png", "茜特菈莉", true,
+                    new Color(217, 208, 229), new Color(0x9A93DD), new Color(0x6F65C7), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+            });
+        }
+        //温迪
+        if(DateTools.dayIsNow("06-16")){
+            return new EasterEggModeMap("999.06.16", "温迪", "蒙德",
+                    "image/err/xtll.png", "温迪", true,
+                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+            });
+        }
+        //散兵
+        if( DateTools.dayIsNow("01-03")) {
+            return new EasterEggModeMap("999.01.03", "散兵", "稻妻",
+                    "image/err/xtll.png", "散兵", true,
+                    new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+            });
+        }
+
+
+
+        //愚人节
+        boolean b = DateTools.dayIsNow("04-01");
+        if (b) {
+            return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
+                    "image/icon/icon_red.png", "欸嘿", true,
+                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);
+            });
+        }
+
+        return CTInfo.easterEggModeMap;
     }
 
     public static void getPin() {
@@ -202,11 +351,6 @@ public class EasterEgg {
                 }
 
             }
-            if (CTInfo.isError) {
-                name = "PV-yl.mp4";
-                url = videoMap.get(name);
-                styleInt = STYLE_EE_VIDEO;
-            }
             showEasterEgg(styleInt, name, url);
 
 
@@ -217,7 +361,6 @@ public class EasterEgg {
 
     public static void showEasterEgg(int style, String name, String url) {
         Log.info.print("EasterEgg-显示", "正在准备...");
-
 
 
         new SwingWorker<Void, Void>() {
@@ -284,11 +427,6 @@ public class EasterEgg {
     }
 
     public static String[] getAllText() {
-        if (CTInfo.isError) return new String[]{
-                "骇客已入侵:\\n游戏就只是为了游戏\\n仅此而已！",
-                "骇客已入侵:\\n重要的不是数值\\n是体验，是操作！",
-                "骇客已入侵:\\n这次能让我玩得开心点么？"
-        };
 
         List<String> list = new ArrayList<>();
         String[] info = IOForInfo.getInfo(EasterEgg.class.getResource("EasterEgg.txt"));
