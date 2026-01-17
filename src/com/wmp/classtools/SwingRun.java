@@ -1,12 +1,10 @@
 package com.wmp.classTools;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.PublicTools.update.GetNewerVersion;
 import com.wmp.classTools.frame.LoadingWindow;
@@ -16,11 +14,7 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Enumeration;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class SwingRun {
@@ -60,7 +54,7 @@ public class SwingRun {
         new MainWindow(CTInfo.DATA_PATH);
         loadingWindowRef.get().setVisible(false);
 
-        if (!(Main.isHasTheArg("screenProduct:show") ||
+        if (!(Main.isHasTheArg("屏保:展示") ||
                 Main.isHasTheArg("screenProduct:view"))) {
 
             EasterEgg.showHolidayBlessings(0);
@@ -68,7 +62,7 @@ public class SwingRun {
 
         if (CTInfo.StartUpdate &&
                 !(Main.isHasTheArg("StartUpdate:false") ||
-                        Main.isHasTheArg("screenProduct:show") ||
+                        Main.isHasTheArg("屏保:展示") ||
                         Main.isHasTheArg("screenProduct:view"))) {
             Log.info.print("Main", "开始启动自动检查更新");
             GetNewerVersion.checkForUpdate(

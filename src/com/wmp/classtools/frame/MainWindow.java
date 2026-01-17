@@ -22,14 +22,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import static com.wmp.Main.*;
+import static com.wmp.Main.isHasTheArg;
 
 public class MainWindow extends CTWindow {
     //private final JPanel centerPane = new JPanel(); // 用于放置中间组件的面板
@@ -99,7 +98,7 @@ public class MainWindow extends CTWindow {
         } else {
             initFrame();
 
-            if (Main.isHasTheArg("screenProduct:show")) {
+            if (Main.isHasTheArg("屏保:展示")) {
                 CTColor.setScreenProductColor();
                 allPanelList.forEach(CTViewPanel::toScreenProductViewPanel);
 
@@ -143,7 +142,7 @@ public class MainWindow extends CTWindow {
     }
 
     public static void refresh() {
-        if (isHasTheArg("screenProduct:show"))
+        if (isHasTheArg("屏保:展示"))
             ScreenProduct.refreshScreenProductPanel();
         else refreshPanel();
     }
@@ -185,7 +184,7 @@ public class MainWindow extends CTWindow {
                 } else panel.setVisible(false);
             });
 
-            if (!Main.isHasTheArg("screenProduct:show")) {//showPanelList.clear();
+            if (!Main.isHasTheArg("屏保:展示")) {//showPanelList.clear();
 
 
                 JPanel northPanel = new JPanel();

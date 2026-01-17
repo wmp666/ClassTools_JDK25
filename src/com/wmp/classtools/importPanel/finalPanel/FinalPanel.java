@@ -19,7 +19,6 @@ import com.wmp.classTools.infSet.InfSetDialog;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -156,7 +155,7 @@ public class FinalPanel extends CTViewPanel<Object> {
         }
 
         //设置关闭按钮
-        if (CTInfo.easterEggModeMap.getBoolean("是否可以退出", true) && CTInfo.canExit && !Main.isHasTheArg("screenProduct:show")) {
+        if (CTInfo.easterEggModeMap.getBoolean("是否可以退出", true) && CTInfo.canExit && !Main.isHasTheArg("屏保:展示")) {
             CTIconButton exit = new CTIconButton("关闭",
                     "通用.关闭", IconControl.COLOR_COLORFUL, () -> {
                 int i = Log.info.showChooseDialog(null, "CTViewPanel-按钮组", "确认退出?");

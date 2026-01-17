@@ -13,18 +13,16 @@ import com.wmp.classTools.CTComponent.CTComboBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
@@ -41,7 +39,7 @@ public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
 
         try {
             initUI();
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.err.print(getClass(), "初始化失败", e);
         }
 
@@ -70,12 +68,15 @@ public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
                         viewLabel.setText("包含多张图片,不支持预览");
                     }
                 } else if (path.startsWith("BingBG")) {
-                    ImageIcon icon = new ImageIcon(new URL(info.BGImagePathList().getFirst()));
-                    do {
-                        icon.setImage(icon.getImage().getScaledInstance(icon.getIconWidth() / 2, icon.getIconHeight() / 2, Image.SCALE_SMOOTH));
-                    } while (icon.getIconWidth() >= 400);
+                    try {
+                        ImageIcon icon = new ImageIcon(new URL(info.BGImagePathList().getFirst()));
+                        do {
+                            icon.setImage(icon.getImage().getScaledInstance(icon.getIconWidth() / 2, icon.getIconHeight() / 2, Image.SCALE_SMOOTH));
+                        } while (icon.getIconWidth() >= 400);
 
-                    viewLabel.setIcon(icon);
+                        viewLabel.setIcon(icon);
+                    } catch (Exception _) {
+                    }
                 } else {
                     viewLabel.setIcon(null);
                     viewLabel.setText("请选择图片");

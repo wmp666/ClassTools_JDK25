@@ -1,8 +1,5 @@
 package com.wmp.PublicTools.printLog;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
@@ -19,13 +16,11 @@ public class WarnLogStyle extends PrintLogStyle {
     }
 
     private static String getTitle(String owner) {
-        return CTInfo.easterEggModeMap.getString("提示窗标题", owner);
+        return owner;
     }
 
     private static Icon getIcon() {
-        if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
-            return GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70);
-        }else return null;
+        return null;
     }
 
 

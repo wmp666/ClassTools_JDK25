@@ -645,7 +645,10 @@ public class CTOptionPane {
         // 创建图标标签
         {
             if (icon == null) {
-                Icon tempIcon = switch (iconType) {
+                Icon tempIcon = null;
+                if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
+                    tempIcon = GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70);
+                }else tempIcon = switch (iconType) {
                     case ERROR_MESSAGE -> GetIcon.getIcon("系统.提示.错误", IconControl.COLOR_COLORFUL, 50, 50);
                     case INFORMATION_MESSAGE -> GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 50, 50);
                     case WARNING_MESSAGE -> GetIcon.getIcon("系统.提示.警告", IconControl.COLOR_COLORFUL, 50, 50);
@@ -661,7 +664,7 @@ public class CTOptionPane {
             }
         }
 
-        if (northTitle != null && !northTitle.isEmpty()) {
+        if (northTitle != null && !northTitle.isEmpty() && !northTitle.equals(title)) {
             JTextArea messageTextArea = new JTextArea(northTitle);
             messageTextArea.setOpaque(false);
             messageTextArea.setEditable(false);

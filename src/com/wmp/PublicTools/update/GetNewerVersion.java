@@ -110,7 +110,7 @@ public class GetNewerVersion {
 
     public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage, boolean inquireUpdateWay) {
 
-        if (Main.isHasTheArg("screenProduct:show")) {
+        if (Main.isHasTheArg("屏保:展示")) {
             Log.err.print(null, GetNewerVersion.class, "屏保状态,无法更新");
             return;
         }

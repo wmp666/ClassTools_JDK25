@@ -18,34 +18,13 @@ public class CallRollInfoControl {
         return info;
     }
 
-    public static void setDianMingInfo(String[] info, int count) throws IOException {
+    public static void setDianMingInfo(String[] info) throws IOException {
         IOForInfo io = new IOForInfo(path + "DianMingInfo.txt");
         io.setInfo(info);
 
-        IOForInfo io2 = new IOForInfo(path + "Count.txt");
-        io2.setInfo(String.valueOf(count));
     }
 
     public static void setDianMingNameList(String path) {
         IOForInfo.copyFile(Path.of(path), Path.of(CallRollInfoControl.path));
-    }
-
-    public static void setCount(int count) throws IOException {
-        IOForInfo io = new IOForInfo(path + "Count.txt");
-        io.setInfo(String.valueOf(count));
-    }
-
-    public static int getCount(){
-        try {
-            IOForInfo io = new IOForInfo(path + "Count.txt");
-            String infos = io.getInfos();
-
-            if (infos == null || infos.equals("err")) {
-                return 1;
-            }
-            return Integer.parseInt(infos);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

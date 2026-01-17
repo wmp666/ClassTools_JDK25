@@ -1,9 +1,6 @@
 package com.wmp.PublicTools.printLog;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
 
@@ -20,13 +17,11 @@ public class InfoLogStyle extends PrintLogStyle {
     }
 
     private static String getTitle(String owner) {
-        return CTInfo.easterEggModeMap.getString("提示窗标题", owner);
+        return owner;
     }
 
     private static Icon getIcon() {
-        if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
-            return GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70);
-        }else return null;
+        return null;
     }
 
     public void systemPrint(String owner, String logInfo) {
@@ -48,7 +43,7 @@ public class InfoLogStyle extends PrintLogStyle {
      * @param waitTime    等待时间
      */
     public void adaptedMessage(String owner, String logInfo, int maxShowTime, int waitTime) {
-        if (Main.isHasTheArg("screenProduct:show"))
+        if (Main.isHasTheArg("屏保:展示"))
             CTOptionPane.showFullScreenMessageDialog(owner, logInfo, maxShowTime, waitTime);
         else
             systemPrint(owner, logInfo);

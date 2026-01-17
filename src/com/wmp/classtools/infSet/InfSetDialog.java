@@ -42,7 +42,7 @@ public class InfSetDialog extends JDialog implements WindowListener {
     private CTList switchPanel;
 
     public InfSetDialog() throws Exception {
-        this(Main.isHasTheArg("screenProduct:show") ? "屏保设置" : "个性化");
+        this(Main.isHasTheArg("屏保:展示") ? "屏保设置" : "个性化");
     }
 
 

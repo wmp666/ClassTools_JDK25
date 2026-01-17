@@ -136,7 +136,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            if (!Main.isHasTheArg("screenProduct:show")) {
+                            if (!Main.isHasTheArg("屏保:展示")) {
                                 try {
                                     Desktop.getDesktop().browse(URI.create(map.get("url").toString()));
                                 } catch (Exception ex) {
@@ -145,7 +145,7 @@ public class NewsTextPanel extends CTViewPanel<String> {
                             }
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
                             CTPopupMenu popupMenu = new CTPopupMenu();
-                            if (!Main.isHasTheArg("screenProduct:show")) {
+                            if (!Main.isHasTheArg("屏保:展示")) {
                                 CTRoundTextButton openURL = new CTRoundTextButton("查看详情");
                                 openURL.addActionListener(e1 -> {
                                     try {

@@ -11,7 +11,6 @@ import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.GetPath;
 import com.wmp.PublicTools.io.IOForInfo;
 import com.wmp.PublicTools.videoView.MediaPlayer;
-import com.wmp.classTools.CTComponent.CTButton.CTRoundTextButton;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.Menu.CTMenu;
@@ -19,11 +18,11 @@ import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.finalPanel.FinalPanel;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -142,7 +141,7 @@ public class Log {
 
     public static void exit(int status) {
 
-        if (!Main.isHasTheArg("screenProduct:show") && (status == -1 || !CTInfo.canExit)) {
+        if (!Main.isHasTheArg("屏保:展示") && (status == -1 || !CTInfo.canExit)) {
             Log.err.print("系统操作", "错误行为");
             return;
         }
@@ -294,7 +293,7 @@ public class Log {
     }
 
     public static void showLogDialog(boolean happenSystemErr) {
-        if (!happenSystemErr && Main.isHasTheArg("screenProduct:show")) {
+        if (!happenSystemErr && Main.isHasTheArg("屏保:展示")) {
             Log.err.print(null, "系统", "屏保状态无法打开日志");
             return;
         }

@@ -1,19 +1,15 @@
 package com.wmp;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
 import com.wmp.PublicTools.StartupParameters;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTProgressBar.ModernLoadingDialog;
 import com.wmp.classTools.SwingRun;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
@@ -27,7 +23,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.0.6.1.2";
+    public static final String version = "2.0.6.2.1";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -36,7 +32,7 @@ public class Main {
         //加载基础目录
 
         allArgs.put("StartUpdate:false", StartupParameters.creative("-StartUpdate:false", "/StartUpdate:false"));
-        allArgs.put("screenProduct:show", StartupParameters.creative("/s", "-s"));
+        allArgs.put("屏保:展示", StartupParameters.creative("/s", "-s"));
         allArgs.put("screenProduct:view", StartupParameters.creative("/p", "-p"));
 
         allArgs.put("CTInfo:isError", StartupParameters.creative("/CTInfo:error", "-CTInfo:error"));
@@ -51,29 +47,21 @@ public class Main {
             System.out.println("使用的启动参数:" + Arrays.toString(args));
         }
 
-        FlatMacLightLaf.setup();
-
-        if (version.split("\\.").length >= 5) {
-            ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
-            imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
-            Frame frame = new Frame();
-            frame.setAlwaysOnTop(true);
-            JOptionPane.showMessageDialog((Component) frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
-                    imageIcon);
-        }
-
         ModernLoadingDialog wait = new ModernLoadingDialog(null);
         wait.setAlwaysOnTop(true);
         wait.getLoader().startAnimation();
         wait.setIndeterminate(true);
         SwingUtilities.invokeLater(()->wait.setVisible(true));
 
-        CTInfo.init();
+        FlatMacLightLaf.setup();
 
-        try {
-            Log.info.loading.showDialog("程序加载", "正在启动...");
-        } catch (Exception _) {
-
+        if (!isHasTheArg("屏保:展示") && version.split("\\.").length >= 5) {
+            ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
+            imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
+            Frame frame = new Frame();
+            frame.setAlwaysOnTop(true);
+            JOptionPane.showMessageDialog(frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
+                    imageIcon);
         }
 
         CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem();
@@ -81,8 +69,7 @@ public class Main {
         CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName);
         CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author);
 
-
-        Log.info.loading.closeDialog("程序加载");
+        CTInfo.init();
 
         wait.setVisible(false);
         wait.getLoader().stopAnimation();
@@ -104,7 +91,7 @@ public class Main {
      * @param arg 参数 类型:
      *            <ul>
      *                <li><code>StartUpdate:false</code>
-     *                <li><code>screenProduct:show</code>
+     *                <li><code>屏保:展示</code>
      *                <li><code>screenProduct:view</code>
      *                <li><code>CTInfo:isError</code>
      *                <li><code>BasicDataPath</code>
@@ -119,16 +106,8 @@ public class Main {
 
     /**
      * 获取当前参数下一位,若不存在传入的参数则返回null
-     * @param arg 参数 类型:
-     *            <ul>
-     *                <li><code>StartUpdate:false</code>
-     *                <li><code>screenProduct:show</code>
-     *                <li><code>screenProduct:view</code>
-     *                <li><code>CTInfo:isError</code>
-     *                <li><code>BasicDataPath</code>
-     *            <li><code>EasterEgg:notShow</code></li>
-     *            </ul>
-     *
+     * @see #isHasTheArg(String)
+     * @param arg 参数
      * @return 下一位
      */
     public static String getTheArgNextArg(String arg){

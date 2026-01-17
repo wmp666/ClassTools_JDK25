@@ -3,7 +3,6 @@ package com.wmp.PublicTools.EasterEgg;
 import com.wmp.Main;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.DateTools;
-import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.GetIcon;
 import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.io.GetPath;
@@ -23,8 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -141,9 +138,20 @@ public class EasterEgg {
 
         if (Main.isHasTheArg("EasterEgg:notShow")) return CTInfo.easterEggModeMap;
 
-        if (Main.isHasTheArg("screenProduct:show")) return CTInfo.easterEggModeMap;
-
         //铭记
+
+        //祖国万岁
+        if (DateTools.dayIsNow("09-18") ||
+                DateTools.dayIsNow("10-01") ||
+                DateTools.dayIsNow("05-01") ||
+                DateTools.dayIsNow("12-26")) {
+            return new EasterEggModeMap("999.10.01", "中国人民", "中华人民共和国",
+                    "/image/icon/icon_red.png", "祖国万岁", true,
+                    new Color(255, 214, 214), Color.RED, Color.RED, "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog("祖国万岁", "中华人民共和国万岁!", 60, 1);
+            });
+        }
 
         //骇客入侵
         {
@@ -161,6 +169,60 @@ public class EasterEgg {
                     return errMode;
                 }
             }
+        }
+
+        //生日
+        {
+            // 茜特菈莉
+            if (DateTools.dayIsNow("01-20")) {
+                return new EasterEggModeMap("999.01.20", "茜特菈莉", "烟谜主",
+                        "/image/err/xtll.png", "茜特菈莉", true,
+                        new Color(217, 208, 229), new Color(0x9A93DD), new Color(0x6F65C7), "light",
+                        true, () -> {
+                    CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+                });
+            }
+            //温迪
+            if (DateTools.dayIsNow("06-16")) {
+                return new EasterEggModeMap("999.06.16", "温迪", "蒙德",
+                        "/image/err/xtll.png", "温迪", true,
+                        new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
+                        true, () -> {
+                    CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+                });
+            }
+            //散兵
+            if (DateTools.dayIsNow("01-03")) {
+                return new EasterEggModeMap("999.01.03", "散兵", "稻妻",
+                        "/image/err/sanbing.png", "散兵", true,
+                        new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
+                        true, () -> {
+                    CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
+                });
+            }
+            //哥伦比娅
+            if (DateTools.dayIsNow("01-14")) {
+                return new EasterEggModeMap("999.01.14", "哥伦比娅•希泊塞莱尼娅", "新月",
+                        "/image/err/yueshen.jpg", "空月", true,
+                        new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
+                        true, () -> {
+                    CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "你可以叫我哥伦比娅，也可以叫我库塔尔、月神大人...选你喜欢的吧。我习惯了有很多名字的日子。 若你需要的话，我会给予你月亮的赐福。", 3, 1);
+                });
+            }
+        }
+
+
+        //一些较特殊的纪念日
+        if( DateTools.dayIsNow("09-28") ||//原神周年庆
+                DateTools.dayIsNow("lunar9-17") ||//author birthday
+                DateTools.dayIsNow("09-03") ||//mc
+                DateTools.dayIsNow("04-25")) {//崩铁
+            return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
+                    "/image/icon/icon_red.png", "欸嘿", true,
+                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
+                    true, ()->{
+                CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);
+            });
         }
 
         //新年
@@ -182,63 +244,6 @@ public class EasterEgg {
                 }
             });
         }
-
-        //祖国万岁
-        if (DateTools.dayIsNow("09-18") ||
-                DateTools.dayIsNow("10-01") ||
-                DateTools.dayIsNow("05-01") ||
-                DateTools.dayIsNow("12-26")) {
-            return new EasterEggModeMap("999.10.01", "中国人民", "中华人民共和国",
-                    "/image/icon/icon_red.png", "祖国万岁", true,
-                    new Color(255, 214, 214), Color.RED, Color.RED, "light",
-                    true, ()->{
-                CTOptionPane.showFullScreenMessageDialog("祖国万岁", "中华人民共和国万岁!", 60, 1);
-            });
-        }
-
-        //一些较特殊的纪念日
-        if( DateTools.dayIsNow("09-28") ||//原神周年庆
-                DateTools.dayIsNow("lunar9-17") ||//author birthday
-                DateTools.dayIsNow("09-03") ||//mc
-                DateTools.dayIsNow("04-25")) {//崩铁
-            return new EasterEggModeMap("999.999.999", "彩蛋", "班级■■",
-                    "/image/icon/icon_red.png", "欸嘿", true,
-                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
-                    true, ()->{
-                CTOptionPane.showFullScreenMessageDialog("欸嘿", "欸嘿", 3, 1);
-            });
-        }
-
-        //生日
-        // 茜特菈莉
-        if(DateTools.dayIsNow("01-20")){
-            return new EasterEggModeMap("999.01.20", "茜特菈莉", "烟谜主",
-                    "/image/err/xtll.png", "茜特菈莉", true,
-                    new Color(217, 208, 229), new Color(0x9A93DD), new Color(0x6F65C7), "light",
-                    true, ()->{
-                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
-            });
-        }
-        //温迪
-        if(DateTools.dayIsNow("06-16")){
-            return new EasterEggModeMap("999.06.16", "温迪", "蒙德",
-                    "/image/err/xtll.png", "温迪", true,
-                    new Color(230, 255, 221), new Color(0x05E666), new Color(0x05E666), "light",
-                    true, ()->{
-                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
-            });
-        }
-        //散兵
-        if( DateTools.dayIsNow("01-03")) {
-            return new EasterEggModeMap("999.01.03", "散兵", "稻妻",
-                    "/image/err/xtll.png", "散兵", true,
-                    new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
-                    true, ()->{
-                CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "今天是...?", 3, 1);
-            });
-        }
-
-
 
         //愚人节
         boolean b = DateTools.dayIsNow("04-01");

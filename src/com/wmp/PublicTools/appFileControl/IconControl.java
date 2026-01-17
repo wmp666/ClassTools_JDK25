@@ -2,7 +2,6 @@ package com.wmp.PublicTools.appFileControl;
 
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.ColorConverter;
 import com.wmp.PublicTools.appFileControl.tools.GetShowTreePanel;
 import com.wmp.PublicTools.io.DownloadURLFile;
 import com.wmp.PublicTools.io.GetPath;
@@ -22,7 +21,6 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -342,7 +340,9 @@ public class IconControl {
      * @return 修改为目标颜色后的数据
      */
     private static Map<String, ImageIcon> getColorfulImageMap(Map<String, ImageIcon> map, Color color) {
-        Map<String, ImageIcon> colorfulImageMap = new HashMap<>();
+        return ColorImageGenerator.getColorfulImageMap(map, color);
+
+        /*Map<String, ImageIcon> colorfulImageMap = new HashMap<>();
         map.forEach((name, imageIcon) -> {
             System.out.printf("正在将\"%s\"|%s转换为%s%n",  name, imageIcon,  color);
             BufferedImage bufferedImage = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -355,7 +355,7 @@ public class IconControl {
 
             colorfulImageMap.put(name, icon);
         });
-        return colorfulImageMap;
+        return colorfulImageMap;*/
     }
 
     public static String getIconStyle(String name) {

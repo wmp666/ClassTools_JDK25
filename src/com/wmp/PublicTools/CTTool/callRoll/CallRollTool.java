@@ -8,6 +8,8 @@ import com.wmp.PublicTools.UITools.CTFontSizeStyle;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
+import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
+import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
 import com.wmp.classTools.infSet.InfSetDialog;
 
 import javax.swing.*;
@@ -58,9 +60,28 @@ public class CallRollTool extends CTTool {
             }
         });
         buttonPanel.add(setsButton);
-        CTTextButton dianMingButton = new CTTextButton("点名(" + CallRollInfoControl.getCount() + "次)");
+        CTTextButton dianMingButton = new CTTextButton("点名");
         dianMingButton.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.BIG));
-        dianMingButton.addActionListener(e -> callRoll());
+        dianMingButton.addActionListener(e -> {
+            CTPopupMenu popupMenu = new CTPopupMenu();
+
+            CTMenuItem CDMenuItem1 = new CTMenuItem("点名1次");
+            CTMenuItem CDMenuItem2 = new CTMenuItem("点名2次");
+            CTMenuItem CDMenuItem5 = new CTMenuItem("点名5次");
+            CTMenuItem CDMenuItem10 = new CTMenuItem("点名10次");
+
+            CDMenuItem1.addActionListener(_ -> callRoll(1));
+            CDMenuItem2.addActionListener(_ -> callRoll(2));
+            CDMenuItem5.addActionListener(_ -> callRoll(5));
+            CDMenuItem10.addActionListener(_ -> callRoll(10));
+
+
+            popupMenu.add(CDMenuItem1);
+            popupMenu.add(CDMenuItem2);
+            popupMenu.add(CDMenuItem5);
+            popupMenu.add(CDMenuItem10);
+            popupMenu.show(dianMingButton, 0, dianMingButton.getHeight());
+        });
         buttonPanel.add(dianMingButton);
 
         dialog.add(nameLabel, BorderLayout.CENTER);
@@ -71,7 +92,7 @@ public class CallRollTool extends CTTool {
         return dialog;
     }
 
-    private void callRoll() {
+    private void callRoll(int nameCount) {
         String[] nameList;
         try {
             nameList = CallRollInfoControl.getDianMingInfo();
@@ -83,7 +104,6 @@ public class CallRollTool extends CTTool {
             Log.err.print(getClass(), "获取点名信息出错");
             return;
         }
-        int nameCount = CallRollInfoControl.getCount();
         String[] resultName = new String[nameCount];
         for (int i = 0; i < nameCount; i++) {
             resultName[i] = nameList[new Random().nextInt(nameList.length)];

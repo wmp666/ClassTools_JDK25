@@ -40,7 +40,7 @@ public class ShowCookieDialog extends JDialog {
 
 
     public ShowCookieDialog() throws IOException {
-        if (Main.isHasTheArg("screenProduct:show")) {
+        if (Main.isHasTheArg("屏保:展示")) {
             Log.err.print(null, "系统", "屏保状态无法打开快速启动页");
             return;
         }
