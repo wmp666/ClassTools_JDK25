@@ -209,6 +209,15 @@ public class EasterEgg {
                     CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "你可以叫我哥伦比娅，也可以叫我库塔尔、月神大人...选你喜欢的吧。我习惯了有很多名字的日子。 若你需要的话，我会给予你月亮的赐福。", 3, 1);
                 });
             }
+            //这位是？
+            if (DateTools.dayIsNow("10-11")) {
+                return new EasterEggModeMap("999.10.11", "ᝰꫛ", "ᝰꫛ",
+                        "/image/err/lcl.jpg", "ᝰꫛ", true,
+                        new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
+                        true, () -> {
+                    CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "个签：\n风很温柔 花很浪漫 你很特别 我喜欢你.", 3, 1);
+                });
+            }
         }
 
 
@@ -437,11 +446,6 @@ public class EasterEgg {
         List<String> list = new ArrayList<>();
         String[] info = IOForInfo.getInfo(EasterEgg.class.getResource("EasterEgg.txt"));
         for (String s : info) {
-            if (s.endsWith("Tim")) {
-                list.add(s);
-                list.add(s);
-                list.add(s);
-            }
             list.add(s);
         }
         return list.toArray(new String[0]);
@@ -482,7 +486,7 @@ public class EasterEgg {
                         String text = jsonObject1.getString("text");
                         String title = jsonObject1.getString("title");
 
-                        CTOptionPane.showFullScreenMessageDialog(title, text, 0, 5);
+                        CTOptionPane.showFullScreenMessageDialog(title, text, 5, 5);
 
                     }
 
