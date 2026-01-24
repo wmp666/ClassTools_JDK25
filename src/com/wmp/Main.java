@@ -1,5 +1,6 @@
 package com.wmp;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.EasterEgg.EasterEgg;
@@ -23,7 +24,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.1.0";
+    public static final String version = "2.1.0.0.1";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -53,6 +54,7 @@ public class Main {
         wait.setIndeterminate(true);
         SwingUtilities.invokeLater(()->wait.setVisible(true));
 
+        FlatLaf.setUseNativeWindowDecorations(false);
         FlatMacLightLaf.setup();
 
         if (!isHasTheArg("屏保:展示") && version.split("\\.").length >= 5) {

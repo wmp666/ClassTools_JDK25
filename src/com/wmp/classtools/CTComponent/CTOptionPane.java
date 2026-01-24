@@ -640,6 +640,7 @@ public class CTOptionPane {
         dialog.setLayout(new BorderLayout(10, 10));
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
+
         JLabel iconLabel = new JLabel();
 
         // 创建图标标签
@@ -866,6 +867,7 @@ public class CTOptionPane {
                 }
 
                 CTWindow dialog = new CTWindow();
+                dialog.setOpacity(0.7f);
                 dialog.setTitle(owner);
                 dialog.setAlwaysOnTop(true);
                 dialog.setLayout(new BorderLayout());

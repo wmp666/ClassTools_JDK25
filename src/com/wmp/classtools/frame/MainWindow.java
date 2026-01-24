@@ -99,7 +99,6 @@ public class MainWindow extends CTWindow {
             initFrame();
 
             if (Main.isHasTheArg("屏保:展示")) {
-                CTColor.setScreenProductColor();
                 allPanelList.forEach(CTViewPanel::toScreenProductViewPanel);
 
                 new ScreenProduct();

@@ -174,14 +174,14 @@ public class Log {
         ((JPanel) c).setOpaque(false);
 
 
-        String[] exitStrList = {
+        String[] exitStrList = CTInfo.easterEggModeMap.getStringList("关闭文字集", new String[]{
                 "愿此行，终抵群星",
                 "我们终将重逢",
                 "明天见",
                 "为了与你重逢愿倾尽所有",
                 "生命从夜中醒来\n却在触碰到光明的瞬间坠入永眠",
                 "一起走向明天，我们不曾分离"
-        };
+        });
         String exitStr = exitStrList[new Random().nextInt(exitStrList.length)];
         if (exitStr.contains("\n")) {
             exitStr = "<html>" + exitStr.replaceAll("\\n", "<br>") + "</html>";

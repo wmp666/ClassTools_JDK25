@@ -3,7 +3,6 @@ package com.wmp.PublicTools.EasterEgg;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class EasterEggModeMap {
     private final Map<String, Object> map = new HashMap<>();
@@ -51,6 +50,17 @@ public class EasterEggModeMap {
     }
 
     /**
+     * 添加更多彩蛋数据
+     * @see #get(String, Object)
+     * @param pair 彩蛋的键值对
+     */
+    public void addMore(EasterEggPair... pair){
+        for (EasterEggPair easterEggPair : pair) {
+            map.put(easterEggPair.key(), easterEggPair.value());
+        }
+
+    }
+    /**
      * 获取参数
      * @param key 可用参数
      *            <ul>
@@ -66,6 +76,8 @@ public class EasterEggModeMap {
      *                <code>主题模式</code>
      *                <code>是否可以退出</code>
      *                <code>彩蛋启动运行</code>
+     *            <code>加载文字集</code>
+     *            <code>关闭文字集</code>
      *            </ul>
      * @param defaultValue 默认值
      * @return 参数
@@ -79,6 +91,13 @@ public class EasterEggModeMap {
      */
     public String getString(String key, String defaultValue) {
         return (String) map.getOrDefault(key, defaultValue);
+    }
+
+    /**
+     * @see #get(String, Object) 
+     */
+    public String[] getStringList(String key, String[] defaultValue){
+        return (String[]) map.getOrDefault(key, defaultValue);
     }
 
     /**

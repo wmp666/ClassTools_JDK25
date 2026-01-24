@@ -18,8 +18,6 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -211,12 +209,25 @@ public class EasterEgg {
             }
             //这位是？
             if (DateTools.dayIsNow("10-11")) {
-                return new EasterEggModeMap("999.10.11", "ᝰꫛ", "ᝰꫛ",
+                EasterEggModeMap map = new EasterEggModeMap("999.10.11", "ᝰꫛ", "ᝰꫛ",
                         "/image/err/lcl.jpg", "ᝰꫛ", true,
                         new Color(230, 255, 221), new Color(0x29A5E3), new Color(0x29A5E3), "light",
                         true, () -> {
                     CTOptionPane.showFullScreenMessageDialog(CTInfo.appName, "个签：\n风很温柔 花很浪漫 你很特别 我喜欢你.", 3, 1);
                 });
+                map.addMore(new EasterEggPair("加载文字集", new String[]{
+                        "墨之尽头\n——刘CL",
+                        "我把爱意藏在名字里, \n那是我难以言说的秘密\n——刘CL",
+                        "是绝密航天风太大, 还是你听不懂我讲话——刘CL",
+                        "机密大坝一片天， 谁见良爷不递烟——刘CL"
+                }), new EasterEggPair("关闭文字集", new String[]{
+                        "墨之尽头\n——刘CL",
+                        "我把爱意藏在名字里, \n那是我难以言说的秘密\n——刘CL",
+                        "是绝密航天风太大, \n还是你听不懂我讲话——刘CL",
+                        "机密大坝一片天， \n谁见良爷不递烟——刘CL",
+                        "风很温柔\n花很浪漫\n你很特别\n我喜欢你"
+                }));
+                return map;
             }
         }
 
@@ -243,15 +254,7 @@ public class EasterEgg {
             return new EasterEggModeMap("999.01.01", "刘德华", "恭喜发财",
                     "/image/icon/icon_red.png", "恭喜发财", true,
                     new Color(248, 217, 217), Color.RED, Color.RED, "light",
-                    true, ()->{
-                if (Desktop.isDesktopSupported()) {
-                    try {
-                        Desktop.getDesktop().browse(URI.create("https://www.bilibili.com/video/BV1ad4y1V7wb"));
-                    } catch (IOException _) {
-                        Log.info.print(null, EasterEgg.class.toString(), "浏览器打开失败");
-                    }
-                }
-            });
+                    true, ()->{});
         }
 
         //愚人节
@@ -426,7 +429,7 @@ public class EasterEgg {
 
 
     public static String getText(EETextStyle style) {
-        String[] easterEggList = getAllText();
+        String[] easterEggList = CTInfo.easterEggModeMap.getStringList("加载文字集", getAllText());
         String s = easterEggList[new Random().nextInt(easterEggList.length)];
         switch (style) {
             case DEFAULT -> {

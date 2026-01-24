@@ -1,15 +1,18 @@
 package com.wmp.PublicTools;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.wmp.Main;
 import com.wmp.PublicTools.EasterEgg.EasterEggModeMap;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.appFileControl.AudioControl;
+import com.wmp.PublicTools.appFileControl.IconControl;
 import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfo;
 import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfoControl;
 import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
+import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfo;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PBasicInfoControl;
 import com.wmp.classTools.infSet.panel.personalizationSets.control.PPanelInfo;
@@ -141,6 +144,9 @@ public class CTInfo {
             Log.trayIcon.displayMessage("提示", "您加入了测试计划,可能遇到大量为未经验证的更新,请关注", TrayIcon.MessageType.WARNING);
         }
 
+
+        //UIManager.put("flatlaf.useWindowDecorations", true);
+
         //设置默认字体
         ColorUIResource textColorUIResource = new ColorUIResource(CTColor.textColor);
         ColorUIResource backColorUIResource = new ColorUIResource(CTColor.backColor);
@@ -168,13 +174,30 @@ public class CTInfo {
         //基础数据
 
         //颜色数据
-        Color[] themeColor = CTColor.getThemeColor(basicInfo.mainTheme());
-        CTColor.setEasterEggColor(
-                CTInfo.easterEggModeMap.getColor("主题色", CTColor.getParticularColor(basicInfo.mainColor())),
-                CTInfo.easterEggModeMap.getColor("背景色", themeColor[0]),
-                CTInfo.easterEggModeMap.getColor("文字色", themeColor[1]),
-                CTInfo.easterEggModeMap.getString("主题模式", basicInfo.mainTheme())
-                );
+        if (Main.isHasTheArg("屏保:展示")) {
+            CTColor.setColorList(CTColor.getParticularColor(CTColor.MAIN_COLOR_BLUE),
+                    CTColor.getParticularColor(CTColor.MAIN_COLOR_BLACK),
+                    CTColor.getParticularColor(CTColor.MAIN_COLOR_WHITE),
+                    CTColor.STYLE_DARK);
+
+            ScreenProductInfoControl infoControl = new ScreenProductInfoControl();
+            ScreenProductInfo info = infoControl.getInfo();
+            Color[] themeColor = CTColor.getThemeColor(info.mainTheme());
+            CTColor.setColorList(
+                    CTInfo.easterEggModeMap.getColor("主题色", CTColor.getParticularColor(info.mainColor())),
+                    CTInfo.easterEggModeMap.getColor("背景色", themeColor[0]),
+                    CTInfo.easterEggModeMap.getColor("文字色", themeColor[1]),
+                    CTInfo.easterEggModeMap.getString("主题模式", info.mainTheme())
+            );
+        } else{
+            Color[] themeColor = CTColor.getThemeColor(basicInfo.mainTheme());
+            CTColor.setColorList(
+                    CTInfo.easterEggModeMap.getColor("主题色", CTColor.getParticularColor(basicInfo.mainColor())),
+                    CTInfo.easterEggModeMap.getColor("背景色", themeColor[0]),
+                    CTInfo.easterEggModeMap.getColor("文字色", themeColor[1]),
+                    CTInfo.easterEggModeMap.getString("主题模式", basicInfo.mainTheme())
+                    );
+        }
         isButtonUseMainColor = basicInfo.buttonColor();
         //字体数据
         CTFont.setFontName(basicInfo.fontName());

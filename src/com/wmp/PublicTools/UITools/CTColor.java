@@ -3,8 +3,6 @@ package com.wmp.PublicTools.UITools;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
-import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 
 import java.awt.*;
 
@@ -45,25 +43,8 @@ public class CTColor {
     public static Color mainColor = new Color(0x29A8E3);
     public static Color textColor = getParticularColor(MAIN_COLOR_BLACK);
     public static Color backColor = getParticularColor(MAIN_COLOR_WHITE);
-    private static boolean canRemove = true;
 
-    public static void setScreenProductColor() {
-        setAllColor(CTColor.MAIN_COLOR_WHITE, CTColor.STYLE_DARK);
-
-        ScreenProductInfoControl infoControl = new ScreenProductInfoControl();
-        ScreenProductInfo info = infoControl.getInfo();
-        if (info != null) {
-            setMainColor(info.mainColor(), true);
-            setMainTheme(info.mainTheme(), true);
-        }
-
-        canRemove = false;
-
-    }
-
-    public static void setEasterEggColor(Color mainColor, Color backColor, Color textColor, String theme) {
-        canRemove = false;
-
+    public static void setColorList(Color mainColor, Color backColor, Color textColor, String theme) {
         CTColor.mainColor = mainColor;
         CTColor.backColor = backColor;
         CTColor.textColor = textColor;
@@ -76,27 +57,15 @@ public class CTColor {
         setMainTheme(tempStyle);
 
     }
-
-    public static void setMainColor(String mainColorStr) {
-        setMainColor(mainColorStr, false);
-    }
-
-    private static void setMainColor(String mainColorStr, boolean mustRemove) {
-
-        if (!mustRemove && !canRemove) return;
+    private static void setMainColor(String mainColorStr) {
 
         mainColor = getParticularColor(mainColorStr);
 
         Log.info.print("CTColor", "mainColor:" + String.format("#%06x", mainColor.getRGB()));
     }
 
-    public static void setMainTheme(String tempStyle) {
-        setMainTheme(tempStyle, false);
-    }
+    private static void setMainTheme(String tempStyle) {
 
-    private static void setMainTheme(String tempStyle, boolean mustRemove) {
-
-        if (!mustRemove && !canRemove) return;
 
         style = tempStyle;
         switch (tempStyle) {

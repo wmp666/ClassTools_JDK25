@@ -18,7 +18,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -49,7 +48,6 @@ public class ScreenProduct extends JDialog {
         if (screenProductInfoControl.getInfo().BGImagePathList().size() != 1)
             initBackground(new Random().nextInt(screenProductInfoControl.getInfo().BGImagePathList().size() - 1));
         else initBackground(0);
-        initColor();
 
 
         //背景更新
@@ -57,7 +55,7 @@ public class ScreenProduct extends JDialog {
 
             try {
                 initBackground(index);
-                initColor();
+                this.getContentPane().setBackground(CTColor.backColor);
                 if (index < screenProductInfoControl.getInfo().BGImagePathList().size() - 1) index++;
                 else index = 0;
             } catch (Exception ex) {
@@ -346,8 +344,4 @@ public class ScreenProduct extends JDialog {
         }
     }
 
-    private void initColor() throws IOException {
-        CTColor.setScreenProductColor();
-        this.getContentPane().setBackground(CTColor.backColor);
-    }
 }
