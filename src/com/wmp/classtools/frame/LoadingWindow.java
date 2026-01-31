@@ -49,7 +49,6 @@ public class LoadingWindow extends CTWindow {
         this.setTitle("正在加载班级工具");
         this.setIconImage(GetIcon.getImageIcon("通用.进度", IconControl.COLOR_COLORFUL, 48, 48).getImage());
         this.getContentPane().setBackground(CTColor.backColor);
-        this.setAlwaysOnTop(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setSize(this.getPreferredSize());
         this.setLocationRelativeTo(null);

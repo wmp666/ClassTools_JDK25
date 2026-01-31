@@ -33,6 +33,7 @@ public abstract class CTViewPanel<T> extends CTPanel {
     public CTViewPanel() {
         super();
         infoControl = setInfoControl();
+        this.setVisible(false);
     }
 
     public List<CTSetsPanel> getCtSetsPanelList() {

@@ -129,6 +129,11 @@ public class EasterEgg {
             Log.info.loading.closeDialog("修复");
             Log.info.systemPrint("骇客已入侵", "这次能让我玩得开心点么？");
         });
+        errMode.addMore(new EasterEggPair("加载文字集", new String[]{
+                "骇客已入侵:\\n游戏就只是为了游戏\\n仅此而已！",
+                "骇客已入侵:\\n重要的不是数值\\n是体验，是操作！",
+                "骇客已入侵:\\n这次能让我玩得开心点么？"
+        }));
 
 
         //强制启动骇客入侵模式

@@ -8,12 +8,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.geom.RoundRectangle2D;
 
-import static java.awt.RenderingHints.KEY_ANTIALIASING;
-import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-
 public class CTWindow extends JFrame implements WindowStateListener {
     public CTWindow() throws HeadlessException {
+
         this.setUndecorated(true);
+        this.setOpacity(0.7f);
         this.setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), CTInfo.arcw - 10, CTInfo.arch -10));
 
         this.addWindowStateListener(this);

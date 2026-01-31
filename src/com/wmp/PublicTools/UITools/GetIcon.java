@@ -85,4 +85,8 @@ public class GetIcon {
     public static Icon getIcon(String name, int width, int height) {
         return getIcon(name, IconControl.COLOR_COLORFUL, width, height, true);
     }
+
+    public static Icon getIcon(String name, int width, int height, boolean useDPI) {
+        return getIcon(name, IconControl.COLOR_COLORFUL, width, height, useDPI);
+    }
 }

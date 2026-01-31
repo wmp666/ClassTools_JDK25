@@ -34,7 +34,6 @@ public class BRPanel extends CTViewPanel<BRInfo[]> {
         this.setOpaque(false);
         this.setCtSetsPanelList(List.of(new BRSetsPanel(getInfoControl())));
 
-        this.setIgnoreState(true);
         this.setIndependentRefresh(true, 2 * 60 * 1000);
     }
 

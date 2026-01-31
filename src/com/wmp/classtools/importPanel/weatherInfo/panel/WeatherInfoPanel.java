@@ -59,7 +59,7 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
             JSONArray weatherForecasts = GetWeatherInfo.getWeatherForecasts(getInfoControl().getInfo());
             if (nowWeather == null || weatherForecasts == null) {
                 weather.setText(String.format("<html>获取天气数据失败<br>%s<br>点击查看详情</html>", GetWeatherInfo.errCode));
-                icon.setIcon(GetIcon.getIcon("天气.未知", weather.getHeight(), weather.getHeight()));
+                icon.setIcon(GetIcon.getIcon("天气.未知", 20, 20));
                 return;
             }
 
@@ -76,8 +76,12 @@ public class WeatherInfoPanel extends CTViewPanel<WeatherInfo> {
             ));
             weather.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-            //设置图标提示
-            icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getHeight(), weather.getHeight()));
+            try {
+                //设置图标提示
+                icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getHeight(), weather.getHeight(), false));
+            } catch (Exception _) {
+                icon.setIcon(GetIcon.getIcon("天气." + nowWeather.getString("weather"), weather.getFont().getSize(),  weather.getFont().getSize(), false));
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.append("今日天气: ")

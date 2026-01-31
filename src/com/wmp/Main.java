@@ -24,7 +24,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.1.1.1";
+    public static final String version = "2.1.2";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -49,7 +49,6 @@ public class Main {
         }
 
         ModernLoadingDialog wait = new ModernLoadingDialog(null);
-        wait.setAlwaysOnTop(true);
         wait.getLoader().startAnimation();
         wait.setIndeterminate(true);
         SwingUtilities.invokeLater(()->wait.setVisible(true));

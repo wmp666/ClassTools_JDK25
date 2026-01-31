@@ -33,7 +33,6 @@ public class ClassFormPanel extends CTViewPanel<ClassFormInfos[]> {
         this.setOpaque(false);
         this.setCtSetsPanelList(java.util.List.of(new ClassFormSetsPanel(getInfoControl())));
 
-        this.setIgnoreState(true);
         this.setIndependentRefresh(true, 1000);
     }
 

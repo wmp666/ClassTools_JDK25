@@ -113,7 +113,7 @@ public class CTColor {
      */
     public static Color getParticularColor(String colorStyle) {
         return switch (colorStyle) {
-            case MAIN_COLOR_WHITE -> new Color(0xF0F0F0);
+            case MAIN_COLOR_WHITE -> Color.WHITE;
             case MAIN_COLOR_BLUE -> new Color(0x29A8E3);
             case MAIN_COLOR_GREEN -> new Color(0x05E666);
             case MAIN_COLOR_RED -> new Color(0xFF0000);

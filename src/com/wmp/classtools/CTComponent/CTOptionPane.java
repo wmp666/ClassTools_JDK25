@@ -867,7 +867,6 @@ public class CTOptionPane {
                 }
 
                 CTWindow dialog = new CTWindow();
-                dialog.setOpacity(0.7f);
                 dialog.setTitle(owner);
                 dialog.setAlwaysOnTop(true);
                 dialog.setLayout(new BorderLayout());

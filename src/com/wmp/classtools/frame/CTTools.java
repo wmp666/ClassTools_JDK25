@@ -138,6 +138,7 @@ public class CTTools extends JDialog {
         this.setTitle("快捷工具");
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         this.setUndecorated(true);
+        this.setOpacity(0.7f);
         this.setAlwaysOnTop(true);
         this.setSize(500, 500);
         this.setLayout(new BorderLayout());
