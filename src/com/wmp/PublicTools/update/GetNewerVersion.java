@@ -109,6 +109,10 @@ public class GetNewerVersion {
     }
 
     public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage, boolean inquireUpdateWay) {
+        checkForUpdate(dialog, panel, showMessage, inquireUpdateWay, false);
+    }
+
+    public static void checkForUpdate(Window dialog, JPanel panel, boolean showMessage, boolean inquireUpdateWay, boolean SkipVersionChecking) {
 
         if (Main.isHasTheArg("屏保:展示")) {
             Log.err.print(null, GetNewerVersion.class, "屏保状态,无法更新");
@@ -153,7 +157,7 @@ public class GetNewerVersion {
                 if (latestInfo == null) {
                     return;
                 }
-                int i = isNewerVersion(latestInfo[0], CTInfo.version);
+                int i = SkipVersionChecking?1:isNewerVersion(latestInfo[0], CTInfo.version);
 
                 Thread updateThread = new Thread(() -> {
                     Log.warn.message(dialog, "更新至 " + latestInfo[0], "即将开始更新, 无论更新是否完成都将关闭程序, 没有提醒");

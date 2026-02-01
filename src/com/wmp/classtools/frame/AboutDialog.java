@@ -23,7 +23,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
 import java.net.URI;
 
 public class AboutDialog extends JDialog {
@@ -199,8 +198,13 @@ public class AboutDialog extends JDialog {
         checkUpdate.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20));
         checkUpdate.addActionListener(e -> GetNewerVersion.checkForUpdate(this, view, true));
 
+        CTMenuItem getLatest = new CTMenuItem("强制下载指定版本");
+        getLatest.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20));
+        getLatest.addActionListener(e -> GetNewerVersion.checkForUpdate(this, view, true, true, true));
+
         downloadMenu.add(getSource);
         downloadMenu.add(checkUpdate);
+        downloadMenu.add(getLatest);
 
         menuBar.add(downloadMenu);
 

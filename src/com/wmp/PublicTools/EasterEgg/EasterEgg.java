@@ -256,10 +256,10 @@ public class EasterEgg {
                 DateTools.dayIsNow("01-02") ||
         (DateTools.getRemainderDay("lunar01-15") <= 30)) {
 
-            return new EasterEggModeMap("999.01.01", "刘德华", "恭喜发财",
+            return new EasterEggModeMap("1.0.0", "刘德华", "恭喜发财",
                     "/image/icon/icon_red.png", "恭喜发财", true,
                     new Color(248, 217, 217), Color.RED, Color.RED, "light",
-                    true, ()->{});
+                    true, ()->{}, "版本");
         }
 
         //愚人节
