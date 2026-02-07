@@ -26,8 +26,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class IconControl {
@@ -249,6 +252,7 @@ public class IconControl {
         }
         COLORFUL_IMAGE_MAP.put("err",
                 getColorfulImageMap(DEFAULT_IMAGE_MAP, CTColor.getParticularColor("blue")));
+
     }
 
     private static void getNewImage() throws InterruptedException {
@@ -340,23 +344,67 @@ public class IconControl {
      * @return 修改为目标颜色后的数据
      */
     private static Map<String, ImageIcon> getColorfulImageMap(Map<String, ImageIcon> map, Color color) {
-        return ColorImageGenerator.getColorfulImageMap(map, color);
+        Map<String, ImageIcon> resultMap = new HashMap<>();
 
-        /*Map<String, ImageIcon> colorfulImageMap = new HashMap<>();
-        map.forEach((name, imageIcon) -> {
-            System.out.printf("正在将\"%s\"|%s转换为%s%n",  name, imageIcon,  color);
-            BufferedImage bufferedImage = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = bufferedImage.createGraphics();
-            g2d.drawImage(imageIcon.getImage(), 0, 0, null);
+        // 线程列表
+        ArrayList<Thread> threads = new ArrayList<>();
 
-            ImageIcon icon = new ImageIcon(ColorConverter.applyColorTone(
-                    ColorConverter.convertToGrayscale(bufferedImage),
-                    color.getRed(), color.getGreen(), color.getBlue()));
+        // 缓存图片列表 - 处理前的图片
+        ArrayList<Map<String, ImageIcon>> tempImageMap = new ArrayList<>();
+        // 处理后的图片
+        CopyOnWriteArrayList<Map<String, ImageIcon>> tempResultImageMap = new CopyOnWriteArrayList<>();
 
-            colorfulImageMap.put(name, icon);
+        // 将原图按组分割，每组最多包含一定数量的图片
+        AtomicReference<HashMap<String, ImageIcon>> temp = new AtomicReference<>(new HashMap<>());
+        AtomicInteger count = new AtomicInteger();
+        map.forEach((key, value) -> {
+            // 每组最多放10张图片（可根据实际需求调整）
+            if (count.get() == map.size() - 1 || (temp.get().size() < 10)) {
+                temp.get().put(key, value);
+            } else {
+                // 当前组已满，加入临时列表并新建一个组
+                tempImageMap.add(temp.get());
+                temp.set(new HashMap<>());
+                temp.get().put(key, value); // 将当前图片放入新组
+            }
+            count.addAndGet(1);
         });
-        return colorfulImageMap;*/
+        /*// 添加最后一组未满的数据
+        if (!temp.get().isEmpty()) {
+            tempImageMap.add(temp.get());
+        }*/
+
+        // 创建10个虚拟线程并发处理图片
+        for (int i = 0; i < Math.min(10, tempImageMap.size()); i++) {
+            final int index = i;
+            threads.add(Thread.ofVirtual()
+                    .name("IconControl-Thread-" + i)
+                    .start(() -> {
+                        try {
+                            // 分配任务给每个线程
+                            Map<String, ImageIcon> subMap = tempImageMap.get(index);
+                            tempResultImageMap.add(ColorImageGenerator.getColorfulImageMap(subMap, color));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }));
+        }
+
+        // 等待所有线程完成
+        threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Log.trayIcon.displayMessage("IconControl", "线程中断" + e.getMessage(), TrayIcon.MessageType.ERROR);
+            }
+        });
+
+        // 合并结果
+        tempResultImageMap.forEach(resultMap::putAll);
+
+        return resultMap;
     }
+
 
     public static String getIconStyle(String name) {
         return ICON_STYLE_MAP.getOrDefault(name, "png");
@@ -423,7 +471,7 @@ public class IconControl {
         });
         controlPanel.add(previewButton);
 
-        JTree showTree = GetShowTreePanel.getShowTreePanel(ALL_ICON_KEY, "图标");
+        JTree showTree = GetShowTreePanel.getShowTreePanel(ALL_ICON_KEY, "图标", DEFAULT_IMAGE_MAP);
         showTree.addTreeExpansionListener(new TreeExpansionListener() {
             @Override
             public void treeExpanded(TreeExpansionEvent event) {

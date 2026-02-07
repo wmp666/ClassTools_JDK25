@@ -881,12 +881,12 @@ public class CTOptionPane {
 
                 JLabel iconLabel = new JLabel();
                     switch (iconType) {
-                        case ERROR -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.错误", IconControl.COLOR_COLORFUL, 70, 70));
-                        case WARNING -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.警告", IconControl.COLOR_COLORFUL, 70, 70));
-                        case INFO -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.提示", IconControl.COLOR_COLORFUL, 70, 70));
+                        case ERROR -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.错误", 70, 70));
+                        case WARNING -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.警告", 70, 70));
+                        case INFO -> iconLabel.setIcon(GetIcon.getIcon("系统.提示.提示", 70, 70));
                     }
                     if (CTInfo.easterEggModeMap.getBoolean("提示窗是否使用图标", false)){
-                        iconLabel.setIcon(GetIcon.getIcon("系统.图标", IconControl.COLOR_COLORFUL, 70, 70));
+                        iconLabel.setIcon(GetIcon.getIcon("系统.图标", 70, 70));
                     }
                     iconLabel.addMouseListener(new MouseAdapter() {
                     @Override

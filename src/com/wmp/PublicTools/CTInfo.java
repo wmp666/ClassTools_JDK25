@@ -1,6 +1,5 @@
 package com.wmp.PublicTools;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.wmp.Main;
 import com.wmp.PublicTools.EasterEgg.EasterEggModeMap;
 import com.wmp.PublicTools.UITools.CTColor;
@@ -77,10 +76,10 @@ public class CTInfo {
                 taskbar.setWindowProgressState(MainWindow.mainWindow, Taskbar.State.INDETERMINATE);
             }
         }
+        initCTBasicInfo();
 
         initCTRunImportInfo();
 
-        initCTBasicInfo();
 
 
 
@@ -123,7 +122,6 @@ public class CTInfo {
         else iconPath = "/image/icon/icon_preview.png";
 
         iconPath = easterEggModeMap.getString("图标路径", iconPath);
-
 
         initCTInfo();
     }

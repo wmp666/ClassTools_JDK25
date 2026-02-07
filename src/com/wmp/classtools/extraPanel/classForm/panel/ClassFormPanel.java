@@ -1,6 +1,5 @@
 package com.wmp.classTools.extraPanel.classForm.panel;
 
-import com.wmp.PublicTools.CTInfo;
 import com.wmp.PublicTools.UITools.CTColor;
 import com.wmp.PublicTools.UITools.CTFont;
 import com.wmp.PublicTools.UITools.CTFontSizeStyle;
@@ -16,7 +15,6 @@ import com.wmp.classTools.extraPanel.classForm.settings.ClassFormSetsPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,6 +58,7 @@ public class ClassFormPanel extends CTViewPanel<ClassFormInfos[]> {
                 "下节课:" +
                 nextClass;
 
+        Log.info.systemPrint("课程提醒", infoSB);
         Log.info.adaptedMessage("课程提醒", infoSB, 60, 5);
 
     }

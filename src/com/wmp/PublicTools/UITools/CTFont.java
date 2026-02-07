@@ -54,9 +54,7 @@ public class CTFont {
     public static String[] getAllFontName() {
         //获取所有字体
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();//获取本地图形环境
-        String[] fontNames = ge.getAvailableFontFamilyNames();
-        Log.info.print("fontNames", "所有字体:" + Arrays.toString(fontNames));
-        return fontNames;
+        return ge.getAvailableFontFamilyNames();
     }
 
     public static String getFontName() {

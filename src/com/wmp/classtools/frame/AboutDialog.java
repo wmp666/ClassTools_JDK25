@@ -120,7 +120,7 @@ public class AboutDialog extends JDialog {
         CTMenu chat = new CTMenu("社交");
 
         CTMenuItem weChat = new CTMenuItem("微信");
-        weChat.setIcon(GetIcon.getIcon("关于.微信", IconControl.COLOR_DEFAULT, 20, 20));
+        weChat.setIcon(GetIcon.getIcon("关于.微信", 20, 20));
         weChat.addActionListener(e ->
                 Log.info.message(this, "关于-个人信息", "微信: w13607088913")
         );

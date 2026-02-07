@@ -88,15 +88,17 @@ public abstract class CTViewPanel<T> extends CTPanel {
      */
     @Override
     public final void refresh() throws Exception {
-        if (isVisible() || isIgnoreState()) {
+        synchronized (this){
+            if (isVisible() || isIgnoreState()) {
 
-            Log.info.print(getID(), "开始刷新");
-            strongRefresh();
-            if (independentRefresh)
-                refreshTimer.restart();
-        } else {
-            Log.info.print(getID(), "刷新被禁止");
-            refreshTimer.stop();
+                Log.info.print(getID(), "开始刷新");
+                strongRefresh();
+                if (independentRefresh)
+                    refreshTimer.restart();
+            } else {
+                Log.info.print(getID(), "刷新被禁止");
+                refreshTimer.stop();
+            }
         }
     }
 

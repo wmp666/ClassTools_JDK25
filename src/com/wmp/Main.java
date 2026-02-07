@@ -24,7 +24,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.1.2.1";
+    public static final String version = "2.2.0.0.1";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -64,6 +64,7 @@ public class Main {
             JOptionPane.showMessageDialog(frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
                     imageIcon);
         }
+
 
         CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem();
         CTInfo.version = CTInfo.easterEggModeMap.getString("版本", CTInfo.version);

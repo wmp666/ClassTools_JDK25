@@ -119,12 +119,21 @@ public class MainWindow extends CTWindow {
                     });
 
 
+                    // 获取本地图形环境
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    // 获取默认屏幕设备
+                    GraphicsDevice gd = ge.getDefaultScreenDevice();
+
+                    // 获取屏幕的工作区域（排除任务栏等系统UI）
+                    Rectangle workArea = gd.getDefaultConfiguration().getBounds();
+
                     Dimension size = this.getPreferredSize();
 
-                    if (size.height >= Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 9 / 10)
-                        this.setSize(new Dimension(size.width, (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 9 / 10)));
+                    Dimension screenSize = new Dimension(workArea.width, workArea.height);
+                    if (size.height >= screenSize.getHeight() * 9 / 10)
+                        this.setSize(new Dimension(size.width, (int) screenSize.getHeight()));
                     else this.setSize(new Dimension(size.width, size.height));
-                    this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width - size.width - 5, 5);
+                    this.setLocation(screenSize.width - size.width - 5, 5);
 
                     //this.setLocation(0,0);
                     this.getContentPane().setBackground(CTColor.backColor);
