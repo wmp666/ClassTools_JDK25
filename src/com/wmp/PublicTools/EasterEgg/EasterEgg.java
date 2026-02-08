@@ -305,7 +305,8 @@ public class EasterEgg {
 
                     keyMap.put(name, name);
 
-                    if (name.endsWith(".mp3")) {
+                    if (name.endsWith(".mp3") ||
+                    name.endsWith(".flac") ) {
                         musicMap.put(name, browser_download_url);
                     } else if (name.endsWith(".mp4")) {
                         videoMap.put(name, browser_download_url);

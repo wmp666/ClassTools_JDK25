@@ -218,14 +218,13 @@ public class DownloadURLFile {
                         targetOut.write(temp, 0, i);
                         total2 += i;
 
-                        Log.info.print("DownloadURLFile-下载", "拷贝进度: " + ((total2 * 100L) / fileSize));
                         // 更新进度条
-                        int finalTotal = (int) (total2 * 100 / fileSize);
+                        float finalTotal =  ((float) (total2 * 100) / fileSize);
                         if (panel == null) {
 
-                            Log.info.loading.updateDialog("文件下载" + id, finalTotal);
+                            Log.info.loading.updateDialog("文件下载" + id, String.format("正在拷贝文件... %02f%%", finalTotal), (int) finalTotal);
                         } else {
-                            SwingUtilities.invokeLater(() -> progressBar.setValue(finalTotal));
+                            SwingUtilities.invokeLater(() -> progressBar.setValue((int) finalTotal));
                         }
                     }
 

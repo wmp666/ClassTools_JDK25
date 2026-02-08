@@ -157,10 +157,9 @@ public class IOForInfo {
                 targetOut.write(temp, 0, i);
                 total2 += i;
 
-                Log.info.print("DownloadURLFile-下载", "拷贝进度: " + ((total2 * 100L) / sourceFile.length()));
                 // 更新进度条
-                int finalTotal = (int) (total2 * 100 / sourceFile.length());
-                Log.info.loading.updateDialog("更新文件" + id, finalTotal);
+                float finalTotal = ((float) (total2 * 100) / sourceFile.length());
+                Log.info.loading.updateDialog("更新文件" + id, String.format("正在拷贝文件... %02f%%", finalTotal), (int) finalTotal);
             }
 
             targetOut.close();
