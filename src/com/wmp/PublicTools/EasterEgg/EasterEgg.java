@@ -258,7 +258,7 @@ public class EasterEgg {
 
             return new EasterEggModeMap("1.0.0", "刘德华", "恭喜发财",
                     "/image/icon/icon_red.png", "恭喜发财", true,
-                    new Color(248, 217, 217), Color.RED, Color.RED, "light",
+                    new Color(255, 242, 242), Color.RED, Color.RED, "light",
                     true, ()->{}, "版本");
         }
 

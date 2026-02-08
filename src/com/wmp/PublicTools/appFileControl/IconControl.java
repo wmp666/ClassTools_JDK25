@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -164,7 +162,7 @@ public class IconControl {
                 getColorfulImageMap(DEFAULT_IMAGE_MAP, CTColor.getParticularColor("blue")));
     }
 
-    public static void init() {
+    public static void init(boolean getNewerVersion) {
         try {
             DEFAULT_IMAGE_MAP.clear();
             COLORFUL_IMAGE_MAP.clear();
@@ -195,12 +193,14 @@ public class IconControl {
         } catch (Exception e) {
             Log.warn.message(null, IconControl.class.getName(), "图片加载失败:\n" + e);
         }
-        try {
-            //判断磁盘中是否有图片
-            getNewImage();
+        if (getNewerVersion) {
+            try {
+                //判断磁盘中是否有图片
+                getNewImage();
 
-        } catch (Exception e) {
-            Log.warn.print(null, IconControl.class.getName(), "图片数据判断失败:\n" + e);
+            } catch (Exception e) {
+                Log.warn.print(null, IconControl.class.getName(), "图片数据判断失败:\n" + e);
+            }
         }
 
         try {
@@ -358,8 +358,8 @@ public class IconControl {
         AtomicReference<HashMap<String, ImageIcon>> temp = new AtomicReference<>(new HashMap<>());
         AtomicInteger count = new AtomicInteger();
         map.forEach((key, value) -> {
-            // 每组最多放10张图片（可根据实际需求调整）
-            if (count.get() == map.size() - 1 || (temp.get().size() < 10)) {
+            // 每组最多放30张图片
+            if (temp.get().size() < 1) {
                 temp.get().put(key, value);
             } else {
                 // 当前组已满，加入临时列表并新建一个组
@@ -369,17 +369,13 @@ public class IconControl {
             }
             count.addAndGet(1);
         });
-        /*// 添加最后一组未满的数据
-        if (!temp.get().isEmpty()) {
-            tempImageMap.add(temp.get());
-        }*/
 
-        // 创建10个虚拟线程并发处理图片
-        for (int i = 0; i < Math.min(10, tempImageMap.size()); i++) {
+        // 创建虚拟线程并发处理图片
+        for (int i = 0; i < tempImageMap.size(); i++) {
             final int index = i;
             threads.add(Thread.ofVirtual()
                     .name("IconControl-Thread-" + i)
-                    .start(() -> {
+                    .unstarted(() -> {
                         try {
                             // 分配任务给每个线程
                             Map<String, ImageIcon> subMap = tempImageMap.get(index);
@@ -391,7 +387,9 @@ public class IconControl {
         }
 
         // 等待所有线程完成
-        threads.forEach(thread -> {
+        threads.stream()
+                .peek(Thread::start)
+                .forEach(thread -> {
             try {
                 thread.join();
             } catch (InterruptedException e) {
@@ -433,6 +431,16 @@ public class IconControl {
     }
 
     public static void showControlDialog(){
+        Set<String> keySet = new HashSet<>(COLORFUL_IMAGE_MAP.keySet());
+        keySet.add("默认");
+        String choose = Log.info.showChooseDialog(null, "图标风格", "请选择图标风格", keySet.toArray(new String[0]));
+
+        showIconControlDialog(choose.equals("默认")?
+                DEFAULT_IMAGE_MAP:
+                COLORFUL_IMAGE_MAP.getOrDefault(choose, DEFAULT_IMAGE_MAP));
+    }
+
+    private static void showIconControlDialog(Map<String, ImageIcon> iconMap) {
         JDialog controlDialog = new JDialog(){
             @Override
             public void pack() {
@@ -465,13 +473,17 @@ public class IconControl {
 
 
                 // 获取图标并显示在新窗口中
-                ImageIcon icon = getIcon(key.toString(), COLOR_DEFAULT);
-                showIconPreviewDialog(key.toString(), icon);
+
+                //ImageIcon icon = getIcon(key.toString(), COLOR_DEFAULT);
+                showIconPreviewDialog(key.toString(), iconMap.get(key.toString()));
             }
         });
         controlPanel.add(previewButton);
 
-        JTree showTree = GetShowTreePanel.getShowTreePanel(ALL_ICON_KEY, "图标", DEFAULT_IMAGE_MAP);
+        HashSet<String> iconKeySet = new HashSet<>(Arrays.asList(ALL_ICON_KEY));
+        iconKeySet.addAll(iconMap.keySet());
+
+        JTree showTree = GetShowTreePanel.getShowTreePanel(iconKeySet.toArray(new String[0]), "图标", iconMap);
         showTree.addTreeExpansionListener(new TreeExpansionListener() {
             @Override
             public void treeExpanded(TreeExpansionEvent event) {

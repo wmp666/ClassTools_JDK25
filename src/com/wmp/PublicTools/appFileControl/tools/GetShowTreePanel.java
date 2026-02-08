@@ -45,8 +45,7 @@ public class GetShowTreePanel {
                     setFont(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL));
                     setText(name);
                     if (icon != null) {
-                        icon.setImage(icon.getImage().getScaledInstance(getFont().getSize(), getFont().getSize(), Image.SCALE_SMOOTH));
-                        setIcon(icon);
+                        setIcon(new ImageIcon(icon.getImage().getScaledInstance(getFont().getSize(), getFont().getSize(), Image.SCALE_SMOOTH)));
                     }
                 }
                 return this;

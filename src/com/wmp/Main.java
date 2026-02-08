@@ -24,7 +24,7 @@ public class Main {
      * d:只修复的问题,问题较少<br>
      * e:测试版本号
      */
-    public static final String version = "2.2.0.0.1";
+    public static final String version = "2.2.0.0.2";
 
     private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
     public static ArrayList<String> argsList = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Main {
         CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName);
         CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author);
 
-        CTInfo.init();
+        CTInfo.init(false);
 
         wait.setVisible(false);
         wait.getLoader().stopAnimation();

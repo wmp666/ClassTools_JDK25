@@ -63,7 +63,7 @@ public class CTInfo {
     static{
         initCTRunImportInfo();
     }
-    public static void  init() {
+    public static void  init(boolean getCTAppInfoNewerVersion) {
 
         if (MainWindow.mainWindow != null){
             Taskbar taskbar = Taskbar.getTaskbar();
@@ -76,12 +76,9 @@ public class CTInfo {
                 taskbar.setWindowProgressState(MainWindow.mainWindow, Taskbar.State.INDETERMINATE);
             }
         }
-        initCTBasicInfo();
+        initCTBasicInfo(getCTAppInfoNewerVersion);
 
         initCTRunImportInfo();
-
-
-
 
         if (MainWindow.mainWindow != null){
             Taskbar taskbar = Taskbar.getTaskbar();
@@ -126,7 +123,7 @@ public class CTInfo {
         initCTInfo();
     }
 
-    private static void initCTBasicInfo() {
+    private static void initCTBasicInfo(boolean getNewerVersion) {
 
         appInfo = new AppInfoControl().getInfo();
 
@@ -159,8 +156,8 @@ public class CTInfo {
             }
         }
 
-        IconControl.init();
-        AudioControl.init();
+        IconControl.init(getNewerVersion);
+        AudioControl.init(getNewerVersion);
         Log.initTrayIcon();
     }
 

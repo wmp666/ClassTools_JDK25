@@ -23,14 +23,12 @@ import org.json.JSONObject;
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -46,7 +44,7 @@ public class AudioControl {
             "系统.错误", "系统.警告", "系统.通知",
             "课程表.上课", "课程表.下课"
     };
-    public static void init() {
+    public static void init(boolean getNewerVersion) {
 
         PLAYER_MAP.forEach((key, player) -> {
             if (player.isComplete()) {
@@ -77,12 +75,14 @@ public class AudioControl {
         } catch (Exception e) {
             Log.warn.message(null, AudioControl.class.getName(), "音频加载失败:\n" + e);
         }
-        try {
-            //判断磁盘中是否有音频
-            getNewMusic();
+        if (getNewerVersion) {
+            try {
+                //判断磁盘中是否有音频
+                getNewMusic();
 
-        } catch (Exception e) {
-            Log.warn.print(null, AudioControl.class.getName(), "音频更新失败:\n" + e);
+            } catch (Exception e) {
+                Log.warn.print(null, AudioControl.class.getName(), "音频更新失败:\n" + e);
+            }
         }
 
         try {

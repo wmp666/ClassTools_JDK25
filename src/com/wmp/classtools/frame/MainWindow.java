@@ -158,7 +158,7 @@ public class MainWindow extends CTWindow {
     public static void refreshPanel() {
         try {
             Log.info.systemPrint("MainWindow", "正在刷新");
-            CTInfo.init();
+            CTInfo.init(true);
 
             //初始化边框
             CTBorderFactory.BASIC_LINE_BORDER = BorderFactory.createLineBorder(new Color(200, 200, 200), (int) (2 * CTInfo.dpi), true);
