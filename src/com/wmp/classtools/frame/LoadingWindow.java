@@ -55,9 +55,11 @@ public class LoadingWindow extends CTWindow {
         this.getContentPane().setCursor(
                 Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-        Taskbar taskbar = Taskbar.getTaskbar();
-        if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {
-            taskbar.setWindowProgressState(this, Taskbar.State.INDETERMINATE);
+        if(Taskbar.isTaskbarSupported()){
+            Taskbar taskbar = Taskbar.getTaskbar();
+            if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {
+                taskbar.setWindowProgressState(this, Taskbar.State.INDETERMINATE);
+            }
         }
 
         this.setVisible(true);

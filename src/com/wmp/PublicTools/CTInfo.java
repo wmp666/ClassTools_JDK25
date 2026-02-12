@@ -65,7 +65,7 @@ public class CTInfo {
     }
     public static void  init(boolean getCTAppInfoNewerVersion) {
 
-        if (MainWindow.mainWindow != null){
+        if (MainWindow.mainWindow != null && Taskbar.isTaskbarSupported()){
             Taskbar taskbar = Taskbar.getTaskbar();
 
             if (taskbar.isSupported(Taskbar.Feature.USER_ATTENTION_WINDOW)) {
@@ -80,7 +80,7 @@ public class CTInfo {
 
         initCTRunImportInfo();
 
-        if (MainWindow.mainWindow != null){
+        if (MainWindow.mainWindow != null && Taskbar.isTaskbarSupported()){
             Taskbar taskbar = Taskbar.getTaskbar();
 
             if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW)) {
