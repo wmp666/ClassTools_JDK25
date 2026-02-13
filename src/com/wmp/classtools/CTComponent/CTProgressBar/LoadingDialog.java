@@ -58,16 +58,18 @@ public class LoadingDialog extends JFrame {
 
             }else value.addAndGet(progressBar.getValue());
         });
-        Taskbar taskbar = Taskbar.getTaskbar();
+        if (Taskbar.isTaskbarSupported()) {
+            Taskbar taskbar = Taskbar.getTaskbar();
 
-        if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW) &&
-        taskbar.isSupported(Taskbar.Feature.PROGRESS_VALUE_WINDOW)) {
+            if (taskbar.isSupported(Taskbar.Feature.PROGRESS_STATE_WINDOW) &&
+            taskbar.isSupported(Taskbar.Feature.PROGRESS_VALUE_WINDOW)) {
 
-            taskbar.setWindowProgressState(this, Taskbar.State.INDETERMINATE);
+                taskbar.setWindowProgressState(this, Taskbar.State.INDETERMINATE);
 
-            if (!isIndeterminate.get()) {
-                taskbar.setWindowProgressState(this, Taskbar.State.NORMAL);
-                taskbar.setWindowProgressValue(this, !progressBarPanelList.isEmpty() ?value.get()/progressBarPanelList.size():1);
+                if (!isIndeterminate.get()) {
+                    taskbar.setWindowProgressState(this, Taskbar.State.NORMAL);
+                    taskbar.setWindowProgressValue(this, !progressBarPanelList.isEmpty() ?value.get()/progressBarPanelList.size():1);
+                }
             }
         }
     }
