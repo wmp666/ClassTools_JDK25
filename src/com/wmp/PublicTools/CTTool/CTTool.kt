@@ -1,54 +1,40 @@
-package com.wmp.publicTools.CTTool;
+package com.wmp.publicTools.CTTool
 
-import com.wmp.publicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
+import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel
+import com.wmp.publicTools.printLog.Log
+import java.util.*
+import javax.swing.JDialog
+import javax.swing.WindowConstants
 
-import javax.swing.*;
-import java.util.Random;
+abstract class CTTool {
+    var ctSetsPanelList: Array<CTSetsPanel<*>?> = arrayOfNulls(0)
+        private set
+    @JvmField
+    var name: String? = "CTTool"
 
-public abstract class CTTool {
-    private CTSetsPanel[] ctSetsPanelList = null;
-    private String name = "CTTool";
-
-    public CTTool() {
+    constructor(name: String?) {
+        this.name = name
     }
 
-    public CTTool(String name) {
-        this.name = name;
-    }
+    fun showTool() {
+        val id = Random().nextInt()
+        Log.info.loading.showDialog("工具${name}${id}", "正在打开${name}工具")
 
-    public void showTool() {
-        int id = new Random().nextInt();
-        Log.info.loading.showDialog("工具" + name + id, "正在打开" + name + "工具");
+        val dialog = this.dialog
+        dialog.setAlwaysOnTop(true)
+        dialog.setLocationRelativeTo(null)
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
+        dialog.setModal(true)
 
-        JDialog dialog = getDialog();
-        dialog.setAlwaysOnTop(true);
-        dialog.setLocationRelativeTo(null);
-        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dialog.setModal(true);
-
-        Log.info.loading.closeDialog("工具" + name + id);
-        dialog.setVisible(true);
-    }
-
-
-
-    public CTSetsPanel[] getCtSetsPanelList() {
-        return ctSetsPanelList;
-    }
-
-    public void setCtSetsPanelList(CTSetsPanel... ctSetsPanelList) {
-        this.ctSetsPanelList = ctSetsPanelList;
+        Log.info.loading.closeDialog("工具${name}${id}")
+        dialog.setVisible(true)
     }
 
 
-    public abstract JDialog getDialog();
-
-    public String getName() {
-        return name;
+    fun setCtSetsPanelList(vararg ctSetsPanelList: CTSetsPanel<*>?) {
+        this.ctSetsPanelList = ctSetsPanelList as Array<CTSetsPanel<*>?>
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
+    abstract val dialog: JDialog
 }

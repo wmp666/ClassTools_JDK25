@@ -1,190 +1,181 @@
-package com.wmp.publicTools;
+package com.wmp.publicTools
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ExceptionStringConverter {
-
-    /**
-     * 将嵌套异常转换为完整的字符串（包含所有堆栈信息）
-     */
-    public static String convertToString(Throwable throwable) {
-        return convertToString(throwable, true);
-    }
-
+object ExceptionStringConverter {
     /**
      * 将嵌套异常转换为字符串
-     *
+     * 
      * @param throwable         异常对象
      * @param includeStackTrace 是否包含完整的堆栈信息
      */
-    public static String convertToString(Throwable throwable, boolean includeStackTrace) {
+    @JvmStatic
+    @JvmOverloads
+    fun convertToString(throwable: Throwable?, includeStackTrace: Boolean = true):String {
         if (throwable == null) {
-            return "null";
+            return "null"
         }
 
-        StringBuilder sb = new StringBuilder();
-        convertExceptionChain(sb, throwable, 0, includeStackTrace, new ArrayList<>());
-        return sb.toString();
+        val sb = StringBuilder()
+        convertExceptionChain(sb, throwable, 0, includeStackTrace, ArrayList())
+        return sb.toString()
     }
 
     /**
      * 转换为简洁的异常信息（只显示关键信息）
      */
-    public static String convertToSimpleString(Throwable throwable) {
+    fun convertToSimpleString(throwable: Throwable?): String {
         if (throwable == null) {
-            return "null";
+            return "null"
         }
 
-        StringBuilder sb = new StringBuilder();
-        Throwable current = throwable;
-        int level = 0;
+        val sb = StringBuilder()
+        var current: Throwable? = throwable
+        var level = 0
 
         while (current != null) {
             if (level > 0) {
-                sb.append("\nCaused by: ");
+                sb.append("\nCaused by: ")
             }
 
-            sb.append(current.getClass().getSimpleName())
-                    .append(": ")
-                    .append(current.getMessage());
+            sb.append(current.javaClass.getSimpleName())
+                .append(": ")
+                .append(current.message)
 
             // 添加第一个堆栈位置
-            if (current.getStackTrace().length > 0) {
-                StackTraceElement first = current.getStackTrace()[0];
+            if (current.stackTrace.size > 0) {
+                val first = current.stackTrace[0]
                 sb.append(" (at ")
-                        .append(first.getClassName())
-                        .append(".")
-                        .append(first.getMethodName())
-                        .append(":")
-                        .append(first.getLineNumber())
-                        .append(")");
+                    .append(first.className)
+                    .append(".")
+                    .append(first.methodName)
+                    .append(":")
+                    .append(first.lineNumber)
+                    .append(")")
             }
 
-            current = current.getCause();
-            level++;
+            current = current.cause
+            level++
 
             // 防止无限循环
             if (level > 20) {
-                sb.append("\n... (exception chain too long)");
-                break;
+                sb.append("\n... (exception chain too long)")
+                break
             }
         }
 
-        return sb.toString();
+        return sb.toString()
     }
 
-    private static void convertExceptionChain(StringBuilder sb, Throwable throwable,
-                                              int depth, boolean includeStackTrace,
-                                              List<Throwable> processedExceptions) {
+    private fun convertExceptionChain(
+        sb: StringBuilder, throwable: Throwable?,
+        depth: Int, includeStackTrace: Boolean,
+        processedExceptions: MutableList<Throwable?>
+    ) {
         if (throwable == null || processedExceptions.contains(throwable)) {
-            return;
+            return
         }
 
-        processedExceptions.add(throwable);
+        processedExceptions.add(throwable)
 
-        String indent = getIndent(depth);
+        val indent = getIndent(depth)
 
         // 异常头信息
         if (depth == 0) {
-            sb.append("Exception Chain:\n");
+            sb.append("Exception Chain:\n")
         } else {
-            sb.append(indent).append("Caused by: ");
+            sb.append(indent).append("Caused by: ")
         }
 
-        sb.append(throwable.getClass().getName())
-                .append(": ")
-                .append(throwable.getMessage())
-                .append("\n");
+        sb.append(throwable.javaClass.getName())
+            .append(": ")
+            .append(throwable.message)
+            .append("\n")
 
         // 堆栈信息
         if (includeStackTrace) {
-            StackTraceElement[] stackTrace = throwable.getStackTrace();
-            for (StackTraceElement element : stackTrace) {
+            val stackTrace = throwable.stackTrace
+            for (element in stackTrace) {
                 sb.append(indent).append("    at ")
-                        .append(element.getClassName())
-                        .append(".")
-                        .append(element.getMethodName())
-                        .append("(")
-                        .append(element.getFileName())
-                        .append(":")
-                        .append(element.getLineNumber())
-                        .append(")\n");
+                    .append(element.className)
+                    .append(".")
+                    .append(element.methodName)
+                    .append("(")
+                    .append(element.fileName)
+                    .append(":")
+                    .append(element.lineNumber)
+                    .append(")\n")
             }
         } else {
             // 只显示第一个堆栈位置
-            if (throwable.getStackTrace().length > 0) {
-                StackTraceElement first = throwable.getStackTrace()[0];
+            if (throwable.stackTrace.size > 0) {
+                val first = throwable.stackTrace[0]
                 sb.append(indent).append("    at ")
-                        .append(first.getClassName())
-                        .append(".")
-                        .append(first.getMethodName())
-                        .append("(")
-                        .append(first.getFileName())
-                        .append(":")
-                        .append(first.getLineNumber())
-                        .append(")\n");
+                    .append(first.className)
+                    .append(".")
+                    .append(first.methodName)
+                    .append("(")
+                    .append(first.fileName)
+                    .append(":")
+                    .append(first.lineNumber)
+                    .append(")\n")
             }
         }
 
         // 处理 suppressed exceptions (try-with-resources)
-        Throwable[] suppressed = throwable.getSuppressed();
-        if (suppressed.length > 0) {
-            sb.append(indent).append("Suppressed exceptions:\n");
-            for (Throwable suppressedEx : suppressed) {
-                convertExceptionChain(sb, suppressedEx, depth + 1, includeStackTrace, processedExceptions);
+        val suppressed = throwable.suppressed
+        if (suppressed.size > 0) {
+            sb.append(indent).append("Suppressed exceptions:\n")
+            for (suppressedEx in suppressed) {
+                convertExceptionChain(sb, suppressedEx, depth + 1, includeStackTrace, processedExceptions)
             }
         }
 
         // 处理原因异常
-        Throwable cause = throwable.getCause();
+        val cause = throwable.cause
         if (cause != null) {
-            convertExceptionChain(sb, cause, depth + 1, includeStackTrace, processedExceptions);
+            convertExceptionChain(sb, cause, depth + 1, includeStackTrace, processedExceptions)
         }
     }
 
-    private static String getIndent(int depth) {
-        return "    ".repeat(depth);
-    }
+    private fun getIndent(depth: Int) = "    ".repeat(depth)
 
     /**
      * 获取异常链的统计信息
      */
-    public static String getExceptionChainSummary(Throwable throwable) {
+    fun getExceptionChainSummary(throwable: Throwable?): String {
         if (throwable == null) {
-            return "No exception";
+            return "No exception"
         }
 
-        StringBuilder sb = new StringBuilder();
-        List<Class<?>> exceptionTypes = new ArrayList<>();
-        List<String> exceptionMessages = new ArrayList<>();
+        val sb = StringBuilder()
+        val exceptionTypes: MutableList<Class<*>?> = ArrayList()
+        val exceptionMessages: MutableList<String?> = ArrayList()
 
-        Throwable current = throwable;
-        int chainLength = 0;
+        var current: Throwable? = throwable
+        var chainLength = 0
 
         while (current != null) {
-            exceptionTypes.add(current.getClass());
-            exceptionMessages.add(current.getMessage());
-            current = current.getCause();
-            chainLength++;
+            exceptionTypes.add(current.javaClass)
+            exceptionMessages.add(current.message)
+            current = current.cause
+            chainLength++
 
             if (chainLength > 50) { // 防止无限循环
-                break;
+                break
             }
         }
 
-        sb.append("Exception Chain Summary:\n");
-        sb.append("Total exceptions in chain: ").append(chainLength).append("\n");
-        sb.append("Exception types:\n");
+        sb.append("Exception Chain Summary:\n")
+        sb.append("Total exceptions in chain: ").append(chainLength).append("\n")
+        sb.append("Exception types:\n")
 
-        for (int i = 0; i < exceptionTypes.size(); i++) {
+        for (i in exceptionTypes.indices) {
             sb.append("  ").append(i + 1).append(". ")
-                    .append(exceptionTypes.get(i).getSimpleName())
-                    .append(": ")
-                    .append(exceptionMessages.get(i))
-                    .append("\n");
+                .append(exceptionTypes[i]!!.getSimpleName())
+                .append(": ")
+                .append(exceptionMessages[i])
+                .append("\n")
         }
 
-        return sb.toString();
+        return sb.toString()
     }
 }

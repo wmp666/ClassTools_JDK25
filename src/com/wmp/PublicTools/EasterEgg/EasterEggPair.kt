@@ -1,4 +1,4 @@
-package com.wmp.publicTools.EasterEgg;
+package com.wmp.publicTools.EasterEgg
 
-public record EasterEggPair(String key, Object value) {
-}
+@JvmRecord
+data class EasterEggPair(val key: String?, val value: Any?)

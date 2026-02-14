@@ -1,6 +1,6 @@
-package com.wmp.publicTools.EasterEgg;
+package com.wmp.publicTools.EasterEgg
 
-public enum EETextStyle {
+enum class EETextStyle {
     DEFAULT,
     HTML
 }

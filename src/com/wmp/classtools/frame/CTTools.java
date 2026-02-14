@@ -97,7 +97,7 @@ public class CTTools extends JDialog {
 
         ArrayList<CTMenuItem> ctRoundTextButtonArrayList = new ArrayList<>();
         tools.forEach(tool -> {
-            CTMenuItem menuItem = new CTMenuItem(tool.getName());
+            CTMenuItem menuItem = new CTMenuItem(tool.name);
              menuItem.setFont(CTFont.getDefaultFont( Font.BOLD, CTFontSizeStyle.BIG));
             menuItem.addActionListener(ex -> tool.showTool());
             ctRoundTextButtonArrayList.add(menuItem);

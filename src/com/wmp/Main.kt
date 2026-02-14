@@ -24,7 +24,7 @@ object Main {
      * d:只修复的问题,问题较少<br></br>
      * e:测试版本号
      */
-    const val VERSION: String = "2.2.0.0.6"
+    const val VERSION: String = "2.2.0.0.7"
 
     private val allArgs = TreeMap<String?, StartupParameters?>()
     @JvmField
@@ -71,7 +71,7 @@ object Main {
         }
 
 
-        CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem()
+        CTInfo.easterEggModeMap = EasterEgg.easterEggItem
         CTInfo.version = CTInfo.easterEggModeMap.getString("版本", CTInfo.version)
         CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName)
         CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author)

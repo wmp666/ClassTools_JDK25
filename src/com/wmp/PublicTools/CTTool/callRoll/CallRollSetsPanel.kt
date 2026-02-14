@@ -1,35 +1,31 @@
-package com.wmp.publicTools.CTTool.callRoll;
+package com.wmp.publicTools.CTTool.callRoll
 
-import com.wmp.publicTools.io.GetPath;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
-import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
+import com.wmp.classTools.CTComponent.CTButton.CTTextButton
+import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel
+import com.wmp.publicTools.CTTool.callRoll.CallRollInfoControl.setDianMingNameList
+import com.wmp.publicTools.io.GetPath
+import java.awt.GridLayout
 
-import java.awt.*;
-
-public class CallRollSetsPanel extends CTBasicSetsPanel<Object> {
-    public CallRollSetsPanel() {
-        super(null);
-
-        setName("点名设置");
+class CallRollSetsPanel : CTBasicSetsPanel<Any?>(null) {
+    init {
+        name = "点名设置"
     }
 
-    @Override
-    public void save() throws Exception {
+    @Throws(Exception::class)
+    override fun save() {
     }
 
-    @Override
-    public void refresh() {
-        this.removeAll();
-        this.setLayout(new GridLayout(0, 1));
+    override fun refresh() {
+        this.removeAll()
+        this.setLayout(GridLayout(0, 1))
 
-        CTTextButton inputButton = new CTTextButton("导入");
-        inputButton.addActionListener(e1 -> {
-            String filePath = GetPath.getFilePath(this, "请选择文件", ".txt", "点名列表");
+        val inputButton = CTTextButton("导入")
+        inputButton.addActionListener { _ ->
+            val filePath = GetPath.getFilePath(this, "请选择文件", ".txt", "点名列表")
             if (filePath != null) {
-                CallRollInfoControl.setDianMingNameList(filePath);
+                setDianMingNameList(filePath)
             }
-        });
-        this.add(inputButton);
-
+        }
+        this.add(inputButton)
     }
 }

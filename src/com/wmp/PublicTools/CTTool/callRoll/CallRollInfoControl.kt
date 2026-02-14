@@ -1,30 +1,31 @@
-package com.wmp.publicTools.CTTool.callRoll;
+package com.wmp.publicTools.CTTool.callRoll
 
-import com.wmp.publicTools.CTInfo;
-import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.CTInfo
+import com.wmp.publicTools.io.IOForInfo
+import java.io.IOException
+import java.nio.file.Path
 
-import java.io.IOException;
-import java.nio.file.Path;
+object CallRollInfoControl {
+    private val path = CTInfo.DATA_PATH + "CTTools\\DianMing\\"
 
-public class CallRollInfoControl {
-    private static final String path = CTInfo.DATA_PATH + "CTTools\\DianMing\\";
-
-    public static String[] getDianMingInfo() throws IOException {
-        IOForInfo io = new IOForInfo(path + "DianMingInfo.txt");
-        String[] info = io.getInfo();
-        if (info == null || info.length == 0 || info[0].equals("err")) {
-            return null;
+    @get:Throws(IOException::class)
+    @set:Throws(IOException::class)
+    var dianMingInfo: Array<String>
+        get() {
+            val io = IOForInfo(path + "DianMingInfo.txt")
+            val info = io.getInfo()
+            if (info.isEmpty() || info[0] == "err") {
+                return emptyArray()
+            }
+            return info
         }
-        return info;
-    }
+        set(info) {
+            val io = IOForInfo(path + "DianMingInfo.txt")
+            io.setInfo(*info)
+        }
 
-    public static void setDianMingInfo(String[] info) throws IOException {
-        IOForInfo io = new IOForInfo(path + "DianMingInfo.txt");
-        io.setInfo(info);
-
-    }
-
-    public static void setDianMingNameList(String path) {
-        IOForInfo.copyFile(Path.of(path), Path.of(CallRollInfoControl.path));
+    @JvmStatic
+    fun setDianMingNameList(path: String) {
+        IOForInfo.copyFile(Path.of(path), Path.of(CallRollInfoControl.path))
     }
 }

@@ -1,250 +1,282 @@
-package com.wmp.classTools.frame;
+package com.wmp.classTools.frame
 
-import com.wmp.publicTools.CTInfo;
-import com.wmp.publicTools.EasterEgg.EasterEgg;
-import com.wmp.publicTools.OpenInExp;
-import com.wmp.publicTools.UITools.CTColor;
-import com.wmp.publicTools.UITools.CTFont;
-import com.wmp.publicTools.UITools.CTFontSizeStyle;
-import com.wmp.publicTools.UITools.GetIcon;
-import com.wmp.publicTools.appFileControl.IconControl;
-import com.wmp.publicTools.io.GetPath;
-import com.wmp.publicTools.printLog.Log;
-import com.wmp.publicTools.update.GetNewerVersion;
-import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
-import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
-import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.Menu.CTMenu;
-import com.wmp.classTools.CTComponent.Menu.CTMenuBar;
-import com.wmp.classTools.CTComponent.Menu.CTMenuItem;
-import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;
+import com.formdev.flatlaf.FlatLaf
+import com.nlf.calendar.Lunar
+import com.wmp.classTools.CTComponent.CTButton.*
+import com.wmp.classTools.CTComponent.*
+import com.wmp.classTools.CTComponent.Menu.*
+import com.wmp.publicTools.CTInfo
+import com.wmp.publicTools.EasterEgg.EasterEgg
+import com.wmp.publicTools.OpenInExp
+import com.wmp.publicTools.UITools.CTColor
+import com.wmp.publicTools.UITools.CTFont
+import com.wmp.publicTools.UITools.CTFontSizeStyle
+import com.wmp.publicTools.UITools.GetIcon
+import com.wmp.publicTools.appFileControl.IconControl
+import com.wmp.publicTools.io.GetPath
+import com.wmp.publicTools.printLog.Log
+import com.wmp.publicTools.update.GetNewerVersion
+import javazoom.jl.decoder.JavaLayerHook
+import javazoom.jl.player.Player
+import java.awt.*
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import java.net.URI
+import javax.swing.JDialog
+import javax.swing.JLabel
+import javax.swing.JLayer
+import javax.swing.JPanel
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
-
-public class AboutDialog extends JDialog {
-
-    private static final JPanel view = new JPanel();
-
-    static {
-        view.setBackground(CTColor.backColor);
-        view.setLayout(new BorderLayout());
-        view.setPreferredSize(new Dimension((int) (300 * CTInfo.dpi), (int) (100 * CTInfo.dpi)));
-
-        GetNewerVersion.checkForUpdate(null, view, false, false);
-    }
-
-    public AboutDialog() {
-
-        this.setTitle("关于");
-        this.setSize((int) (300 * CTInfo.dpi), (int) (400 * CTInfo.dpi));
-        this.setLayout(new BorderLayout());
-        this.setLocationRelativeTo(null);
-        this.setModal(true);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.getContentPane().setBackground(CTColor.backColor);
+class AboutDialog : JDialog() {
+    init {
+        this.setTitle("关于")
+        this.setSize((300 * CTInfo.dpi).toInt(), (400 * CTInfo.dpi).toInt())
+        this.setLayout(BorderLayout())
+        this.setLocationRelativeTo(null)
+        this.setModal(true)
+        this.setResizable(false)
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE)
+        this.contentPane.setBackground(CTColor.backColor)
 
 
-        JLabel icon = new JLabel(GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100));
+        val icon = JLabel(GetIcon.getIcon("系统.图标", IconControl.COLOR_DEFAULT, 100, 100))
 
 
-        JLabel info = new JLabel("<html>"
-                + "程序名: " + CTInfo.appName + "<br><br>"
-                + "作者: " + CTInfo.author + "<br><br>"
-                + "版本: " + CTInfo.version
-                + "</html>");
-        info.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.SMALL));
-        info.setForeground(CTColor.textColor);
-        info.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int button = e.getButton();
+        val info = JLabel(
+            ("<html>"
+                    + "程序名: " + CTInfo.appName + "<br><br>"
+                    + "作者: " + CTInfo.author + "<br><br>"
+                    + "版本: " + CTInfo.version
+                    + "</html>")
+        )
+        info.setFont(CTFont.getCTFont(Font.BOLD, CTFontSizeStyle.SMALL))
+        info.setForeground(CTColor.textColor)
+        info.addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent) {
+                val button = e.getButton()
                 if (button == MouseEvent.BUTTON3) {
-                    CTPopupMenu ETPopupMenu = new CTPopupMenu();
+                    val ETPopupMenu = CTPopupMenu()
 
-                    CTTextButton edit = new CTTextButton("编辑");
-                    edit.setIcon(GetIcon.getIcon("通用.编辑", IconControl.COLOR_DEFAULT, 20, 20));
-                    edit.addActionListener(event -> EasterEgg.errorAction());
+                    val edit = CTTextButton("编辑")
+                    edit.setIcon(GetIcon.getIcon("通用.编辑", IconControl.COLOR_DEFAULT, 20, 20))
+                    edit.addActionListener({ event: ActionEvent? -> EasterEgg.errorAction() })
 
-                    ETPopupMenu.add(edit);
+                    ETPopupMenu.add(edit)
 
-                    ETPopupMenu.show(info, e.getX(), e.getY());
+                    ETPopupMenu.show(info, e.getX(), e.getY())
                 }
             }
-        });
+        })
+
         //view = new JPanel();
+        val infos = JPanel()
+        infos.setOpaque(false)
+        infos.setLayout(BorderLayout())
+        infos.add(icon, BorderLayout.WEST)
+        infos.add(info, BorderLayout.CENTER)
 
-        JPanel infos = new JPanel();
-        infos.setOpaque(false);
-        infos.setLayout(new BorderLayout());
-        infos.add(icon, BorderLayout.WEST);
-        infos.add(info, BorderLayout.CENTER);
+        val getNew = CTIconButton(
+            "检查更新",
+            "通用.网络.更新", IconControl.COLOR_COLORFUL,
+            { GetNewerVersion.checkForUpdate(this, view, true) })
+        getNew.setBackground(CTColor.backColor)
 
-        CTIconButton getNew = new CTIconButton("检查更新",
-                "通用.网络.更新", IconControl.COLOR_COLORFUL,
-                () -> GetNewerVersion.checkForUpdate(this, view, true));
-        getNew.setBackground(CTColor.backColor);
-
-        JPanel update = new JPanel(new GridBagLayout());
-        update.setOpaque(false);
-        {
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.insets = new Insets(5, 5, 5, 5);
-            update.add(view, gbc);
-            gbc.gridy++;
-            update.add(getNew.toRoundTextButton(), gbc);
-
-
+        val update = JPanel(GridBagLayout())
+        update.setOpaque(false)
+        run {
+            val gbc = GridBagConstraints()
+            gbc.gridx = 0
+            gbc.gridy = 0
+            gbc.insets = Insets(5, 5, 5, 5)
+            update.add(view, gbc)
+            gbc.gridy++
+            update.add(getNew.toRoundTextButton(), gbc)
         }
 
-        this.add(update, BorderLayout.SOUTH);
-        this.add(infos, BorderLayout.CENTER);
+        this.add(update, BorderLayout.SOUTH)
+        this.add(infos, BorderLayout.CENTER)
 
-        initMenuBar();
-
-
+        initMenuBar()
     }
 
-    private void initMenuBar() {
-        CTMenuBar menuBar = new CTMenuBar();
-        this.setJMenuBar(menuBar);
+    private fun initMenuBar() {
+        val menuBar = CTMenuBar()
+        this.jMenuBar = menuBar
 
-        CTMenu menu = new CTMenu("转到");
+        val menu = CTMenu("转到")
 
-        CTMenu chat = new CTMenu("社交");
+        val chat = CTMenu("社交")
 
-        CTMenuItem weChat = new CTMenuItem("微信");
-        weChat.setIcon(GetIcon.getIcon("关于.微信", 20, 20));
-        weChat.addActionListener(e ->
-                Log.info.message(this, "关于-个人信息", "微信: w13607088913")
-        );
+        val weChat = CTMenuItem("微信")
+        weChat.setIcon(GetIcon.getIcon("关于.微信", 20, 20))
+        weChat.addActionListener({ _: ActionEvent? ->
+            Log.info.message(
+                this,
+                "关于-个人信息",
+                "微信: w13607088913"
+            )
+        }
+        )
 
-        CTMenuItem qq = new CTMenuItem("QQ");
-        qq.setIcon(GetIcon.getIcon("关于.QQ", 20, 20));
-        qq.addActionListener(e ->
-                Log.info.message(this, "关于-个人信息", "QQ: 2134868121"));
+        val qq = CTMenuItem("QQ")
+        qq.setIcon(GetIcon.getIcon("关于.QQ", 20, 20))
+        qq.addActionListener({_ ->
+            Log.info.message(
+                this,
+                "关于-个人信息",
+                "QQ: 2134868121"
+            )
+        })
 
-        CTMenuItem bilibili = new CTMenuItem("哔哩哔哩");
-        bilibili.setIcon(GetIcon.getIcon("关于.哔哩哔哩", 20, 20));
-        bilibili.addActionListener(e -> {
+        val bilibili = CTMenuItem("哔哩哔哩")
+        bilibili.setIcon(GetIcon.getIcon("关于.哔哩哔哩", 20, 20))
+        bilibili.addActionListener({_ ->
             try {
-                Desktop.getDesktop().browse(new URI("https://space.bilibili.com/1075810224/"));
-            } catch (Exception ex) {
-                Log.err.print(getClass(), "网页打开失败", ex);
+                Desktop.getDesktop().browse(URI("https://space.bilibili.com/1075810224/"))
+            } catch (ex: Exception) {
+                Log.err.print(javaClass, "网页打开失败", ex)
             }
-        });
+        })
 
-        chat.add(weChat);
-        chat.add(qq);
-        chat.add(bilibili);
+        chat.add(weChat)
+        chat.add(qq)
+        chat.add(bilibili)
 
-        CTMenu github = new CTMenu("Github");
-        github.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
+        val github = CTMenu("Github")
+        github.setIcon(GetIcon.getIcon("关于.Github", 20, 20))
 
-        CTMenuItem authorGithub = new CTMenuItem("作者");
-        authorGithub.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
-        authorGithub.addActionListener(e -> {
+        val authorGithub = CTMenuItem("作者")
+        authorGithub.setIcon(GetIcon.getIcon("关于.Github", 20, 20))
+        authorGithub.addActionListener({_ ->
             try {
-                Desktop.getDesktop().browse(new URI("https://github.com/wmp666"));
-            } catch (Exception ex) {
-                Log.err.print(getClass(), "网页打开失败", ex);
+                Desktop.getDesktop().browse(URI("https://github.com/wmp666"))
+            } catch (ex: Exception) {
+                Log.err.print(javaClass, "网页打开失败", ex)
             }
-        });
+        })
 
-        CTMenuItem repo = new CTMenuItem("仓库");
-        repo.setIcon(GetIcon.getIcon("关于.Github", 20, 20));
-        repo.addActionListener(e -> {
+        val repo = CTMenuItem("仓库")
+        repo.setIcon(GetIcon.getIcon("关于.Github", 20, 20))
+        repo.addActionListener({_ ->
             try {
-                Desktop.getDesktop().browse(new URI("https://github.com/wmp666/ClassTools"));
-            } catch (Exception ex) {
-                Log.err.print(getClass(), "网页打开失败", ex);
+                Desktop.getDesktop().browse(URI("https://github.com/wmp666/ClassTools"))
+            } catch (ex: Exception) {
+                Log.err.print(javaClass, "网页打开失败", ex)
             }
-        });
+        })
 
-        github.add(authorGithub);
-        github.add(repo);
+        github.add(authorGithub)
+        github.add(repo)
 
-        CTMenuItem appPath = new CTMenuItem("程序路径");
-        appPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20));
-        appPath.addActionListener(e -> OpenInExp.open(GetPath.getAppPath(GetPath.APPLICATION_PATH)));
+        val appPath = CTMenuItem("程序路径")
+        appPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20))
+        appPath.addActionListener({_ -> OpenInExp.open(GetPath.getAppPath(GetPath.APPLICATION_PATH)) })
 
-        CTMenuItem dataPath = new CTMenuItem("数据路径");
-        dataPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20));
-        dataPath.addActionListener(e -> OpenInExp.open(CTInfo.DATA_PATH));
+        val dataPath = CTMenuItem("数据路径")
+        dataPath.setIcon(GetIcon.getIcon("通用.文件.文件夹", 20, 20))
+        dataPath.addActionListener({_ -> OpenInExp.open(CTInfo.DATA_PATH) })
 
-        menu.add(chat);
-        menu.add(github);
-        menu.addSeparator();
-        menu.add(appPath);
-        menu.add(dataPath);
+        menu.add(chat)
+        menu.add(github)
+        menu.addSeparator()
+        menu.add(appPath)
+        menu.add(dataPath)
 
-        menuBar.add(menu);
+        menuBar.add(menu)
 
         // 在现有菜单中添加
-
-        CTMenu downloadMenu = new CTMenu("下载");
+        val downloadMenu = CTMenu("下载")
 
         //获取源代码
-        CTMenuItem getSource = new CTMenuItem("获取源代码");
-        getSource.addActionListener(e -> GetNewerVersion.getSource(this, view));
+        val getSource = CTMenuItem("获取源代码")
+        getSource.addActionListener({ _ -> GetNewerVersion.getSource(this, view) })
 
-        CTMenuItem checkUpdate = new CTMenuItem("检查更新");
-        checkUpdate.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20));
-        checkUpdate.addActionListener(e -> GetNewerVersion.checkForUpdate(this, view, true));
+        val checkUpdate = CTMenuItem("检查更新")
+        checkUpdate.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20))
+        checkUpdate.addActionListener({_ ->
+            GetNewerVersion.checkForUpdate(
+                this,
+                view,
+                true
+            )
+        })
 
-        CTMenuItem getLatest = new CTMenuItem("强制下载指定版本");
-        getLatest.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20));
-        getLatest.addActionListener(e -> GetNewerVersion.checkForUpdate(this, view, true, true, true));
+        val getLatest = CTMenuItem("强制下载指定版本")
+        getLatest.setIcon(GetIcon.getIcon("通用.网络.更新", 20, 20))
+        getLatest.addActionListener({_: ActionEvent? ->
+            GetNewerVersion.checkForUpdate(
+                this,
+                view,
+                true,
+                true,
+                true
+            )
+        })
 
-        downloadMenu.add(getSource);
-        downloadMenu.add(checkUpdate);
-        downloadMenu.add(getLatest);
+        downloadMenu.add(getSource)
+        downloadMenu.add(checkUpdate)
+        downloadMenu.add(getLatest)
 
-        menuBar.add(downloadMenu);
+        menuBar.add(downloadMenu)
 
-        CTMenu helpMenu = new CTMenu("帮助");
+        val helpMenu = CTMenu("帮助")
 
-        CTMenuItem helpDoc = new CTMenuItem("帮助文档");
-        helpDoc.setIcon(GetIcon.getIcon("通用.文档", 20, 20));
-        helpDoc.addActionListener(e -> {
+        val helpDoc = CTMenuItem("帮助文档")
+        helpDoc.setIcon(GetIcon.getIcon("通用.文档", 20, 20))
+        helpDoc.addActionListener({_ ->
             try {
-                new ShowHelpDoc();
-            } catch (Exception ex) {
-                Log.err.print(getClass(), "帮助打开失败", ex);
+                ShowHelpDoc()
+            } catch (ex: Exception) {
+                Log.err.print(javaClass, "帮助打开失败", ex)
             }
+        })
 
-        });
+        val aboutMenuItem = CTMenuItem("关于")
+        aboutMenuItem.setIcon(GetIcon.getIcon("通用.文档", 20, 20))
+        aboutMenuItem.addActionListener({_ ->
+            val info = """
+                一、开源仓库: 
+                    1.Open JDK
+                    2.Kotlin
+                    3.Lunar(${Lunar::class})
+                    4.JLayer(${Player::class})
+                    5.FlatLaf(${FlatLaf::class})
+                二、作者: ${CTInfo.author}
+                三、支持人员: 作者的初中,高中同学与好友
+            """.trimIndent()
+            CTOptionPane.showConfirmDialog(
+                this,
+                "关于",
+                info,
+                GetIcon.getIcon("通用.图标", IconControl.COLOR_DEFAULT, 48, 48),
+                CTOptionPane.INFORMATION_MESSAGE,
+                true
+            )
+        })
 
-        CTMenuItem aboutMenuItem = new CTMenuItem("关于");
-        aboutMenuItem.setIcon(GetIcon.getIcon("通用.文档", 20, 20));
-        aboutMenuItem.addActionListener(e -> {
-            String info = "1.开源仓库: \n1.Open JDK\n" +
-                                        "2.Jsoup(org.jsoup)\n" +
-                                        "3.Lunar(com.nlf.calendar)\n" +
-                                        "4.Jlayer(javazoom.jl)\n" +
-                                        "5.Flatlaf(com.formdev.flatlaf)...\n" +
-                    "2.作者: " + CTInfo.author + "\n" +
-                    "3.支持人员: 作者的初中,高中同学与好友";
-            CTOptionPane.showConfirmDialog(this, "关于", info, GetIcon.getIcon("通用.图标", IconControl.COLOR_DEFAULT, 48, 48), CTOptionPane.INFORMATION_MESSAGE, true);
-        });
+        val easterEgg = CTMenuItem("■■")
+        easterEgg.setIcon(GetIcon.getIcon("通用.祈愿", 20, 20))
+        easterEgg.addActionListener({ _ -> EasterEgg.getPin() })
 
-        CTMenuItem easterEgg = new CTMenuItem("■■");
-        easterEgg.setIcon(GetIcon.getIcon("通用.祈愿", 20, 20));
-        easterEgg.addActionListener(e ->
-                EasterEgg.getPin());
+        helpMenu.add(helpDoc)
+        helpMenu.add(easterEgg)
+        helpMenu.add(aboutMenuItem)
 
-        helpMenu.add(helpDoc);
-        helpMenu.add(easterEgg);
-        helpMenu.add(aboutMenuItem);
-
-        menuBar.add(helpMenu);
+        menuBar.add(helpMenu)
     }
 
 
+    companion object {
+        private val view = JPanel()
+
+        init {
+            view.setBackground(CTColor.backColor)
+            view.setLayout(BorderLayout())
+            view.setPreferredSize(Dimension((300 * CTInfo.dpi).toInt(), (100 * CTInfo.dpi).toInt()))
+
+            GetNewerVersion.checkForUpdate(null, view, false, false)
+        }
+    }
 }

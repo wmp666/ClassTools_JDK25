@@ -1,6 +1,6 @@
-package com.wmp.publicTools.printLog;
+package com.wmp.publicTools.printLog
 
-public enum LogStyle {
+enum class LogStyle {
     INFO,
     WARN,
     ERROR

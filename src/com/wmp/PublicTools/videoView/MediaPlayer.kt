@@ -1,81 +1,73 @@
-package com.wmp.publicTools.videoView;
+package com.wmp.publicTools.videoView
 
-import com.wmp.publicTools.appFileControl.AudioControl;
-import com.wmp.publicTools.printLog.Log;
-import javazoom.jl.player.Player;
+import com.wmp.publicTools.appFileControl.AudioControl
+import com.wmp.publicTools.printLog.Log
+import java.awt.Desktop
+import java.io.File
+import java.io.IOException
+import java.util.*
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
+object MediaPlayer {
+    @JvmStatic
+    fun playVideo(filePath: String) {
+        val videoFile = File(filePath)
 
-public class MediaPlayer {
-
-    public static void playVideo(String filePath) {
-        File videoFile = new File(filePath);
-
-
-        //newStyleToShowVideo(videoFile);
         try {
-            Desktop.getDesktop().open(videoFile);
-        } catch (IOException e) {
+            Desktop.getDesktop().open(videoFile)
+        } catch (e: IOException) {
             // 处理打开视频文件失败的情况
-            Log.err.print(MediaPlayer.class, "播放出现错误", e);
+            Log.err.print(MediaPlayer::class.java, "播放出现错误", e)
         }
     }
 
-    public static void playLocalMusic(String filePath) {
-        File musicFile = new File(filePath);
+    fun playLocalMusic(filePath: String) {
+        val musicFile = File(filePath)
 
-
-        //newStyleToShowVideo(videoFile);
         try {
-            Desktop.getDesktop().open(musicFile);
-        } catch (IOException e) {
+            Desktop.getDesktop().open(musicFile)
+        } catch (e: IOException) {
             // 处理打开视频文件失败的情况
-            Log.err.print(MediaPlayer.class, "播放出现错误", e);
+            Log.err.print(MediaPlayer::class.java, "播放出现错误", e)
         }
     }
 
-    public static void playOther(String filePath) {
-        File file = new File(filePath);
+    @JvmStatic
+    fun playOther(filePath: String) {
+        val file = File(filePath)
 
-
-        //newStyleToShowVideo(videoFile);
         try {
-            Desktop.getDesktop().open(file);
-        } catch (IOException e) {
+            Desktop.getDesktop().open(file)
+        } catch (e: IOException) {
             // 处理打开视频文件失败的情况
-            Log.err.print(MediaPlayer.class, "播放出现错误", e);
+            Log.err.print(MediaPlayer::class.java, "播放出现错误", e)
         }
     }
 
-    public static void playMusic(String... keys) {
+    @JvmStatic
+    fun playMusic(vararg keys: String?) {
         //key = keys[0].key[1].key[2] ... key[n]
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < keys.length; i++) {
-            sb.append(keys[i]);
-            if (i != keys.length - 1) {
-                sb.append(".");
+        val sb = StringBuilder()
+        for (i in keys.indices) {
+            sb.append(keys[i])
+            if (i != keys.size - 1) {
+                sb.append(".")
             }
         }
-        String key = sb.toString();
+        val key = sb.toString()
 
-        Log.info.print(MediaPlayer.class.getName(), "播放音频:" + key);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Player player = AudioControl.getPlayer(key);
+        Log.info.print(MediaPlayer::class.java.getName(), "播放音频:" + key)
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                val player = AudioControl.getPlayer(key)
                 if (player != null) {
                     try {
-                        player.play();
-                    } catch (Exception _) {}
+                        player.play()
+                    } catch (`_`: Exception) {
+                    }
                 }
-                timer.cancel();
+                timer.cancel()
             }
-        }, 0);
+        }, 0)
     }
-
 }

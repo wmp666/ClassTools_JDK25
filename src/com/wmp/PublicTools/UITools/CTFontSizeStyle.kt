@@ -1,6 +1,6 @@
-package com.wmp.publicTools.UITools;
+package com.wmp.publicTools.UITools
 
-public enum CTFontSizeStyle {
+enum class CTFontSizeStyle {
     BIG_BIG,
     MORE_BIG,
     BIG,

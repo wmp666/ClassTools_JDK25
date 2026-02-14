@@ -1,31 +1,31 @@
-package com.wmp.publicTools;
+package com.wmp.publicTools
 
-import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log
+import java.awt.Desktop
+import java.io.File
+import java.io.IOException
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
-public class OpenInExp {
-    public static void open(String path) {
+object OpenInExp {
+    @JvmStatic
+    fun open(path: String) {
         try {
             // 获取可靠的项目工作目录
-            File targetDir = new File(path);
+            val targetDir = File(path)
 
             // 校验父目录有效性
-            if (targetDir == null || !targetDir.exists()) {
-                Log.err.print(OpenInExp.class, "不存在的位置");
-                throw new IOException("Parent directory does not exist");
+            if (!targetDir.exists()) {
+                Log.err.print(OpenInExp::class.java, "不存在的位置")
+                throw IOException("Parent directory does not exist")
             }
             // 使用跨平台方式打开文件管理器
             if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(targetDir);
+                Desktop.getDesktop().open(targetDir)
             } else {
                 // 兼容回退方案
-                Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start", targetDir.getAbsolutePath()});
+                Runtime.getRuntime().exec(arrayOf<String>("cmd", "/c", "start", targetDir.getAbsolutePath()))
             }
-        } catch (IOException ex) {
-            Log.err.print(OpenInExp.class, "错误", ex);
+        } catch (ex: IOException) {
+            Log.err.print(OpenInExp::class.java, "错误", ex)
         }
     }
 }
