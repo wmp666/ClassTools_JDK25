@@ -1,8 +1,8 @@
-package com.wmp.PublicTools;
+package com.wmp.publicTools;
 
 import com.nlf.calendar.Lunar;
 import com.nlf.calendar.Solar;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 
 import java.text.DateFormat;

@@ -1,6 +1,6 @@
-package com.wmp.PublicTools.UITools;
+package com.wmp.publicTools.UITools;
 
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 
 import java.awt.Color;
 
@@ -22,7 +22,7 @@ public class SystemColor {
             if (os.contains("win")) {
                 // Windows系统
                 Process process = Runtime.getRuntime().exec(
-                        "reg query \"HKCU\\Software\\Microsoft\\Windows\\DWM\" /v AccentColor");
+                        new String[]{"reg", "query", "HKCU\\Software\\Microsoft\\Windows\\DWM\"", "/v", "AccentColor"});
 
                 java.io.BufferedReader reader = new java.io.BufferedReader(
                         new java.io.InputStreamReader(process.getInputStream()));
@@ -64,7 +64,7 @@ public class SystemColor {
 
             if (os.contains("win")) {
                 Process process = Runtime.getRuntime().exec(
-                        "reg query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize\" /v AppsUseLightTheme");
+                        new String[]{"reg", "query", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"});
 
                 java.io.BufferedReader reader = new java.io.BufferedReader(
                         new java.io.InputStreamReader(process.getInputStream()));

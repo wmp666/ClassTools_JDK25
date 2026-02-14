@@ -1,16 +1,16 @@
-package com.wmp.PublicTools.printLog;
+package com.wmp.publicTools.printLog;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.OpenInExp;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.io.GetPath;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.videoView.MediaPlayer;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.OpenInExp;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.GetIcon;
+import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.io.GetPath;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.Menu.CTMenu;

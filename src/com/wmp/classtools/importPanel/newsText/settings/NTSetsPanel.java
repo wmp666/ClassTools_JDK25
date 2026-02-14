@@ -1,14 +1,13 @@
 package com.wmp.classTools.importPanel.newsText.settings;
 
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.frame.ShowHelpDoc;
-import com.wmp.classTools.importPanel.newsText.NewsTextControl;
 
 import javax.swing.*;
 import java.awt.*;

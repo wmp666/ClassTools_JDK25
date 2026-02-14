@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.UITools;
+package com.wmp.publicTools.UITools;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.printLog.Log;
 
 import java.awt.*;
 import java.util.Arrays;

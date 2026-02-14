@@ -1,6 +1,6 @@
 package com.wmp.classTools.CTComponent.CTProgressBar;
 
-import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTColor;
 
 import javax.swing.*;
 import java.awt.*;

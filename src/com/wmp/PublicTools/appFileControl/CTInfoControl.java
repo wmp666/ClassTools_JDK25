@@ -1,4 +1,4 @@
-package com.wmp.PublicTools.appFileControl;
+package com.wmp.publicTools.appFileControl;
 
 import java.io.File;
 

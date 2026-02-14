@@ -1,6 +1,6 @@
 package com.wmp.test.uiTest;
 
-import com.wmp.PublicTools.CTInfo;
+import com.wmp.publicTools.CTInfo;
 import com.wmp.classTools.extraPanel.attendance.panel.ATPanel;
 import com.wmp.classTools.extraPanel.duty.panel.DPanel;
 import com.wmp.classTools.frame.MainWindow;

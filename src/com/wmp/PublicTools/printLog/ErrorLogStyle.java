@@ -1,6 +1,6 @@
-package com.wmp.PublicTools.printLog;
+package com.wmp.publicTools.printLog;
 
-import com.wmp.PublicTools.ExceptionStringConverter;
+import com.wmp.publicTools.ExceptionStringConverter;
 
 import java.awt.*;
 

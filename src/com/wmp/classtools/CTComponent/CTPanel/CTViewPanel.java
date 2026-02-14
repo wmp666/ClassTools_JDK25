@@ -1,7 +1,7 @@
 package com.wmp.classTools.CTComponent.CTPanel;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 
 import javax.swing.*;

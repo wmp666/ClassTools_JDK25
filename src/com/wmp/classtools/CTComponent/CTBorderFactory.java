@@ -1,9 +1,9 @@
 package com.wmp.classTools.CTComponent;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,14 +1,14 @@
-package com.wmp.PublicTools;
+package com.wmp.publicTools;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.EasterEgg.EasterEggModeMap;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.appFileControl.AudioControl;
-import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfo;
-import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfoControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.EasterEgg.EasterEggModeMap;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.appFileControl.AudioControl;
+import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.appFileControl.appInfoControl.AppInfo;
+import com.wmp.publicTools.appFileControl.appInfoControl.AppInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.frame.MainWindow;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
@@ -56,7 +56,7 @@ public class CTInfo {
     public static boolean canExit = true;
     public static boolean StartUpdate = true;
 
-    public static String version = Main.version;
+    public static String version = Main.VERSION;
 
     public static AppInfo appInfo = new AppInfo(5, false);
 

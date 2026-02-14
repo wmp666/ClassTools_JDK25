@@ -1,19 +1,14 @@
 package com.wmp.classTools.infSet.panel.personalizationSets;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfo;
-import com.wmp.PublicTools.appFileControl.appInfoControl.AppInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.appFileControl.appInfoControl.AppInfo;
+import com.wmp.publicTools.appFileControl.appInfoControl.AppInfoControl;
 import com.wmp.classTools.CTComponent.CTCheckBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTSpinner;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class PAppInfoSetsPanel extends CTBasicSetsPanel<AppInfo> {
     private final CTSpinner SSMDWaitTimeSpinner = new CTSpinner(new SpinnerNumberModel(5, 0, 60, 1));

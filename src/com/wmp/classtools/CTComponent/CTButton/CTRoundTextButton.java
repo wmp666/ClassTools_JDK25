@@ -1,11 +1,11 @@
 package com.wmp.classTools.CTComponent.CTButton;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.appFileControl.IconControl;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.GetIcon;
+import com.wmp.publicTools.appFileControl.IconControl;
 
 import javax.swing.*;
 import java.awt.*;

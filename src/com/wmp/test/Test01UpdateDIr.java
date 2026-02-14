@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.io.GetPath;
+import com.wmp.publicTools.io.GetPath;
 
 import java.io.File;
 

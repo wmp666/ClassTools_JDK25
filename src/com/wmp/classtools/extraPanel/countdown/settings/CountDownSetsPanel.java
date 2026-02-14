@@ -1,10 +1,9 @@
 package com.wmp.classTools.extraPanel.countdown.settings;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
-import com.wmp.classTools.extraPanel.countdown.CDInfoControl;
 import com.wmp.classTools.extraPanel.countdown.CountDownInfo;
 import com.wmp.classTools.extraPanel.countdown.CountDownInfos;
 

@@ -1,7 +1,7 @@
 package com.wmp.classTools.CTComponent;
 
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
 
 import javax.swing.*;
 import java.awt.*;

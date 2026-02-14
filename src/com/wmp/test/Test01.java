@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.web.SslUtils;
+import com.wmp.publicTools.web.SslUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

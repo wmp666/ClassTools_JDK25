@@ -1,12 +1,12 @@
 package com.wmp.classTools.frame.tools.cookie;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.GetIcon;
+import com.wmp.publicTools.printLog.Log;
 
 import javax.swing.*;
 import java.io.File;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -134,7 +134,7 @@ public class Cookie {
 
         try {
             if (!iconPath.toString().isEmpty()) {
-                return GetIcon.getImageIcon(new URL(iconPath.toString()), 40, 40);
+                return GetIcon.getImageIcon(URI.create(iconPath.toString()).toURL(), 40, 40);
             }
         } catch (Exception e) {
             Log.err.print(getClass(), "图标路径设置出错", e);

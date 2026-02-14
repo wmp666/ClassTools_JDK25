@@ -1,18 +1,16 @@
 package com.wmp.classTools.extraPanel.attendance.settings;
 
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTCheckBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.extraPanel.attendance.control.AttInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

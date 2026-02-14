@@ -1,13 +1,13 @@
 package com.wmp.classTools.importPanel.finalPanel;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.EasterEgg.EasterEgg;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.PublicTools.update.GetNewerVersion;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.EasterEgg.EasterEgg;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.update.GetNewerVersion;
 import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.CTComponent.Menu.CTPopupMenu;

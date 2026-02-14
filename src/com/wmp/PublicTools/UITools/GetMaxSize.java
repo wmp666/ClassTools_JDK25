@@ -1,4 +1,4 @@
-package com.wmp.PublicTools.UITools;
+package com.wmp.publicTools.UITools;
 
 import java.awt.*;
 import java.util.Arrays;

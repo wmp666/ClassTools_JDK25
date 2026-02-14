@@ -1,6 +1,6 @@
-package com.wmp.PublicTools.printLog;
+package com.wmp.publicTools.printLog;
 
-import com.wmp.PublicTools.videoView.MediaPlayer;
+import com.wmp.publicTools.videoView.MediaPlayer;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
 

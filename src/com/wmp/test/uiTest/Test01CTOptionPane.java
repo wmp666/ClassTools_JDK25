@@ -1,6 +1,6 @@
 package com.wmp.test.uiTest;
 
-import com.wmp.PublicTools.UITools.GetIcon;
+import com.wmp.publicTools.UITools.GetIcon;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 
 import javax.swing.*;

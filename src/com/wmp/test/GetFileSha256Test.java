@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.io.FileChecksum;
+import com.wmp.publicTools.io.FileChecksum;
 
 import java.io.File;
 import java.io.IOException;

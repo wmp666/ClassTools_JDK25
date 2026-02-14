@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.appFileControl.tools;
+package com.wmp.publicTools.appFileControl.tools;
 
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

@@ -1,15 +1,10 @@
 package com.wmp.classTools.extraPanel.attendance.settings;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import com.wmp.classTools.extraPanel.attendance.control.AttInfo;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AllStuSetsPanel extends CTTableSetsPanel<AttInfo> {
 

@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.videoView;
+package com.wmp.publicTools.videoView;
 
-import com.wmp.PublicTools.appFileControl.AudioControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.AudioControl;
+import com.wmp.publicTools.printLog.Log;
 import javazoom.jl.player.Player;
 
 import java.awt.*;

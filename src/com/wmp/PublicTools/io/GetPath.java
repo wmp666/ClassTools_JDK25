@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.io;
+package com.wmp.publicTools.io;
 
 import com.formdev.flatlaf.util.SystemFileChooser;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 
 import javax.swing.*;
 import java.awt.*;

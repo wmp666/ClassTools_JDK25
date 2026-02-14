@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.UITools;
+package com.wmp.publicTools.UITools;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.appFileControl.IconControl;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.appFileControl.IconControl;
 
 import javax.swing.*;
 import java.awt.*;

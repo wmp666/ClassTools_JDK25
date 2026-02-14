@@ -1,8 +1,8 @@
 package com.wmp.classTools.frame.tools.cookie;
 
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.printLog.Log;
 
 import javax.swing.*;
 import java.awt.*;

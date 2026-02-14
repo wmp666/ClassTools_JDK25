@@ -1,9 +1,8 @@
 package com.wmp.classTools.importPanel.weatherInfo;
 
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.web.GetWebInf;
 import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfo;
-import com.wmp.classTools.importPanel.weatherInfo.control.WeatherInfoControl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

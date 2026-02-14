@@ -1,10 +1,10 @@
 package com.wmp.classTools.extraPanel.duty.control;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.io.InfProcess;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.io.InfProcess;
+import com.wmp.publicTools.printLog.Log;
 
 import java.io.File;
 import java.io.IOException;

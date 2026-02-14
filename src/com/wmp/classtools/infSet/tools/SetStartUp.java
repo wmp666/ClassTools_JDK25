@@ -1,6 +1,6 @@
 package com.wmp.classTools.infSet.tools;
 
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 
 import java.io.*;
 
@@ -20,9 +20,7 @@ public class SetStartUp {
     public static void enableAutoStart(String programPath) {
         System.out.println("programPath" + programPath);
         try {
-            String command = String.format("reg add \"%s\" /v \"%s\" /t REG_SZ /d \"%s\" /f",
-                    REGISTRY_PATH, ENTRY_NAME, programPath);
-            executeCommand(command);
+            executeCommand(new String[]{"reg", "add", REGISTRY_PATH, "/v", ENTRY_NAME, "/t", "REG_SZ", "/d", programPath, "/f"});
             System.out.println("已添加开机自启动！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,9 +32,7 @@ public class SetStartUp {
      */
     public static void disableAutoStart() {
         try {
-            String command = String.format("reg delete \"%s\" /v \"%s\" /f",
-                    REGISTRY_PATH, ENTRY_NAME);
-            executeCommand(command);
+            executeCommand(new String[]{"reg", "delete", REGISTRY_PATH, "/v", ENTRY_NAME, "/f"});
             System.out.println("已移除开机自启动！");
         } catch (Exception e) {
             Log.err.print(SetStartUp.class, "错误", e);
@@ -48,8 +44,7 @@ public class SetStartUp {
      */
     public static boolean isAutoStartEnabled() {
         try {
-            String command = String.format("reg query \"%s\" /v \"%s\"",
-                    REGISTRY_PATH, ENTRY_NAME);
+            String[] command = {"reg", "query", REGISTRY_PATH, "/v", ENTRY_NAME};
             Process process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
@@ -68,7 +63,7 @@ public class SetStartUp {
     /**
      * 执行命令并等待完成
      */
-    private static void executeCommand(String command) throws IOException, InterruptedException {
+    private static void executeCommand(String[] command) throws IOException, InterruptedException {
         Process process = Runtime.getRuntime().exec(command);
         process.waitFor();
         InputStream inputStream = process.getInputStream();

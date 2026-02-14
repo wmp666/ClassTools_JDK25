@@ -1,7 +1,7 @@
 package com.wmp.test.uiTest;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.io.IOForInfo;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.io.IOForInfo;
 import org.json.JSONObject;
 
 import javax.swing.*;

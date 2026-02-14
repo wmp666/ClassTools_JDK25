@@ -1,7 +1,7 @@
 package com.wmp.test.uiTest;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTColor;
 
 import javax.swing.*;
 import java.awt.*;

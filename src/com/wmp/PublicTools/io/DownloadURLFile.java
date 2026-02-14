@@ -1,10 +1,10 @@
-package com.wmp.PublicTools.io;
+package com.wmp.publicTools.io;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTProgressBar.CTProgressBar;
 
 import javax.swing.*;
@@ -86,7 +86,7 @@ public class DownloadURLFile {
             }
 
             // 开始下载
-            URL url = new URL(downloadUrl);
+            URL url = URI.create(downloadUrl).toURL();
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 

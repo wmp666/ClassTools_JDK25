@@ -1,8 +1,8 @@
 package com.wmp.classTools.infSet.panel;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.infSet.panel.tools.DataControlUnit;
 

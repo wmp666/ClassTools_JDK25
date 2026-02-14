@@ -1,12 +1,12 @@
 package com.wmp.classTools.extraPanel.duty.panel;
 
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.UITools.PeoPanelProcess;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.PeoPanelProcess;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTButton.CTIconButton;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.extraPanel.duty.control.DutyControl;

@@ -1,4 +1,4 @@
-package com.wmp.PublicTools.printLog;
+package com.wmp.publicTools.printLog;
 
 import com.wmp.Main;
 import com.wmp.classTools.CTComponent.CTOptionPane;

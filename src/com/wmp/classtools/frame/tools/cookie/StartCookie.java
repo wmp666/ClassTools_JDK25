@@ -1,8 +1,8 @@
 package com.wmp.classTools.frame.tools.cookie;
 
-import com.wmp.PublicTools.OpenInExp;
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.PublicTools.videoView.MediaPlayer;
+import com.wmp.publicTools.OpenInExp;
+import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.videoView.MediaPlayer;
 
 import java.awt.*;
 import java.io.File;

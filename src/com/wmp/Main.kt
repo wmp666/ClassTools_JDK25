@@ -1,129 +1,132 @@
-package com.wmp;
+package com.wmp
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.EasterEgg.EasterEgg;
-import com.wmp.PublicTools.StartupParameters;
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTProgressBar.ModernLoadingDialog;
-import com.wmp.classTools.SwingRun;
+import com.formdev.flatlaf.FlatLaf
+import com.formdev.flatlaf.themes.FlatMacLightLaf
+import com.wmp.publicTools.CTInfo
+import com.wmp.publicTools.EasterEgg.EasterEgg
+import com.wmp.publicTools.StartupParameters
+import com.wmp.publicTools.printLog.Log
+import com.wmp.classTools.CTComponent.CTProgressBar.ModernLoadingDialog
+import com.wmp.classTools.SwingRun
+import java.awt.Frame
+import java.awt.Image
+import java.util.*
+import javax.swing.ImageIcon
+import javax.swing.JOptionPane
+import javax.swing.SwingUtilities
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeMap;
-
-public class Main {
+object Main {
     /**
-     * a.b.c.d.e 例:1.5.3.1.1<br>
-     * a:主版本号<br>
-     * b:功能更新版本号<br>
-     * c:修订版本号/小功能更新<br>
-     * d:只修复的问题,问题较少<br>
+     * a.b.c.d.e 例:1.5.3.1.1<br></br>
+     * a:主版本号<br></br>
+     * b:功能更新版本号<br></br>
+     * c:修订版本号/小功能更新<br></br>
+     * d:只修复的问题,问题较少<br></br>
      * e:测试版本号
      */
-    public static final String version = "2.2.0.0.5";
+    const val VERSION: String = "2.2.0.0.6"
 
-    private static final TreeMap<String, StartupParameters> allArgs = new TreeMap<>();
-    public static ArrayList<String> argsList = new ArrayList<>();
+    private val allArgs = TreeMap<String?, StartupParameters?>()
+    @JvmField
+    var argsList: ArrayList<String?> = ArrayList<String?>()
 
-    static {
+    init {
         //加载基础目录
 
-        allArgs.put("StartUpdate:false", StartupParameters.creative("-StartUpdate:false", "/StartUpdate:false"));
-        allArgs.put("屏保:展示", StartupParameters.creative("/s", "-s"));
-        allArgs.put("screenProduct:view", StartupParameters.creative("/p", "-p"));
+        allArgs["StartUpdate:false"] = StartupParameters.creative("-StartUpdate:false", "/StartUpdate:false")
+        allArgs["屏保:展示"] = StartupParameters.creative("/s", "-s")
+        allArgs["screenProduct:view"] = StartupParameters.creative("/p", "-p")
 
-        allArgs.put("CTInfo:isError", StartupParameters.creative("/CTInfo:error", "-CTInfo:error"));
-        allArgs.put("BasicDataPath", StartupParameters.creative("/BasicDataPath", "-BasicDataPath"));
-        allArgs.put("EasterEgg:notShow", StartupParameters.creative("/EasterEgg:notShow", "-EasterEgg:notShow"));
+        allArgs["CTInfo:isError"] = StartupParameters.creative("/CTInfo:error", "-CTInfo:error")
+        allArgs["BasicDataPath"] = StartupParameters.creative("/BasicDataPath", "-BasicDataPath")
+        allArgs["EasterEgg:notShow"] = StartupParameters.creative("/EasterEgg:notShow", "-EasterEgg:notShow")
     }
 
-    public static void main(String[] args) {
-        System.out.println("版本：" +  version);
-        if (args.length > 0) {
-            argsList = new ArrayList<>(Arrays.asList(args));
-            System.out.println("使用的启动参数:" + Arrays.toString(args));
+    @JvmStatic
+    fun main(args: Array<String>) {
+        println("版本：$VERSION")
+        if (args.isNotEmpty()) {
+            argsList = ArrayList<String?>(listOf(*args))
+            println("使用的启动参数:${args.contentToString()}")
         }
 
-        ModernLoadingDialog wait = new ModernLoadingDialog(null);
-        wait.getLoader().startAnimation();
-        wait.setIndeterminate(true);
-        SwingUtilities.invokeLater(()->wait.setVisible(true));
+        val wait = ModernLoadingDialog(null)
+        wait.loader.startAnimation()
+        wait.setIndeterminate(true)
+        SwingUtilities.invokeLater { wait.setVisible(true) }
 
-        FlatLaf.setUseNativeWindowDecorations(false);
-        FlatMacLightLaf.setup();
+        FlatLaf.setUseNativeWindowDecorations(false)
+        FlatMacLightLaf.setup()
 
-        if (!isHasTheArg("屏保:展示") && version.split("\\.").length >= 5) {
-            ImageIcon imageIcon = new ImageIcon(Main.class.getResource("/image/icon/icon_preview.png"));
-            imageIcon.setImage(imageIcon.getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
-            Frame frame = new Frame();
-            frame.setAlwaysOnTop(true);
-            JOptionPane.showMessageDialog(frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
-                    imageIcon);
+        if (!isHasTheArg("屏保:展示") && VERSION.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray().size >= 5) {
+            val imageIcon = ImageIcon(Main::class.java.getResource("/image/icon/icon_preview.png"))
+            imageIcon.setImage(imageIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH))
+            val frame = Frame()
+            frame.setAlwaysOnTop(true)
+            JOptionPane.showMessageDialog(
+                frame, "当前为测试版,可能不稳定", "班级工具", JOptionPane.INFORMATION_MESSAGE,
+                imageIcon
+            )
         }
 
 
-        CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem();
-        CTInfo.version = CTInfo.easterEggModeMap.getString("版本", CTInfo.version);
-        CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName);
-        CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author);
+        CTInfo.easterEggModeMap = EasterEgg.getEasterEggItem()
+        CTInfo.version = CTInfo.easterEggModeMap.getString("版本", CTInfo.version)
+        CTInfo.appName = CTInfo.easterEggModeMap.getString("软件名称", CTInfo.appName)
+        CTInfo.author = CTInfo.easterEggModeMap.getString("作者", CTInfo.author)
 
-        CTInfo.init(false);
+        CTInfo.init(false)
 
-        wait.setVisible(false);
-        wait.getLoader().stopAnimation();
+        wait.setVisible(false)
+        wait.loader.stopAnimation()
         try {
-            SwingRun.show();
-        } catch (Exception e) {
-            Log.err.print(Main.class, "窗口初始化失败", e);
-            Log.showLogDialog(true);
+            SwingRun.show()
+        } catch (e: Exception) {
+            Log.err.print(Main::class.java, "窗口初始化失败", e)
+            Log.showLogDialog(true)
         }
 
 
-        Log.info.print("Main", "初始化完毕");
-
-
+        Log.info.print("Main", "初始化完毕")
     }
 
     /**
      * 判断是否存在参数
      * @param arg 参数 类型:
-     *            <ul>
-     *                <li><code>StartUpdate:false</code>
-     *                <li><code>屏保:展示</code>
-     *                <li><code>screenProduct:view</code>
-     *                <li><code>CTInfo:isError</code>
-     *                <li><code>BasicDataPath</code>
-     *            <li><code>EasterEgg:notShow</code></li>
-     *            </ul>
-     *
+     * 
+     *  * `StartUpdate:false`
+     *  * `屏保:展示`
+     *  * `screenProduct:view`
+     *  * `CTInfo:isError`
+     *  * `BasicDataPath`
+     *  * `EasterEgg:notShow`
+     * 
+     * 
      * @return 是否存在
      */
-    public static boolean isHasTheArg(String arg){
-        return allArgs.get(arg).contains(argsList);
-    }
+    @JvmStatic
+    fun isHasTheArg(arg: String?) =  allArgs[arg]!!.contains(argsList)
 
     /**
      * 获取当前参数下一位,若不存在传入的参数则返回null
-     * @see #isHasTheArg(String)
+     * @see .isHasTheArg
      * @param arg 参数
      * @return 下一位
      */
-    public static String getTheArgNextArg(String arg){
-        if (allArgs.get(arg).contains(argsList)) {
-            ArrayList<String> parameterList = allArgs.get(arg).getParameterList();
-            int index = -1;
-            for (int i = 0; i < parameterList.size(); i++) {
-                int tempIndex = argsList.indexOf(parameterList.get(i));
+    @JvmStatic
+    fun getTheArgNextArg(arg: String?): String? {
+        if (allArgs[arg]!!.contains(argsList)) {
+            val parameterList = allArgs[arg]!!.parameterList
+            var index = -1
+            for (i in parameterList.indices) {
+                val tempIndex = argsList.indexOf(parameterList[i])
                 if (tempIndex != -1) {
-                    index = tempIndex;
-                    break;
+                    index = tempIndex
+                    break
                 }
             }
-            return argsList.get(index + 1);
-        } else return null;
+            return argsList[index + 1]
+        } else return null
     }
 }

@@ -1,9 +1,9 @@
-package com.wmp.PublicTools.appFileControl.appInfoControl;
+package com.wmp.publicTools.appFileControl.appInfoControl;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.printLog.Log;
 import org.json.JSONObject;
 
 import java.io.File;

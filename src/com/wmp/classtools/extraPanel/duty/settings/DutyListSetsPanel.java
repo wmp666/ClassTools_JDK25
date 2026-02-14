@@ -1,7 +1,7 @@
 package com.wmp.classTools.extraPanel.duty.settings;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTTableSetsPanel;
 import com.wmp.classTools.extraPanel.duty.control.DutyDay;
 import com.wmp.classTools.extraPanel.duty.control.DutyInfo;

@@ -1,6 +1,6 @@
-package com.wmp.PublicTools.CTTool.callRoll;
+package com.wmp.publicTools.CTTool.callRoll;
 
-import com.wmp.PublicTools.io.GetPath;
+import com.wmp.publicTools.io.GetPath;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 

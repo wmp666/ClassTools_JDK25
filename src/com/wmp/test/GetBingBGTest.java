@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.io.DownloadURLFile;
+import com.wmp.publicTools.io.DownloadURLFile;
 
 import java.io.File;
 

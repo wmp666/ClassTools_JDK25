@@ -1,9 +1,8 @@
-package com.wmp.PublicTools.io;
+package com.wmp.publicTools.io;
 
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.frame.tools.cookie.CookieSets;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;

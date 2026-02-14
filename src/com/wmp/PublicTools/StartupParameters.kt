@@ -1,55 +1,41 @@
-package com.wmp.PublicTools;
+package com.wmp.publicTools
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*
+import java.util.List
 
-public class StartupParameters {
-    private ArrayList<String> parameterList = new ArrayList<>();
+class StartupParameters(vararg parameters: String?) {
+    var parameterList: ArrayList<String?> = ArrayList<String?>()
 
-    public StartupParameters(String... parameters) {
-        this.parameterList.addAll(List.of(parameters));
+    init {
+        this.parameterList.addAll(List.of<String?>(*parameters))
     }
 
-    public static StartupParameters creative(String... parameters) {
-        return new StartupParameters(parameters);
+    fun contains(parameter: String?): Boolean {
+        return parameterList.contains(parameter)
     }
 
-    public ArrayList<String> getParameterList() {
-        return parameterList;
-    }
-
-    public void setParameterList(ArrayList<String> parameterList) {
-        this.parameterList = parameterList;
-    }
-
-    public boolean contains(String parameter) {
-        return parameterList.contains(parameter);
-    }
-
-    public boolean contains(ArrayList<String> parameters) {
-        for (String parameter : parameters) {
-            if (parameterList.contains(parameter)) return true;
+    fun contains(parameters: ArrayList<String?>): Boolean {
+        for (parameter in parameters) {
+            if (parameterList.contains(parameter)) return true
         }
-        return false;
+        return false
     }
 
-    @Override
-    public String toString() {
-        return "StartupParameters{" +
-                "启动参数=" + parameterList +
-                '}';
+    override fun toString() = "StartupParameters{启动参数=$parameterList}"
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is StartupParameters) return false
+        if (this.parameterList == other.parameterList) return true
+        return this.parameterList.contains(other.toString())
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof StartupParameters that)) return false;
-        if (Objects.equals(getParameterList(), that.getParameterList())) return true;
-        return getParameterList().contains(o);
+    override fun hashCode(): Int {
+        return Objects.hashCode(this.parameterList)
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getParameterList());
+    companion object {
+        fun creative(vararg parameters: String?): StartupParameters {
+            return StartupParameters(*parameters)
+        }
     }
 }

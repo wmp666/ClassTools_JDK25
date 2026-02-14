@@ -1,8 +1,8 @@
 package com.wmp.test.uiTest;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 
 import javax.swing.*;

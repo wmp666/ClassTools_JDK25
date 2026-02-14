@@ -1,6 +1,6 @@
 package com.wmp.classTools.frame.tools.cookie.test;
 
-import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.publicTools.web.GetWebInf;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

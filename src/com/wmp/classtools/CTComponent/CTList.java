@@ -1,8 +1,8 @@
 package com.wmp.classTools.CTComponent;
 
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 
 import javax.swing.*;

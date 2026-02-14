@@ -1,6 +1,6 @@
 package com.wmp.classTools.CTComponent.CTButton;
 
-import com.wmp.PublicTools.UITools.GetIcon;
+import com.wmp.publicTools.UITools.GetIcon;
 
 import javax.swing.*;
 

@@ -1,13 +1,13 @@
-package com.wmp.PublicTools.update;
+package com.wmp.publicTools.update;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.io.DownloadURLFile;
-import com.wmp.PublicTools.io.GetPath;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.PublicTools.web.GetWebInf;
-import com.wmp.PublicTools.web.SslUtils;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.io.DownloadURLFile;
+import com.wmp.publicTools.io.GetPath;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.web.GetWebInf;
+import com.wmp.publicTools.web.SslUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;

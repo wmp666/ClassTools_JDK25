@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.EasterEgg.EasterEgg;
+import com.wmp.publicTools.EasterEgg.EasterEgg;
 
 public class Test01GetETInfo {
     public static void main(String[] args) {

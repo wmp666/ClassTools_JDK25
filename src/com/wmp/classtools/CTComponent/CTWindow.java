@@ -1,6 +1,6 @@
 package com.wmp.classTools.CTComponent;
 
-import com.wmp.PublicTools.CTInfo;
+import com.wmp.publicTools.CTInfo;
 
 import javax.swing.*;
 import java.awt.*;

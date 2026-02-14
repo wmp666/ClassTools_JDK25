@@ -1,17 +1,15 @@
 package com.wmp.classTools.importPanel.timeView;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.CTViewPanel;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfoControl;
 import com.wmp.classTools.importPanel.timeView.settings.ScreenProductSetsPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

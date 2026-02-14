@@ -1,16 +1,16 @@
-package com.wmp.PublicTools.EasterEgg;
+package com.wmp.publicTools.EasterEgg;
 
 import com.wmp.Main;
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.DateTools;
-import com.wmp.PublicTools.UITools.GetIcon;
-import com.wmp.PublicTools.appFileControl.IconControl;
-import com.wmp.PublicTools.io.GetPath;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.io.ResourceLocalizer;
-import com.wmp.PublicTools.printLog.Log;
-import com.wmp.PublicTools.videoView.MediaPlayer;
-import com.wmp.PublicTools.web.GetWebInf;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.DateTools;
+import com.wmp.publicTools.UITools.GetIcon;
+import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.io.GetPath;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.io.ResourceLocalizer;
+import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.videoView.MediaPlayer;
+import com.wmp.publicTools.web.GetWebInf;
 import com.wmp.classTools.CTComponent.CTOptionPane;
 import com.wmp.classTools.SwingRun;
 import org.json.JSONArray;

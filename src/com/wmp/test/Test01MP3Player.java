@@ -1,6 +1,6 @@
 package com.wmp.test;
 
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 

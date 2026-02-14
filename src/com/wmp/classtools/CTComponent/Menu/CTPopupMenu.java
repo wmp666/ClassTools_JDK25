@@ -1,7 +1,7 @@
 package com.wmp.classTools.CTComponent.Menu;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.UITools.CTColor;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.UITools.CTColor;
 
 import javax.swing.*;
 import java.awt.*;

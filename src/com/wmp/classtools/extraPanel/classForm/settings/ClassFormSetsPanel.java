@@ -1,20 +1,13 @@
 package com.wmp.classTools.extraPanel.classForm.settings;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTBasicSetsPanel;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTListSetsPanel;
-import com.wmp.classTools.extraPanel.classForm.CFInfoControl;
-import com.wmp.classTools.extraPanel.classForm.ClassFormInfo;
 import com.wmp.classTools.extraPanel.classForm.ClassFormInfos;
 import com.wmp.classTools.extraPanel.classForm.settings.week.WeekSetsPanel;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ClassFormSetsPanel extends CTListSetsPanel<ClassFormInfos[]> {

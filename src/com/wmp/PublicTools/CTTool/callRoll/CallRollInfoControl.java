@@ -1,7 +1,7 @@
-package com.wmp.PublicTools.CTTool.callRoll;
+package com.wmp.publicTools.CTTool.callRoll;
 
-import com.wmp.PublicTools.CTInfo;
-import com.wmp.PublicTools.io.IOForInfo;
+import com.wmp.publicTools.CTInfo;
+import com.wmp.publicTools.io.IOForInfo;
 
 import java.io.IOException;
 import java.nio.file.Path;

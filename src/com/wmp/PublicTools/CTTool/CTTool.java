@@ -1,6 +1,6 @@
-package com.wmp.PublicTools.CTTool;
+package com.wmp.publicTools.CTTool;
 
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 
 import javax.swing.*;

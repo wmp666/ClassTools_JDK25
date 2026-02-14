@@ -1,8 +1,8 @@
-package com.wmp.PublicTools.UITools;
+package com.wmp.publicTools.UITools;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import com.wmp.PublicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log;
 
 import java.awt.*;
 

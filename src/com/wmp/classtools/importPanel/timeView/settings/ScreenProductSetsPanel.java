@@ -1,25 +1,25 @@
 package com.wmp.classTools.importPanel.timeView.settings;
 
-import com.wmp.PublicTools.UITools.CTColor;
-import com.wmp.PublicTools.UITools.CTFont;
-import com.wmp.PublicTools.UITools.CTFontSizeStyle;
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
-import com.wmp.PublicTools.io.GetPath;
-import com.wmp.PublicTools.io.IOForInfo;
-import com.wmp.PublicTools.printLog.Log;
 import com.wmp.classTools.CTComponent.CTBorderFactory;
 import com.wmp.classTools.CTComponent.CTButton.CTTextButton;
 import com.wmp.classTools.CTComponent.CTComboBox;
 import com.wmp.classTools.CTComponent.CTPanel.setsPanel.CTSetsPanel;
 import com.wmp.classTools.CTComponent.CTTextField;
 import com.wmp.classTools.importPanel.timeView.control.ScreenProductInfo;
+import com.wmp.publicTools.UITools.CTColor;
+import com.wmp.publicTools.UITools.CTFont;
+import com.wmp.publicTools.UITools.CTFontSizeStyle;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.io.GetPath;
+import com.wmp.publicTools.io.IOForInfo;
+import com.wmp.publicTools.printLog.Log;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -69,7 +69,7 @@ public class ScreenProductSetsPanel extends CTSetsPanel<ScreenProductInfo> {
                     }
                 } else if (path.startsWith("BingBG")) {
                     try {
-                        ImageIcon icon = new ImageIcon(new URL(info.BGImagePathList().getFirst()));
+                        ImageIcon icon = new ImageIcon(URI.create(info.BGImagePathList().getFirst()).toURL());
                         do {
                             icon.setImage(icon.getImage().getScaledInstance(icon.getIconWidth() / 2, icon.getIconHeight() / 2, Image.SCALE_SMOOTH));
                         } while (icon.getIconWidth() >= 400);

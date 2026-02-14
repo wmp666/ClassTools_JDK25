@@ -1,6 +1,6 @@
 package com.wmp.classTools.CTComponent.CTPanel.setsPanel;
 
-import com.wmp.PublicTools.appFileControl.CTInfoControl;
+import com.wmp.publicTools.appFileControl.CTInfoControl;
 import com.wmp.classTools.CTComponent.CTPanel.CTPanel;
 
 public abstract class CTSetsPanel<T> extends CTPanel {
