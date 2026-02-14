@@ -321,8 +321,8 @@ object EasterEgg {
             return CTInfo.easterEggModeMap
         }
 
-    val pin: Unit
-        get() {
+    @JvmStatic
+    fun getPin() {
             val style = Log.info.showChooseDialog(
                 null,
                 "祈愿",
@@ -332,12 +332,12 @@ object EasterEgg {
                 "其他"
             )
 
-            Thread(Runnable {
+            Thread{
                 Log.info.print(
                     "彩蛋",
                     "正在获取数据,稍安勿躁..."
                 )
-            }).start()
+            }.start()
             try {
                 val info = AtomicReference<JSONArray?>(JSONArray())
 

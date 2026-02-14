@@ -145,7 +145,7 @@ class IOForInfo{
             return infos?.split("\n".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
         }
 
-        fun getInfo(file: URL): Array<out String?> {
+        fun getInfo(file: URL): Array<String> {
             val infos: String? = getInfos(file)
             if (infos == "err") {
                 return arrayOf("err")

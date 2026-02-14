@@ -1,52 +1,47 @@
-package com.wmp.publicTools.appFileControl.appInfoControl;
+package com.wmp.publicTools.appFileControl.appInfoControl
 
-import com.wmp.publicTools.CTInfo;
-import com.wmp.publicTools.appFileControl.CTInfoControl;
-import com.wmp.publicTools.io.IOForInfo;
-import com.wmp.publicTools.printLog.Log;
-import org.json.JSONObject;
+import com.wmp.publicTools.CTInfo
+import com.wmp.publicTools.appFileControl.CTInfoControl
+import com.wmp.publicTools.io.IOForInfo
+import com.wmp.publicTools.printLog.Log
+import org.json.JSONObject
+import java.io.File
+import java.io.IOException
 
-import java.io.File;
-import java.io.IOException;
+class AppInfoControl : CTInfoControl<AppInfo?>() {
+    override val infoBasicFile: File
+        get() = File(CTInfo.DATA_PATH, "appFileInfo.json")
 
-public class AppInfoControl extends CTInfoControl<AppInfo> {
-    @Override
-    public File getInfoBasicFile() {
-        return new File(CTInfo.DATA_PATH, "appFileInfo.json");
-    }
+    override fun setInfo(appInfo: AppInfo?) {
+        val jsonObject = JSONObject()
 
-    @Override
-    public void setInfo(AppInfo appInfo) {
-        JSONObject jsonObject = new JSONObject();
-
-        if (appInfo.messageShowTime() != -1) {
-            jsonObject.put("SSMDWaitTime", appInfo.messageShowTime());
+        if (appInfo?.messageShowTime != -1) {
+            jsonObject.put("SSMDWaitTime", appInfo?.messageShowTime)
         }
-        jsonObject.put("joinInsiderProgram", appInfo.joinInsiderProgram());
+        jsonObject.put("joinInsiderProgram", appInfo?.joinInsiderProgram)
 
-        IOForInfo io = new IOForInfo(getInfoBasicFile());
+        val io = IOForInfo(infoBasicFile)
         try {
-            io.setInfo(jsonObject.toString());
-        } catch (IOException e) {
-            Log.err.print(getClass(), "保存应用信息失败", e);
+            io.setInfo(jsonObject.toString())
+        } catch (e: IOException) {
+            Log.err.print(javaClass, "保存应用信息失败", e)
         }
     }
 
-    @Override
-    protected AppInfo refreshInfo() {
-
+    override fun refreshInfo(): AppInfo {
         try {
-            IOForInfo io = new IOForInfo(getInfoBasicFile());
-            String info = io.getInfos();
-            if (!info.equals("err")) {
-                JSONObject jsonObject = new JSONObject(info);
-                return
-                        new AppInfo(jsonObject.optInt("SSMDWaitTime", 5),
-                                jsonObject.optBoolean("joinInsiderProgram", false));
+            val io = IOForInfo(infoBasicFile)
+            val info = io.infos
+            if (info != "err") {
+                val jsonObject = JSONObject(info)
+                return AppInfo(
+                    jsonObject.optInt("SSMDWaitTime", 5),
+                    jsonObject.optBoolean("joinInsiderProgram", false)
+                )
             }
-        } catch (IOException e) {
-            Log.err.print(getClass(), "获取应用信息失败", e);
+        } catch (e: IOException) {
+            Log.err.print(javaClass, "获取应用信息失败", e)
         }
-        return new AppInfo(5, false);
+        return AppInfo(5, false)
     }
 }

@@ -851,7 +851,7 @@ public class CTOptionPane {
 
     private static final LinkedList<CTWindow> SSMDialogs = new LinkedList<>();
     public static void showSystemStyleMessageDialog(TrayIcon.MessageType iconType, String owner, String logInfo){
-        int waitTime = CTInfo.appInfo.messageShowTime();
+        int waitTime = CTInfo.appInfo.messageShowTime;
 
         new Thread(() ->{
             synchronized (SSMDialogs){

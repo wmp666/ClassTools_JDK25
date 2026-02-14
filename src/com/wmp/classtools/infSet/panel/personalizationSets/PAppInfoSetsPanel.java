@@ -40,8 +40,8 @@ public class PAppInfoSetsPanel extends CTBasicSetsPanel<AppInfo> {
 
         this.add(joinInsiderCheckBox);
 
-        SSMDWaitTimeSpinner.setValue(getInfoControl().getInfo().messageShowTime());
-        joinInsiderCheckBox.setSelected(getInfoControl().getInfo().joinInsiderProgram());
+        SSMDWaitTimeSpinner.setValue(getInfoControl().getInfo().messageShowTime);
+        joinInsiderCheckBox.setSelected(getInfoControl().getInfo().joinInsiderProgram);
     }
     @Override
     public void save() {

@@ -1,4 +1,4 @@
-package com.wmp.publicTools.appFileControl.appInfoControl;
+package com.wmp.publicTools.appFileControl.appInfoControl
 
-public record AppInfo(int messageShowTime, boolean joinInsiderProgram) {
-}
+@JvmRecord
+data class AppInfo(@JvmField val messageShowTime: Int, @JvmField val joinInsiderProgram: Boolean)

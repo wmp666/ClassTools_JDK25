@@ -111,11 +111,5 @@ class EasterEggModeMap(
     /**
      * @see .get
      */
-    fun getRunnable(key: String?, defaultValue: Runnable?): Runnable? {
-        val o = map[key]
-        if (o == null) {
-            System.err.printf("参数%s不存在", key)
-            return defaultValue
-        } else return map.getOrDefault(key, defaultValue) as Runnable?
-    }
+    fun getRunnable(key: String?, defaultValue: Runnable) = map.getOrDefault(key, defaultValue) as Runnable
 }

@@ -37,7 +37,7 @@ object SwingRun {
         }
 
         //播放彩蛋启动代码
-        CTInfo.easterEggModeMap.getRunnable("彩蛋启动运行", Runnable {}).run()
+        CTInfo.easterEggModeMap.getRunnable("彩蛋启动运行", {}).run()
 
         Log.info.loading.updateDialog("窗口加载", "正在显示加载界面...")
         val loadingWindowRef = AtomicReference<LoadingWindow?>()
