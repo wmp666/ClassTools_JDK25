@@ -1,96 +1,93 @@
-package com.wmp.publicTools.UITools;
+package com.wmp.publicTools.UITools
 
-import com.wmp.publicTools.printLog.Log;
+import com.wmp.publicTools.printLog.Log
+import java.awt.Color
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
-import java.awt.Color;
+object SystemColor {
 
-public class SystemColor {
 
-    public static Color accentColor;
-    public static boolean isDarkMode;
-
-    static {
-        // 在类加载时自动获取系统主题设置
-        accentColor = getAccentColor();
-        isDarkMode = checkDarkMode();
-    }
-
-    public static Color getAccentColor() {
+    fun getAccentColor(): Color {
         try {
-            String os = System.getProperty("os.name").toLowerCase();
+            val os = System.getProperty("os.name").lowercase(Locale.getDefault())
 
             if (os.contains("win")) {
                 // Windows系统
-                Process process = Runtime.getRuntime().exec(
-                        new String[]{"reg", "query", "HKCU\\Software\\Microsoft\\Windows\\DWM\"", "/v", "AccentColor"});
+                val process = Runtime.getRuntime().exec(
+                    arrayOf("reg", "query", "HKCU\\Software\\Microsoft\\Windows\\DWM\"", "/v", "AccentColor")
+                )
 
-                java.io.BufferedReader reader = new java.io.BufferedReader(
-                        new java.io.InputStreamReader(process.getInputStream()));
+                val reader = BufferedReader(
+                    InputStreamReader(process.getInputStream())
+                )
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (line.contains("AccentColor")) {
-                        String[] parts = line.trim().split("\\s+");
-                        String hex = parts[parts.length - 1];
+                var line: String?
+                while ((reader.readLine().also { line = it }) != null) {
+                    if (line!!.contains("AccentColor")) {
+                        val parts = line.trim { it <= ' ' }.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }
+                            .toTypedArray()
+                        var hex = parts[parts.size - 1]
 
-                        if (hex.startsWith("0x")) hex = hex.substring(2);
-                        long value = Long.parseLong(hex, 16);
+                        if (hex.startsWith("0x")) hex = hex.substring(2)
+                        val value = hex.toLong(16)
 
                         // 正确提取ARGB各通道值
-                        int alpha = (int)((value >> 24) & 0xFF);
-                        int red = (int)(value & 0xFF);
-                        int green = (int)((value >> 8) & 0xFF);
-                        int blue = (int)((value >> 16) & 0xFF);
+                        //val alpha = ((value shr 24) and 0xFFL).toInt()
+                        var red = (value and 0xFFL).toInt()
+                        var green = ((value shr 8) and 0xFFL).toInt()
+                        var blue = ((value shr 16) and 0xFFL).toInt()
 
                         // 确保所有值都在有效范围内
-                        red = Math.max(0, Math.min(255, red));
-                        green = Math.max(0, Math.min(255, green));
-                        blue = Math.max(0, Math.min(255, blue));
+                        red = max(0, min(255, red))
+                        green = max(0, min(255, green))
+                        blue = max(0, min(255, blue))
 
 
-                        return new Color(red, green, blue);
+                        return Color(red, green, blue)
                     }
                 }
             }
-        } catch (Exception e) {
-            Log.err.systemPrint(SystemColor.class, "获取系统主题设置失败", e);
+        } catch (e: Exception) {
+            Log.err.systemPrint(SystemColor::class.java, "获取系统主题设置失败", e)
         }
-        return new Color(0, 120, 215); // Windows默认蓝色
+        return Color(0, 120, 215) // Windows默认蓝色
     }
 
-    public static boolean checkDarkMode() {
+    fun checkDarkMode(): Boolean {
         try {
-            String os = System.getProperty("os.name").toLowerCase();
+            val os = System.getProperty("os.name").lowercase(Locale.getDefault())
 
             if (os.contains("win")) {
-                Process process = Runtime.getRuntime().exec(
-                        new String[]{"reg", "query", "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"});
+                val process = Runtime.getRuntime().exec(
+                    arrayOf(
+                        "reg",
+                        "query",
+                        "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"
+                    )
+                )
 
-                java.io.BufferedReader reader = new java.io.BufferedReader(
-                        new java.io.InputStreamReader(process.getInputStream()));
+                val reader = BufferedReader(
+                    InputStreamReader(process.getInputStream())
+                )
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (line.contains("AppsUseLightTheme")) {
-                        String[] parts = line.trim().split("\\s+");
-                        String value = parts[parts.length - 1];
-                        return "0x0".equals(value) || "0".equals(value);
+                var line: String?
+                while ((reader.readLine().also { line = it }) != null) {
+                    if (line!!.contains("AppsUseLightTheme")) {
+                        val parts = line.trim { it <= ' ' }.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }
+                            .toTypedArray()
+                        val value: String = parts[parts.size - 1]
+                        return "0x0" == value || "0" == value
                     }
                 }
             }
-        } catch (Exception e) {
-            Log.err.systemPrint(SystemColor.class, "获取系统主题设置失败", e);
+        } catch (e: Exception) {
+            Log.err.systemPrint(SystemColor::class.java, "获取系统主题设置失败", e)
         }
-        return false;
+        return false
     }
-
-    // 获取颜色的十六进制表示
-    public static String getAccentColorHex() {
-        return String.format("#%02X%02X%02X",
-                accentColor.getRed(),
-                accentColor.getGreen(),
-                accentColor.getBlue());
-    }
-
 
 }

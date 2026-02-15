@@ -1,37 +1,35 @@
-package com.wmp.publicTools.printLog;
+package com.wmp.publicTools.printLog
 
-import com.wmp.publicTools.ExceptionStringConverter;
+import com.wmp.publicTools.ExceptionStringConverter.convertToString
+import java.awt.Container
 
-import java.awt.*;
-
-public class ErrorLogStyle extends PrintLogStyle {
-    public ErrorLogStyle(LogStyle style) {
-        super(style);
+class ErrorLogStyle(style: LogStyle) : PrintLogStyle(style) {
+    fun systemPrint(owner: Class<*>, logInfo: Any?, e: Exception?) {
+        Log.systemPrint(
+            LogStyle.ERROR, owner.getName(), (logInfo.toString() + "\n"
+                    + convertToString(e, true))
+        )
     }
 
-
-    public void systemPrint(Class<?> owner, Object logInfo, Exception e) {
-
-        Log.systemPrint(LogStyle.ERROR, owner.getName(), logInfo + "\n"
-                + ExceptionStringConverter.convertToString(e, true));
+    fun print(owner: Class<*>, logInfo: Any) {
+        super.print(owner.toString(), logInfo)
     }
 
-    public void print(Class<?> owner, Object logInfo) {
-        super.print(owner.toString(), logInfo);
+    fun print(c: Container?, owner: Class<*>, logInfo: Any) {
+        super.print(c, owner.toString(), logInfo)
     }
 
-    public void print(Container c, Class<?> owner, Object logInfo) {
-        super.print(c, owner.toString(), logInfo);
+    fun print(owner: Class<*>, logInfo: Any?, e: Exception?) {
+        super.print(
+            owner.toString(), logInfo.toString() + "\n" +
+                    convertToString(e, true)
+        )
     }
 
-    public void print(Class<?> owner, Object logInfo, Exception e) {
-
-        super.print(owner.toString(), logInfo + "\n" +
-                ExceptionStringConverter.convertToString(e, true));
-    }
-
-    public void print(Container c, Class<?> owner, String logInfo, Exception e) {
-        super.print(c, owner.toString(), logInfo + "\n" +
-                ExceptionStringConverter.convertToString(e, true));
+    fun print(c: Container?, owner: Class<*>, logInfo: String?, e: Exception?) {
+        super.print(
+            c, owner.toString(), logInfo + "\n" +
+                    convertToString(e, true)
+        )
     }
 }

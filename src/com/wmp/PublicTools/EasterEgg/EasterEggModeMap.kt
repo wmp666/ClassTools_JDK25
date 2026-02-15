@@ -106,7 +106,7 @@ class EasterEggModeMap(
     /**
      * @see .get
      */
-    fun getColor(key: String?, defaultValue: Color?) = map.getOrDefault(key, defaultValue) as Color?
+    fun getColor(key: String?, defaultValue: Color?) = map.getOrDefault(key, defaultValue) as Color
 
     /**
      * @see .get

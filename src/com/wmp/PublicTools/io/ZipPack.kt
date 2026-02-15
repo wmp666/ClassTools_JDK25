@@ -1,175 +1,167 @@
-package com.wmp.publicTools.io;
+package com.wmp.publicTools.io
 
-import com.wmp.publicTools.printLog.Log;
-import com.wmp.classTools.CTComponent.CTProgressBar.CTProgressBar;
+import com.wmp.publicTools.printLog.Log
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
-import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-
-public class ZipPack {
-
-    private static final JDialog dialog = new JDialog();
-    private static final CTProgressBar progressBar = new CTProgressBar(0, 100);
-
-    public static Thread unzip(String zipFilePath, String destDir) {
+object ZipPack {
+    @JvmStatic
+    fun unzip(zipFilePath: String?, destDir: String?): Thread? {
         //new File(destDir).delete();
         //生成一个弹窗显示解压进度
-        Log.info.print("ZipPack-解压", "正在解压...");
+        Log.info.print("ZipPack-解压", "正在解压...")
 
         try {
-            if (zipFilePath == null || !new File(zipFilePath).exists()) {
-                Log.err.print(ZipPack.class, "找不到压缩包!");
-                return null;
+            if (zipFilePath == null || !File(zipFilePath).exists()) {
+                Log.err.print(ZipPack::class.java, "找不到压缩包!")
+                return null
             }
-        } catch (Exception e) {
-            Log.err.print(ZipPack.class, "找不到压缩包!", e);
+        } catch (e: Exception) {
+            Log.err.print(ZipPack::class.java, "找不到压缩包!", e)
 
-            return null;
+            return null
         }
-        int id = new Random().nextInt();
+        val id = Random().nextInt()
 
-        Log.info.loading.showDialog("ZipPack-解压" + id, "正在解压...");
+        Log.info.loading.showDialog("ZipPack-解压$id", "正在解压...")
 
-        Thread thread = new Thread(() -> {
+        val thread = Thread {
             try {
-                ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
+                val zipInputStream = ZipInputStream(FileInputStream(zipFilePath))
                 // 解压缩文件
-                unzipFiles(zipInputStream, destDir, id);
+                unzipFiles(zipInputStream, destDir, id)
 
-                Log.info.print("ZipPack-解压", "解压完成!");
-
-            } catch (IOException e) {
-                Log.err.print(ZipPack.class, "解压失败！", e);
-                throw new RuntimeException(e);
+                Log.info.print("ZipPack-解压", "解压完成!")
+            } catch (e: IOException) {
+                Log.err.print(ZipPack::class.java, "解压失败！", e)
+                throw RuntimeException(e)
             }
-            Log.info.loading.closeDialog("ZipPack-解压" + id);
-        });
-        thread.start();
+            Log.info.loading.closeDialog("ZipPack-解压$id")
+        }
+        thread.start()
 
 
-        return thread;
+        return thread
     }
 
-    private static void unzipFiles(ZipInputStream zipInputStream, String outputFolder, int id) throws IOException {
-        byte[] buffer = new byte[1024];
-        ZipEntry entry;
+    @Throws(IOException::class)
+    private fun unzipFiles(zipInputStream: ZipInputStream, outputFolder: String?, id: Int) {
+        val buffer = ByteArray(1024)
+        var entry: ZipEntry?
 
         // 遍历压缩文件中的每个文件
         while (true) {
             try {
-                entry = zipInputStream.getNextEntry();
+                entry = zipInputStream.getNextEntry()
                 if (entry == null) {
-                    break;
+                    break
                 }
-            } catch (IllegalArgumentException e) {
-                Log.warn.print(ZipPack.class.toString(), "文件名解码错误:\n" + e);
+            } catch (e: IllegalArgumentException) {
+                Log.warn.print(ZipPack::class.java.toString(), "文件名解码错误:\n$e")
                 // 跳过这个损坏的条目
-                continue;
+                continue
             }
             // 处理文件
-            String fileName = entry.getName();
-            File outputFile = new File(outputFolder + "/" + fileName);
+            val fileName = entry.getName()
+            val outputFile = File("$outputFolder/$fileName")
 
-            Log.info.print("ZipPack-解压", "解压文件: " + outputFile);
-            Log.info.loading.updateDialog("ZipPack-解压" + id, "解压文件: " + outputFile);
+            Log.info.print("ZipPack-解压", "解压文件: $outputFile")
+            Log.info.loading.updateDialog("ZipPack-解压$id", "解压文件: $outputFile")
             // 创建文件夹
-            if (entry.isDirectory()) {
-                outputFile.mkdirs();
+            if (entry.isDirectory) {
+                outputFile.mkdirs()
             } else {
                 // 创建文件并写入内容
-                new File(outputFile.getParent()).mkdirs();
-                try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
-
-                    int bytesRead;
-                    while ((bytesRead = zipInputStream.read(buffer)) != -1) {
-                        fileOutputStream.write(buffer, 0, bytesRead);
+                File(outputFile.getParent()).mkdirs()
+                FileOutputStream(outputFile).use { fileOutputStream ->
+                    var bytesRead: Int
+                    while ((zipInputStream.read(buffer).also { bytesRead = it }) != -1) {
+                        fileOutputStream.write(buffer, 0, bytesRead)
                     }
                 }
             }
 
-            zipInputStream.closeEntry();
+            zipInputStream.closeEntry()
         }
     }
 
-    public static void createZip(String outputPath, String dataPath, String zipName, String... ZipFiles) {
+    @JvmStatic
+    fun createZip(outputPath: String?, dataPath: String, zipName: String?, vararg ZipFiles: String?) {
+        Log.info.print("ZipPack-压缩", "开始压缩...")
+        Log.info.print("ZipPack-压缩", "压缩:$dataPath->$outputPath")
+        if (ZipFiles.isNotEmpty()) {
+            Log.info.print("ZipPack-压缩", "要打包的文件:" + ZipFiles.contentToString())
+        } else Log.info.print("ZipPack-压缩", "要打包的文件:全部")
 
-        Log.info.print("ZipPack-压缩", "开始压缩...");
-        Log.info.print("ZipPack-压缩", "压缩:" + dataPath + "->" + outputPath);
-        if (ZipFiles.length != 0) {
-            Log.info.print("ZipPack-压缩", "要打包的文件:" + Arrays.toString(ZipFiles));
+        val id = Random().nextInt()
 
-        } else Log.info.print("ZipPack-压缩", "要打包的文件:全部");
-
-        int id = new Random().nextInt();
-
-        Log.info.loading.showDialog("ZipPack-压缩" + id, "正在压缩...");
+        Log.info.loading.showDialog("ZipPack-压缩$id", "正在压缩...")
 
 
-        String sourceFolder = dataPath;
         // String zipName = zipName;
-
-        new Thread(() -> {  // 在后台线程执行压缩操作
-            try (ZipOutputStream zos = new ZipOutputStream(
-                    new FileOutputStream(outputPath + File.separator + zipName))) {
-
-                addFolderToZip(new File(sourceFolder), "", zos, id, ZipFiles);
-
-                // 压缩完成后更新UI
-                Log.info.print("ZipPack-压缩", "压缩完成!");
-
-            } catch (IOException e) {
-                Log.err.print(ZipPack.class, "压缩失败！", e);
+        Thread {
+            // 在后台线程执行压缩操作
+            try {
+                ZipOutputStream(
+                    FileOutputStream(outputPath + File.separator + zipName)
+                ).use { zos ->
+                    addFolderToZip(File(dataPath), "", zos, id, *ZipFiles)
+                    // 压缩完成后更新UI
+                    Log.info.print("ZipPack-压缩", "压缩完成!")
+                }
+            } catch (e: IOException) {
+                Log.err.print(ZipPack::class.java, "压缩失败！", e)
             }
-            Log.info.loading.closeDialog("ZipPack-压缩" + id);
-        }).start();
-
+            Log.info.loading.closeDialog("ZipPack-压缩$id")
+        }.start()
     }
 
     // 优化的压缩方法
-    private static void addFolderToZip(File folder, String parentPath, ZipOutputStream zos, int id, String... ZipFiles) throws IOException {
-        for (File file : Objects.requireNonNull(folder.listFiles())) {
-
-            if (ZipFiles.length != 0) {
-                boolean b = Arrays.asList(ZipFiles).contains(file.getName());
+    @Throws(IOException::class)
+    private fun addFolderToZip(
+        folder: File,
+        parentPath: String?,
+        zos: ZipOutputStream,
+        id: Int,
+        vararg ZipFiles: String?
+    ) {
+        for (file in Objects.requireNonNull(folder.listFiles())) {
+            if (ZipFiles.isNotEmpty()) {
+                val b = listOf(*ZipFiles).contains(file.getName())
                 if (!b) {
                     // 跳过不压缩的文件
-                    continue;
+                    continue
                 }
             }
 
-            String entryName = parentPath + file.getName();
+            val entryName = parentPath + file.getName()
 
-            Log.info.print("ZipPack-压缩", "压缩文件: " + entryName);
+            Log.info.print("ZipPack-压缩", "压缩文件: $entryName")
             if (file.isDirectory()) {
                 // 处理目录时添加"/"后缀
-                zos.putNextEntry(new ZipEntry(entryName + "/"));
-                zos.closeEntry();
-                addFolderToZip(file, entryName + "/", zos, id);
+                zos.putNextEntry(ZipEntry("$entryName/"))
+                zos.closeEntry()
+                addFolderToZip(file, "$entryName/", zos, id)
             } else {
-                Log.info.loading.updateDialog("ZipPack-压缩" + id, "压缩文件: " + entryName);
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    ZipEntry entry = new ZipEntry(entryName);
-                    zos.putNextEntry(entry);
+                Log.info.loading.updateDialog("ZipPack-压缩$id", "压缩文件: $entryName")
+                FileInputStream(file).use { fis ->
+                    val entry = ZipEntry(entryName)
+                    zos.putNextEntry(entry)
 
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = fis.read(buffer)) != -1) {
-                        zos.write(buffer, 0, bytesRead);
+                    val buffer = ByteArray(1024)
+                    var bytesRead: Int
+                    while ((fis.read(buffer).also { bytesRead = it }) != -1) {
+                        zos.write(buffer, 0, bytesRead)
                     }
-                    zos.closeEntry();
+                    zos.closeEntry()
                 }
             }
         }
-
     }
-
 }

@@ -1,28 +1,14 @@
-package com.wmp.publicTools.printLog;
+package com.wmp.publicTools.printLog
 
-import java.awt.*;
+import java.awt.Container
 
-public class PrintLogStyle {
-    private LogStyle style;
-
-    public PrintLogStyle(LogStyle style) {
-        this.style = style;
+open class PrintLogStyle(@JvmField var style: LogStyle) {
+    open fun print(owner: String, logInfo: Any) {
+        Log.print(style, owner, logInfo, null)
     }
 
-    public LogStyle getStyle() {
-        return style;
-    }
-
-    public void setStyle(LogStyle style) {
-        this.style = style;
-    }
-
-    public void print(String owner, Object logInfo) {
-        Log.print(style, owner, logInfo, null);
-    }
-
-    public void print(Container c, String owner, Object logInfo) {
-        Log.print(style, owner, logInfo, c);
+    open fun print(c: Container?, owner: String, logInfo: Any) {
+        Log.print(style, owner, logInfo, c)
     }
 }
 

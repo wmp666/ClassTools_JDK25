@@ -24,7 +24,7 @@ object Main {
      * d:只修复的问题,问题较少<br></br>
      * e:测试版本号
      */
-    const val VERSION: String = "2.2.0.0.7"
+    const val VERSION: String = "2.2.0.0.8"
 
     private val allArgs = TreeMap<String?, StartupParameters?>()
     @JvmField

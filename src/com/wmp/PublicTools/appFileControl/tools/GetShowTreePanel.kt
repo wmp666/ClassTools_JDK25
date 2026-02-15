@@ -1,27 +1,23 @@
-package com.wmp.publicTools.appFileControl.tools;
+package com.wmp.publicTools.appFileControl.tools
 
-import com.wmp.publicTools.UITools.CTFont;
-import com.wmp.publicTools.UITools.CTFontSizeStyle;
-import org.jetbrains.annotations.NotNull;
+import com.wmp.publicTools.UITools.CTFont
+import com.wmp.publicTools.UITools.CTFontSizeStyle
+import java.awt.Component
+import java.awt.Font
+import java.awt.Image
+import javax.swing.ImageIcon
+import javax.swing.JTree
+import javax.swing.tree.DefaultMutableTreeNode
+import javax.swing.tree.DefaultTreeCellRenderer
 
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-
-public class GetShowTreePanel {
+object GetShowTreePanel {
     /**
      * 获取显示树形结构面板
      * @param data  数据集,每个数据中父级和子级之间用"."分隔
      * @return JTree
      */
-    public static JTree getShowTreePanel(String[] data, String rootName) {
-        DefaultMutableTreeNode root = buildTreeFromData(data, rootName, null);
-
-        return new JTree(root);
-    }
+    fun getShowTreePanel(data: Array<String?>, rootName: String?) =
+        JTree(buildTreeFromData(data, rootName, null))
 
     /**
      * 获取显示树形结构面板
@@ -29,71 +25,94 @@ public class GetShowTreePanel {
      * @param imageIconMap 图片图标
      * @return JTree
      */
-    public static JTree getShowTreePanel(String[] data, String rootName, Map<String, ImageIcon> imageIconMap) {
-        DefaultMutableTreeNode root = buildTreeFromData(data, rootName, imageIconMap);
+    fun getShowTreePanel(
+        data: Array<String?>,
+        rootName: String?,
+        imageIconMap: MutableMap<String?, ImageIcon?>?
+    ): JTree {
+        val root = buildTreeFromData(data, rootName, imageIconMap)
 
-        JTree tree = new JTree(root);
-        tree.setCellRenderer(new DefaultTreeCellRenderer(){
-            @Override
-            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-                super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+        val tree = JTree(root)
+        tree.setCellRenderer(object : DefaultTreeCellRenderer() {
+            override fun getTreeCellRendererComponent(
+                tree: JTree?,
+                value: Any?,
+                sel: Boolean,
+                expanded: Boolean,
+                leaf: Boolean,
+                row: Int,
+                hasFocus: Boolean
+            ): Component {
+                super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus)
 
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-                Object userObject = node.getUserObject();
+                val node = value as DefaultMutableTreeNode
+                val userObject = node.getUserObject()
 
-                if (userObject instanceof IconNode(String name, ImageIcon icon)) {
-                    setFont(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL));
-                    setText(name);
+                if (userObject is IconNode) {
+                    val (name, icon) = userObject
+
+
+                    setFont(CTFont.getDefaultFont(Font.PLAIN, CTFontSizeStyle.SMALL))
+                    setText(name)
                     if (icon != null) {
-                        setIcon(new ImageIcon(icon.getImage().getScaledInstance(getFont().getSize(), getFont().getSize(), Image.SCALE_SMOOTH)));
+                        setIcon(
+                            ImageIcon(
+                                icon.getImage()
+                                    .getScaledInstance(getFont().getSize(), getFont().getSize(), Image.SCALE_SMOOTH)
+                            )
+                        )
                     }
                 }
-                return this;
+                return this
             }
-        });
-        return tree;
+        })
+        return tree
     }
 
-    private static DefaultMutableTreeNode buildTreeFromData(String[] data, String rootName, Map<String, ImageIcon> imageIconMap) {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(rootName);
+    private fun buildTreeFromData(
+        data: Array<String?>,
+        rootName: String?,
+        imageIconMap: MutableMap<String?, ImageIcon?>?
+    ): DefaultMutableTreeNode {
+        val root = DefaultMutableTreeNode(rootName)
 
-        Map<String, DefaultMutableTreeNode> nodeMap = new HashMap<>();
+        val nodeMap: MutableMap<String?, DefaultMutableTreeNode> = HashMap()
 
-        for (String path : data) {
-            String[] parts = path.split("\\.");
-            DefaultMutableTreeNode parentNode = root;
+        for (path in data) {
+            val parts: List<String> = path!!.split("\\.")
+            var parentNode = root
 
             // 遍历路径的每个部分，构建树形结构
-            StringBuilder currentPath = new StringBuilder();
-            for (int i = 0; i < parts.length; i++) {
+            val currentPath = StringBuilder()
+            for (i in parts.indices) {
                 if (i > 0) {
-                    currentPath.append(".");
+                    currentPath.append(".")
                 }
-                currentPath.append(parts[i]);
+                currentPath.append(parts[i])
 
-                String fullPath = currentPath.toString();
+                val fullPath = currentPath.toString()
 
                 // 检查是否已存在该节点
                 if (!nodeMap.containsKey(fullPath)) {
-                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(new IconNode(parts[i], null));
+                    val node = DefaultMutableTreeNode(IconNode(parts[i], null))
                     if (imageIconMap != null && imageIconMap.containsKey(fullPath)) {
-                        node.setUserObject(new IconNode(parts[i], imageIconMap.get(fullPath)));
+                        node.setUserObject(IconNode(parts[i], imageIconMap[fullPath]))
                     }
-                    nodeMap.put(fullPath, node);
-                    parentNode.add(node);
+                    nodeMap[fullPath] = node
+                    parentNode.add(node)
                 }
 
-                parentNode = nodeMap.get(fullPath);
+                parentNode = nodeMap[fullPath]!!
             }
         }
-        System.out.println(nodeMap);
-        return root;
+        println(nodeMap)
+        return root
     }
 }
 
-record IconNode(String name, ImageIcon icon){
-    @Override
-    public @NotNull String toString() {
-        return name;
+@JvmRecord
+internal data class IconNode(val name: String, val icon: ImageIcon?) {
+    override fun toString(): String {
+        return name
     }
 }

@@ -1,40 +1,39 @@
-package com.wmp.publicTools.io;
+package com.wmp.publicTools.io
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.Pattern
 
-public class InfProcess {
+object InfProcess {
     //处理duty.txt中的内容-三
-    public static ArrayList<String[]> RDExtractNames(String input) {
-        ArrayList<String[]> result = new ArrayList<>();
+    fun RDExtractNames(input: String): ArrayList<Array<String?>?> {
+        val result = ArrayList<Array<String?>?>()
         // 正则表达式匹配大括号内的内容 {
-        Pattern pattern = Pattern.compile("\\[([^]]+)");
-        Matcher matcher = pattern.matcher(input);
+        val pattern = Pattern.compile("\\[([^]]+)")
+        val matcher = pattern.matcher(input)
 
         while (matcher.find()) {
             // 获取匹配到的内容（去掉括号后的部分）
-            String group = matcher.group(1);
+            val group = matcher.group(1)
             // 按逗号分割并添加到结果列表
-            String[] names = group.split(",");
-            result.add(names);
+            val names: Array<String?> = group.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            result.add(names)
         }
-        return result;
+        return result
     }
 
 
     //处理duty.txt中的内容-二
-    public static ArrayList<String> NDExtractNames(String input) {
-        ArrayList<String> result = new ArrayList<>();
+    @JvmStatic
+    fun NDExtractNames(input: String): ArrayList<String?> {
+        val result = ArrayList<String?>()
         // 正则表达式匹配大括号内的内容 {
-        Pattern pattern = Pattern.compile("\\[([^]]+)");
-        Matcher matcher = pattern.matcher(input);
+        val pattern = Pattern.compile("\\[([^]]+)")
+        val matcher = pattern.matcher(input)
 
         while (matcher.find()) {
             // 获取匹配到的内容（去掉大括号后的部分）
-            String group = matcher.group(1);
-            result.add(group);
+            val group = matcher.group(1)
+            result.add(group)
         }
-        return result;
+        return result
     }
 }

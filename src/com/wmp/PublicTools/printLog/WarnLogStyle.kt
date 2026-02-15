@@ -1,74 +1,67 @@
-package com.wmp.publicTools.printLog;
+package com.wmp.publicTools.printLog
 
-import com.wmp.publicTools.videoView.MediaPlayer;
-import com.wmp.classTools.CTComponent.CTOptionPane;
-import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog;
+import com.wmp.classTools.CTComponent.CTOptionPane
+import com.wmp.classTools.CTComponent.CTProgressBar.LoadingDialog
+import com.wmp.publicTools.videoView.MediaPlayer.playMusic
+import java.awt.Container
+import javax.swing.Icon
 
-import javax.swing.*;
-import java.awt.*;
+class WarnLogStyle(style: LogStyle) : PrintLogStyle(style) {
+    val loading: LoadingDialog = LoadingDialog()
 
-public class WarnLogStyle extends PrintLogStyle {
-
-    public final LoadingDialog loading = new LoadingDialog();
-
-    public WarnLogStyle(LogStyle style) {
-        super(style);
+    override fun print(owner: String, logInfo: Any) {
+        Log.systemPrint(style, owner, logInfo.toString())
+        print(null, owner, logInfo.toString())
     }
 
-    private static String getTitle(String owner) {
-        return owner;
+    fun message(c: Container?, owner: String, logInfo: String) {
+        Log.print(style, owner, "弹窗信息->$logInfo", c)
+
+
+        playMusic("系统", "警告")
+
+        val title: String? = getTitle(owner)
+        CTOptionPane.showMessageDialog(
+            c, title, logInfo,
+            icon, CTOptionPane.WARNING_MESSAGE, true
+        )
     }
 
-    private static Icon getIcon() {
-        return null;
-    }
-
-
-    @Override
-    public void print(String owner, Object logInfo) {
-        Log.systemPrint(getStyle(), owner, logInfo.toString());
-        print(null, owner, logInfo.toString());
-    }
-
-    @Override
-    public void print(Container c, String owner, Object logInfo) {
-        super.print(c, owner, logInfo);
-    }
-
-    public void message(Container c, String owner, String logInfo) {
-        Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
-
-
-        MediaPlayer.playMusic("系统", "警告");
-
-        String title = getTitle(owner);
-        CTOptionPane.showMessageDialog(c, title, logInfo, getIcon(), CTOptionPane.WARNING_MESSAGE, true);
-    }
-
-    public int showChooseDialog(Container c, String owner, String logInfo) {
-        Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
-        String title = getTitle(owner);
-        int i = CTOptionPane.showConfirmDialog(c, title, logInfo, getIcon(), CTOptionPane.WARNING_MESSAGE, true);
-        String s;
-        if (i == CTOptionPane.YES_OPTION) {
-            s = "是";
-        } else if (i == CTOptionPane.NO_OPTION) {
-            s = "否";
-        } else {
-            s = "取消";
+    fun showChooseDialog(c: Container?, owner: String?, logInfo: String?): Int {
+        Log.print(style, owner, "弹窗信息->$logInfo", c)
+        val title: String? = getTitle(owner)
+        val i = CTOptionPane.showConfirmDialog(
+            c, title, logInfo,
+            icon, CTOptionPane.WARNING_MESSAGE, true
+        )
+        val s = when (i) {
+            CTOptionPane.YES_OPTION -> "是"
+            CTOptionPane.NO_OPTION -> "否"
+            else -> "取消"
         }
 
-        Log.print(getStyle(), owner, "输入信息->" + s, c);
-        return i;
+        Log.print(style, owner, "输入信息->$s", c)
+        return i
     }
 
-    public String showChooseDialog(Container c, String owner, String logInfo, String... choices) {
-        Log.print(getStyle(), owner, "弹窗信息->" + logInfo, c);
-        String title = getTitle(owner);
-        String s = CTOptionPane.showChoiceDialog(c, title, logInfo, getIcon(), CTOptionPane.WARNING_MESSAGE, true, choices);
+    fun showChooseDialog(c: Container?, owner: String?, logInfo: String?, vararg choices: String?): String? {
+        Log.print(style, owner, "弹窗信息->$logInfo", c)
+        val title: String? = getTitle(owner)
+        val s = CTOptionPane.showChoiceDialog(
+            c, title, logInfo,
+            icon, CTOptionPane.WARNING_MESSAGE, true, *choices
+        )
 
-        Log.print(getStyle(), owner, "输入信息->" + s, c);
-        return s;
+        Log.print(style, owner, "输入信息->$s", c)
+        return s
     }
 
+    companion object {
+        private fun getTitle(owner: String?): String? {
+            return owner
+        }
+
+        private val icon: Icon?
+            get() = null
+    }
 }

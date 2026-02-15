@@ -1,92 +1,98 @@
-package com.wmp.publicTools.UITools;
+package com.wmp.publicTools.UITools
 
-import com.wmp.publicTools.CTInfo;
-import com.wmp.publicTools.appFileControl.IconControl;
+import com.wmp.publicTools.CTInfo
+import com.wmp.publicTools.appFileControl.IconControl
+import com.wmp.publicTools.appFileControl.IconControl.getIcon
+import com.wmp.publicTools.appFileControl.IconControl.getIconStyle
+import java.awt.Image
+import java.net.URL
+import java.util.*
+import javax.swing.Icon
+import javax.swing.ImageIcon
+import kotlin.math.max
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-
-public class GetIcon {
-    public static Icon getIcon(URL path, int width, int height, boolean useDPI) {
+object GetIcon {
+    fun getIcon(path: URL?, width: Int, height: Int, useDPI: Boolean): Icon? {
+        var width = width
+        var height = height
         if (path == null) {
-            return null;
+            return null
         }
 
         if (useDPI) {
-            width = (int) (width * CTInfo.dpi);
-            height = (int) (height * CTInfo.dpi);
+            width = (width * CTInfo.dpi).toInt()
+            height = (height * CTInfo.dpi).toInt()
         }
 
 
-// 确保尺寸不为零且在合理范围内
-        width = Math.max(1, width);
-        height = Math.max(1, height);
+        // 确保尺寸不为零且在合理范围内
+        width = max(1, width)
+        height = max(1, height)
 
 
-        ImageIcon icon = new ImageIcon(path);
+        val icon = ImageIcon(path)
         // 保留对非GIF图像的缩放处理，GIF应由组件尺寸控制显示大小
-        if (!path.getPath().toLowerCase().endsWith(".gif")) {
-            icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        if (!path.getPath().lowercase(Locale.getDefault()).endsWith(".gif")) {
+            icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH))
         }
-        return icon;
+        return icon
     }
 
-    public static ImageIcon getImageIcon(URL path, int width, int height, boolean useDPI) {
-        return (ImageIcon) getIcon(path, width, height, useDPI);
-    }
+    @JvmStatic
+    fun getImageIcon(path: URL?, width: Int, height: Int, useDPI: Boolean) =
+        getIcon(path, width, height, useDPI) as ImageIcon?
 
-    public static Icon getIcon(URL path, int width, int height) {
+    fun getIcon(path: URL?, width: Int, height: Int) =
+        getIcon(path, width, height, true)
 
-        return getIcon(path, width, height, true);
-    }
-
-    public static ImageIcon getImageIcon(URL path, int width, int height) {
-        return (ImageIcon) getIcon(path, width, height, true);
-    }
+    @JvmStatic
+    fun getImageIcon(path: URL?, width: Int, height: Int) =
+        getIcon(path, width, height, true) as ImageIcon?
 
 
-    public static Icon getIcon(String name, int colorStyle, int width, int height, boolean useDPI) {
+    @JvmStatic
+    fun getIcon(name: String?, colorStyle: Int, width: Int, height: Int, useDPI: Boolean): Icon? {
+        var width = width
+        var height = height
         if (name == null) {
-            return null;
+            return null
         }
 
         if (useDPI) {
-            width = (int) (width * CTInfo.dpi);
-            height = (int) (height * CTInfo.dpi);
+            width = (width * CTInfo.dpi).toInt()
+            height = (height * CTInfo.dpi).toInt()
         }
 
-        ImageIcon icon = new ImageIcon();
+        val icon = ImageIcon()
         // 保留对非GIF图像的缩放处理，GIF应由组件尺寸控制显示大小
-        if (!IconControl.getIconStyle(name).startsWith("gif")) {
-            icon.setImage(IconControl.getIcon(name, colorStyle).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        if (!getIconStyle(name)!!.startsWith("gif")) {
+            icon.setImage(getIcon(name, colorStyle).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH))
         } else {
-            icon.setImage(IconControl.getIcon(name, colorStyle).getImage());
+            icon.setImage(getIcon(name, colorStyle).getImage())
         }
-        return icon;
+        return icon
     }
 
-    public static ImageIcon getImageIcon(String name, int colorStyle, int width, int height, boolean useDPI) {
-        return (ImageIcon) getIcon(name, colorStyle, width, height, useDPI);
-    }
+    @JvmStatic
+    fun getImageIcon(name: String?, colorStyle: Int, width: Int, height: Int, useDPI: Boolean) =
+        getIcon(name, colorStyle, width, height, useDPI) as ImageIcon?
 
-    public static ImageIcon getImageIcon(String name, int colorStyle, int width, int height) {
-        return (ImageIcon) getIcon(name, colorStyle, width, height, true);
-    }
+    @JvmStatic
+    fun getImageIcon(name: String?, colorStyle: Int, width: Int, height: Int) =
+        getIcon(name, colorStyle, width, height, true) as ImageIcon?
 
-    public static Icon getIcon(String name, int colorStyle, int width, int height) {
-        return getIcon(name, colorStyle, width, height, true);
-    }
+    @JvmStatic
+    fun getIcon(name: String?, colorStyle: Int, width: Int, height: Int) =
+        getIcon(name, colorStyle, width, height, true)
 
-    public static ImageIcon getImageIcon(String name, int width, int height) {
-        return (ImageIcon) getIcon(name, IconControl.COLOR_COLORFUL, width, height, true);
-    }
+    fun getImageIcon(name: String?, width: Int, height: Int) =
+        getIcon(name, IconControl.COLOR_COLORFUL, width, height, true) as ImageIcon?
 
-    public static Icon getIcon(String name, int width, int height) {
-        return getIcon(name, IconControl.COLOR_COLORFUL, width, height, true);
-    }
+    @JvmStatic
+    fun getIcon(name: String?, width: Int, height: Int) =
+        getIcon(name, IconControl.COLOR_COLORFUL, width, height, true)
 
-    public static Icon getIcon(String name, int width, int height, boolean useDPI) {
-        return getIcon(name, IconControl.COLOR_COLORFUL, width, height, useDPI);
-    }
+    @JvmStatic
+    fun getIcon(name: String?, width: Int, height: Int, useDPI: Boolean) =
+        getIcon(name, IconControl.COLOR_COLORFUL, width, height, useDPI)
 }
