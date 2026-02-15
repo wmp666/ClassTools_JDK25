@@ -17,6 +17,7 @@ object PeoPanelProcess {
      * @param array 人员姓名数组
      * @return 人员姓名, 行数, 最大长度
      */
+    @JvmStatic
     fun getPeopleName(array: MutableList<String?>): Array<Any?> {
         val sb = StringBuilder()
         sb.append("<html>")
@@ -47,6 +48,7 @@ object PeoPanelProcess {
         return arrayOf(sb.toString(), index, maxLength)
     }
 
+    @JvmStatic
     fun getShowPeoPanel(peo: MutableList<String?>): JScrollPane {
         val personLabel = JLabel()
 
